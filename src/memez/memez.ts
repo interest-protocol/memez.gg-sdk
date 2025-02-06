@@ -9,6 +9,7 @@ import {
   SUI_TYPE_ARG,
 } from '@mysten/sui/utils';
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
+import { pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
 import {
@@ -109,8 +110,21 @@ export class MemezFunSDK extends SDK {
       id: memeCoinTreasuryCapId,
       options: {
         showType: true,
+        showContent: true,
       },
     });
+
+    const treasuryCapTotalSupply = +pathOr(
+      /// Force an error if we do not find the field
+      '1',
+      ['data', 'content', 'fields', 'total_supply', 'fields', 'value'],
+      treasuryCap
+    );
+
+    invariant(
+      treasuryCapTotalSupply === 0,
+      'TreasuryCap Error: Total Supply is not 0 or not found'
+    );
 
     const memeCoinType = treasuryCap.data?.type?.split('<')[1].slice(0, -1);
 
