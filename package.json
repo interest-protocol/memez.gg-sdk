@@ -15,7 +15,7 @@
       "types": "./dist/memez/index.d.ts"
     }
   },
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "",
   "publishConfig": {
     "access": "public"

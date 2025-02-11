@@ -28,7 +28,7 @@ export const getSdkDefaultArgs = (
 });
 
 // USD Price
-export const getMemeCoinMarketCap = async ({
+export const getMemeCoinMarketCap = ({
   suiBalance,
   virtualLiquidity,
   memeBalance,
