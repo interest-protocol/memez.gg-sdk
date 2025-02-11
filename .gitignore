@@ -7,5 +7,4 @@ node_modules
 .env.local
 .idea
 dist
-tsconfig.*
 tsconfig.prod.tsbuildinfo
