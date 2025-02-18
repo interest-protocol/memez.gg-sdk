@@ -26,6 +26,7 @@ const memePriceInSui = memePriceInUsd.div(SUI_PRICE_USD);
 
 console.log(
   'Cetus Tick Math',
+  memePriceInUsd.toString(),
   memePriceInSui.toString(),
   TickMath.priceToSqrtPriceX64(memePriceInSui, 9, 9).toString()
 );
