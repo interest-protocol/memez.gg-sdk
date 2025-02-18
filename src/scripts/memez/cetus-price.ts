@@ -1,3 +1,4 @@
+import { TickMath } from '@cetusprotocol/cetus-sui-clmm-sdk';
 import Decimal from 'decimal.js';
 
 Decimal.config({
@@ -17,28 +18,14 @@ const memePriceInUsd = TARGET_USD_MARKET_CAP.div(TOTAL_MEME_SUPPLY);
 
 const memePriceInSui = memePriceInUsd.div(SUI_PRICE_USD);
 
-const priceToSqrtPriceX64 = (
-  price: Decimal,
-  decimalsA: number,
-  decimalsB: number
-) =>
-  price
-    .mul(Decimal.pow(10, decimalsB - decimalsA))
-    .sqrt()
-    .mul(new Decimal(2).pow(new Decimal(64)));
-
 /*
   memePriceInUsd: 0.00006,
   memePriceInSui: 0.000012,
   priceInSqrtX64: 63901395939770060.40629260795585418174313090711434782392775384127
 */
 
-console.log({
-  memePriceInUsd,
-  memePriceInSui,
-  priceInSqrtX64: priceToSqrtPriceX64(
-    new Decimal(memePriceInSui.toString()),
-    9,
-    9
-  ),
-});
+console.log(
+  'Cetus Tick Math',
+  memePriceInSui.toString(),
+  TickMath.priceToSqrtPriceX64(memePriceInSui, 9, 9).toString()
+);

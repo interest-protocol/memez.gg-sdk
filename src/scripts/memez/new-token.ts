@@ -20,7 +20,6 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
   const { tx: tx2, metadataCap } = await memezTestnet.newPumpPool({
     tx,
     configurationKey,
-    developer: recipient,
     metadata: {
       X: 'https://x.com/Meme',
       Website: 'https://meme.xyz/',
