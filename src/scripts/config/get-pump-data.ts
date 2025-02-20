@@ -7,7 +7,7 @@ import { log, memezTestnet } from '../utils.script';
   const pumpData = await memezTestnet.getPumpData({
     configurationKey: CONFIG_KEYS.testnet.DEFAULT,
     totalSupply: 1e9 * 1e9,
-    quote: SUI_TYPE_ARG,
+    quoteCoinType: SUI_TYPE_ARG,
   });
 
   log(pumpData);
