@@ -47,7 +47,8 @@
     "get-fees": "tsx src/scripts/config/get-fees.ts",
     "get-pump-data": "tsx src/scripts/config/get-pump-data.ts",
     "cetus-price": "tsx src/scripts/memez/cetus-price.ts",
-    "meme-coin-mcap": "tsx src/scripts/memez/meme-coin-mcap.ts"
+    "meme-coin-mcap": "tsx src/scripts/memez/meme-coin-mcap.ts",
+    "get-pool-metadata": "tsx src/scripts/memez/get-pool-metadata.ts"
   },
   "keywords": [],
   "license": "ISC",

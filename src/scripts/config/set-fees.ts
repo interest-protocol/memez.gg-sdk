@@ -21,9 +21,9 @@ const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
       // last index is the creator fee nominal
       [MAX_BPS, 30_000_000n],
       // last index is the swap fee in bps
-      [MAX_BPS, 30_000_000n],
+      [MAX_BPS, 30n],
       // last index is the migration fee nominal
-      [MAX_BPS, MAX_BPS / 10n],
+      [MAX_BPS, 100n],
       // last index is the allocation of meme coin in BPS
       // The [last_index - 1] is the vesting period in MS
       [MAX_BPS, 0, 0],

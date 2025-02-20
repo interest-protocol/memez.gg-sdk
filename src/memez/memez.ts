@@ -63,6 +63,7 @@ export class MemezFunSDK extends SDK {
    * @param args.configurationKey - The configuration key to use for the MemezPool.
    * @param args.migrationWitness - The migration witness to use for the MemezPool.
    * @param args.memeCoinType - The meme coin type to use for the MemezPool.
+   * @param args.quote - The quote type of the meme coin.
    *
    * @returns An object containing the meme coin MetadataCap and the transaction.
    * @returns values.metadataCap - The meme coin MetadataCap.
@@ -82,6 +83,7 @@ export class MemezFunSDK extends SDK {
     configurationKey,
     migrationWitness,
     stakeHolders = [],
+    quoteCoinType,
   }: NewPumpPoolArgs) {
     const { developer, firstPurchase } = devPurchaseData;
 
@@ -130,6 +132,24 @@ export class MemezFunSDK extends SDK {
 
     invariant(memeCoinType, 'Invalid TreasuryCap: no memeCoinType found');
 
+    const coinMetadata = await this.client.getCoinMetadata({
+      coinType: memeCoinType,
+    });
+
+    invariant(coinMetadata?.id, 'Invalid TreasuryCap: no coin metadata found');
+
+    const memezMetadata = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.METADATA,
+      function: 'new',
+      arguments: [
+        tx.object(coinMetadata.id),
+        tx.pure.vector('string', Object.keys(metadata)),
+        tx.pure.vector('string', Object.values(metadata)),
+      ],
+      typeArguments: [normalizeStructTag(memeCoinType)],
+    });
+
     const metadataCap = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
@@ -144,14 +164,14 @@ export class MemezFunSDK extends SDK {
         tx.pure.u64(totalSupply),
         tx.pure.bool(useTokenStandard),
         this.ownedObject(tx, firstPurchase),
-        tx.pure.vector('string', Object.keys(metadata)),
-        tx.pure.vector('string', Object.values(metadata)),
+        memezMetadata,
         tx.pure.vector('address', stakeHolders),
         tx.pure.address(developer),
         this.getVersion(tx),
       ],
       typeArguments: [
         normalizeStructTag(memeCoinType),
+        normalizeStructTag(quoteCoinType),
         normalizeStructTag(configurationKey),
         normalizeStructTag(migrationWitness),
       ],
@@ -202,7 +222,7 @@ export class MemezFunSDK extends SDK {
         tx.pure.u64(minAmountOut),
         this.getVersion(tx),
       ],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {
@@ -250,7 +270,7 @@ export class MemezFunSDK extends SDK {
         tx.pure.u64(minAmountOut),
         this.getVersion(tx),
       ],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {
@@ -299,7 +319,7 @@ export class MemezFunSDK extends SDK {
         tx.pure.u64(minAmountOut),
         this.getVersion(tx),
       ],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {
@@ -347,7 +367,7 @@ export class MemezFunSDK extends SDK {
         tx.pure.u64(minAmountOut),
         this.getVersion(tx),
       ],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {
@@ -626,7 +646,7 @@ export class MemezFunSDK extends SDK {
   public async getPumpData({
     configurationKey,
     totalSupply,
-    quote,
+    quoteCoinType,
   }: GetCurveDataArgs): Promise<PumpData> {
     const tx = new Transaction();
 
@@ -639,7 +659,7 @@ export class MemezFunSDK extends SDK {
         tx.pure.u64(totalSupply),
       ],
       typeArguments: [
-        normalizeStructTag(quote),
+        normalizeStructTag(quoteCoinType),
         normalizeStructTag(configurationKey),
       ],
     });

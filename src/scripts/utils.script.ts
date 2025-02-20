@@ -18,7 +18,7 @@ export const keypair = Ed25519Keypair.fromSecretKey(
 );
 
 export const TEST_POOL_ID =
-  '0xf2d9235e619ac24db381d78100915c444e503a8685b60678d8789476fde62e2d';
+  '0xa1dca6c8f8883d9f5eeaf567c35768b2591cf45454c9e09b1be4be5949425ea7';
 
 export const POW_9 = 10n ** 9n;
 

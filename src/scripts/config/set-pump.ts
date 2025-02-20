@@ -19,7 +19,7 @@ const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
     // Target liquidity
     // liquidity provision
     values: [0, 5_000_000_000, 3_000_000_000, 0],
-    quote: SUI_TYPE_ARG,
+    quoteCoinType: SUI_TYPE_ARG,
   });
 
   await executeTx(tx2);

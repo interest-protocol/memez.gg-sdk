@@ -1,4 +1,9 @@
-import { normalizeSuiAddress, normalizeSuiObjectId } from '@mysten/sui/utils';
+import {
+  normalizeStructTag,
+  normalizeSuiAddress,
+  normalizeSuiObjectId,
+  SUI_TYPE_ARG,
+} from '@mysten/sui/utils';
 
 import { Network, OwnedObjects, Package } from './memez.types';
 
@@ -8,7 +13,8 @@ export enum Modules {
   MIGRATOR_LIST = 'memez_migrator_list',
   PUMP = 'memez_pump',
   CONFIG = 'memez_config',
-  VERSION = 'memez_version',
+  VERSION = 'memez_allowed_versions',
+  METADATA = 'memez_metadata',
 }
 
 // TODO: Need to be updated
@@ -184,12 +190,13 @@ export const MIGRATOR_WITNESSES = {
 
 export const CONFIG_KEYS = {
   [Network.Mainnet]: {
-    DEFAULT: '',
-    RECRD: '',
-    MEMEZ: '',
-    WINX: '',
-    DEXTER: '',
-    INSIDEX: '',
+    // TODO: Need to be updated
+    DEFAULT: '0',
+    RECRD: '1',
+    MEMEZ: '2',
+    WINX: '3',
+    DEXTER: '4',
+    INSIDEX: '5',
   },
   [Network.Testnet]: {
     DEFAULT: `${PACKAGES[Network.Testnet].MEMEZ_FUN.original}::memez_config::DefaultKey`,
@@ -217,3 +224,12 @@ export const CONFIG_MODELS = {
 } as const;
 
 export const MAX_BPS = 10_000n;
+
+export const CONFIG_QUOTE_COIN_TYPES = {
+  [Network.Mainnet]: {
+    [CONFIG_KEYS[Network.Mainnet].DEFAULT]: normalizeStructTag(SUI_TYPE_ARG),
+  },
+  [Network.Testnet]: {
+    [CONFIG_KEYS[Network.Testnet].DEFAULT]: normalizeStructTag(SUI_TYPE_ARG),
+  },
+} as const;

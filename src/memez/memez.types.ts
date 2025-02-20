@@ -89,6 +89,7 @@ export interface NewPumpPoolArgs extends MaybeTx {
   configurationKey: ConfigKey;
   migrationWitness: MigratorWitness;
   stakeHolders?: string[];
+  quoteCoinType: string | StructTag;
 }
 
 export interface PumpArgs extends MaybeTx {
@@ -120,6 +121,7 @@ export interface MemezPool<T> {
   poolType: string;
   curveType: string;
   memeCoinType: string;
+  quoteCoinType: string;
   usesTokenStandard: boolean;
   ipxMemeCoinTreasury: string;
   metadata: Record<string, string>;
@@ -199,21 +201,21 @@ export interface SetFeesArgs extends MaybeTx {
 export interface SetAuctionArgs extends MaybeTx {
   authWitness: ObjectInput;
   configurationKey: ConfigKey;
-  quote: string | StructTag;
+  quoteCoinType: string | StructTag;
   values: U64[];
 }
 
 export interface SetPumpArgs extends MaybeTx {
   authWitness: ObjectInput;
   configurationKey: ConfigKey;
-  quote: string | StructTag;
+  quoteCoinType: string | StructTag;
   values: U64[];
 }
 
 export interface SetStableArgs extends MaybeTx {
   authWitness: ObjectInput;
   configurationKey: ConfigKey;
-  quote: string | StructTag;
+  quoteCoinType: string | StructTag;
   values: U64[];
 }
 
@@ -269,7 +271,7 @@ export interface GetFeesArgs {
 export interface GetCurveDataArgs {
   configurationKey: ConfigKey;
   totalSupply: U64;
-  quote: string | StructTag;
+  quoteCoinType: string | StructTag;
 }
 
 export interface PumpData {
@@ -285,4 +287,11 @@ export interface GetMemeCoinMarketCapArgs {
   memeBalance: bigint;
   suiUSDCPrice: number;
   memeCoinTotalSupply?: bigint;
+}
+
+export interface GetPoolMetadataArgs {
+  poolId: string;
+  quoteCoinType: string | StructTag;
+  memeCoinType: string | StructTag;
+  curveType: string | StructTag;
 }

@@ -1,10 +1,13 @@
+import { bcs } from '@mysten/sui/bcs';
 import { SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
+import { normalizeStructTag, normalizeSuiAddress } from '@mysten/sui/utils';
 import { has } from 'ramda';
 import invariant from 'tiny-invariant';
 
 import { Modules } from './constants';
 import {
+  GetPoolMetadataArgs,
   MemezFunSharedObjects,
   Network,
   ObjectInput,
@@ -12,6 +15,7 @@ import {
   SdkConstructorArgs,
   SignInArgs,
 } from './memez.types';
+import { VecMap } from './structs';
 import { getSdkDefaultArgs, parseMemezPool } from './utils';
 
 export class SDK {
@@ -85,7 +89,7 @@ export class SDK {
     return tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.VERSION,
-      function: 'get_version',
+      function: 'get_allowed_versions',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.VERSION({ mutable: false })),
       ],
@@ -105,7 +109,59 @@ export class SDK {
       options: { showContent: true },
     });
 
-    return parseMemezPool(this.client, suiObject);
+    const pool = await parseMemezPool(this.client, suiObject);
+
+    pool.metadata = await this.getPoolMetadata({
+      poolId: pool.objectId,
+      quoteCoinType: pool.quoteCoinType,
+      memeCoinType: pool.memeCoinType,
+      curveType: pool.curveType,
+    });
+
+    return pool;
+  }
+
+  public async getPoolMetadata({
+    poolId,
+    quoteCoinType,
+    memeCoinType,
+    curveType,
+  }: GetPoolMetadataArgs): Promise<Record<string, string>> {
+    const tx = new Transaction();
+
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.FUN,
+      function: 'metadata',
+      arguments: [tx.object(poolId)],
+      typeArguments: [
+        normalizeStructTag(curveType),
+        normalizeStructTag(memeCoinType),
+        normalizeStructTag(quoteCoinType),
+      ],
+    });
+
+    const metadataVecMap = await this.client.devInspectTransactionBlock({
+      transactionBlock: tx,
+      sender: normalizeSuiAddress('0x0'),
+    });
+
+    invariant(
+      metadataVecMap.results?.[0]?.returnValues?.[0]?.[0],
+      'No metadata found'
+    );
+
+    return VecMap(bcs.string(), bcs.string())
+      .parse(Uint8Array.from(metadataVecMap.results[0].returnValues[0][0]))
+      .contents.reduce(
+        (acc: Record<string, string>, elem) => {
+          return {
+            ...acc,
+            [elem.key]: elem.value,
+          };
+        },
+        {} as Record<string, string>
+      );
   }
 
   ownedObject(tx: Transaction, obj: ObjectInput) {

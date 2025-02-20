@@ -52,8 +52,9 @@ export const parsePoolType = (x: string) => {
   return {
     poolType: x,
     curveType: normalizeStructTag(x.split('<')[1].split(',')[0]),
-    memeCoinType: normalizeStructTag(
-      x.split('<')[1].split(',')[1].trim().slice(0, -1)
+    memeCoinType: normalizeStructTag(x.split('<')[1].split(',')[1].trim()),
+    quoteCoinType: normalizeStructTag(
+      x.split('<')[1].split(',')[2].trim().slice(0, -1)
     ),
   };
 };
@@ -62,7 +63,7 @@ export const parseMemezPool = async (
   client: SuiClient,
   objectResponse: SuiObjectResponse
 ): Promise<MemezPool<PumpState>> => {
-  const { poolType, memeCoinType, curveType } = parsePoolType(
+  const { poolType, memeCoinType, curveType, quoteCoinType } = parsePoolType(
     pathOr('0x0', ['data', 'content', 'type'], objectResponse)
   );
 
@@ -153,7 +154,16 @@ export const parseMemezPool = async (
     migrationFee: BigInt(
       pathOr(
         0n,
-        ['data', 'content', 'fields', 'migration_fee', 'fields', 'pos0'],
+        [
+          'data',
+          'content',
+          'fields',
+          'migration_fee',
+          'fields',
+          'pos0',
+          'fields',
+          'pos0',
+        ],
         stateObject
       )
     ),
@@ -195,6 +205,7 @@ export const parseMemezPool = async (
       pathOr('0x0', ['data', 'objectId'], objectResponse)
     ),
     poolType,
+    quoteCoinType,
     memeCoinType,
     curveType,
     usesTokenStandard: pathOr(
@@ -209,21 +220,7 @@ export const parseMemezPool = async (
         objectResponse
       )
     ),
-    metadata: pathOr(
-      [],
-      ['data', 'content', 'fields', 'metadata', 'fields', 'contents'],
-      objectResponse
-    ).reduce(
-      (acc: Record<string, string>, elem: any) => {
-        const fields = pathOr({ key: '', value: '' }, ['fields'], elem);
-
-        return {
-          ...acc,
-          [fields.key]: fields.value,
-        };
-      },
-      {} as Record<string, string>
-    ),
+    metadata: {},
     migrationWitness: normalizeStructTag(
       pathOr(
         '0x0',
@@ -240,4 +237,22 @@ export const parseMemezPool = async (
     stateId,
     curveState,
   };
+};
+
+export const parseMetadata = (objectResponse: SuiObjectResponse) => {
+  return pathOr(
+    [],
+    ['data', 'content', 'fields', 'metadata', 'fields', 'contents'],
+    objectResponse
+  ).reduce(
+    (acc: Record<string, string>, elem: any) => {
+      const fields = pathOr({ key: '', value: '' }, ['fields'], elem);
+
+      return {
+        ...acc,
+        [fields.key]: fields.value,
+      };
+    },
+    {} as Record<string, string>
+  );
 };

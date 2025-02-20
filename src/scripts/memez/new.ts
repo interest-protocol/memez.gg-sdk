@@ -1,11 +1,13 @@
 import { Transaction } from '@mysten/sui/transactions';
+import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../memez';
 import { executeTx, keypair, memezTestnet } from '../utils.script';
-const configurationKey = CONFIG_KEYS.testnet.RECRD;
+
+const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
 
 const TREASURY_CAP =
-  '0xc4915a41540f0ff3a0a785b0706d69f5457f624c239e022060b7f27cdbc5036e';
+  '0x5cd0921aeb3d798bb1997f4c55403c43e97ee8e7562ee562ace88049ce052017';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
@@ -20,14 +22,14 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
       X: 'https://x.com/Meme',
       Website: 'https://meme.xyz/',
       GitHub: 'https://github.com/meme',
-      videoUrl: 'https://www.recrd.com/id=123',
+      videoUrl: 'https://memez.gg',
     },
     creationSuiFee,
     memeCoinTreasuryCap: TREASURY_CAP,
     migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: false,
-    stakeHolders: [recipient, recipient],
+    quoteCoinType: SUI_TYPE_ARG,
   });
   tx.transferObjects([metadataCap], tx.pure.address(recipient));
   await executeTx(tx2);
