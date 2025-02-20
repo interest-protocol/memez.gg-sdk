@@ -21,6 +21,13 @@ export enum Network {
   Testnet = 'testnet',
 }
 
+type StructTag = {
+  address: string;
+  module: string;
+  name: string;
+  typeParams: (string | StructTag)[];
+};
+
 export interface MaybeTx {
   tx?: Transaction;
 }
@@ -192,18 +199,21 @@ export interface SetFeesArgs extends MaybeTx {
 export interface SetAuctionArgs extends MaybeTx {
   authWitness: ObjectInput;
   configurationKey: ConfigKey;
+  quote: string | StructTag;
   values: U64[];
 }
 
 export interface SetPumpArgs extends MaybeTx {
   authWitness: ObjectInput;
   configurationKey: ConfigKey;
+  quote: string | StructTag;
   values: U64[];
 }
 
 export interface SetStableArgs extends MaybeTx {
   authWitness: ObjectInput;
   configurationKey: ConfigKey;
+  quote: string | StructTag;
   values: U64[];
 }
 
@@ -259,6 +269,7 @@ export interface GetFeesArgs {
 export interface GetCurveDataArgs {
   configurationKey: ConfigKey;
   totalSupply: U64;
+  quote: string | StructTag;
 }
 
 export interface PumpData {

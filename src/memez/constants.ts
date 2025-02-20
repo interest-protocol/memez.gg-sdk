@@ -178,7 +178,7 @@ export const MIGRATOR_WITNESSES = {
     TEST: '',
   },
   [Network.Testnet]: {
-    TEST: `${PACKAGES[Network.Testnet].MEMEZ_MIGRATOR}::test_migrator::Witness`,
+    TEST: `${PACKAGES[Network.Testnet].MEMEZ_MIGRATOR.original}::test_migrator::Witness`,
   },
 } as const;
 
@@ -192,12 +192,12 @@ export const CONFIG_KEYS = {
     INSIDEX: '',
   },
   [Network.Testnet]: {
-    DEFAULT: `${PACKAGES[Network.Testnet].MEMEZ_FUN}::memez_config::DefaultKey`,
-    RECRD: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Recrd`,
-    MEMEZ: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Memez`,
-    WINX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Winx`,
-    DEXTER: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Dexter`,
-    INSIDEX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Insiderx`,
+    DEFAULT: `${PACKAGES[Network.Testnet].MEMEZ_FUN.original}::memez_config::DefaultKey`,
+    RECRD: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Recrd`,
+    MEMEZ: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Memez`,
+    WINX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Winx`,
+    DEXTER: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Dexter`,
+    INSIDEX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Insiderx`,
   },
 } as const;
 
@@ -209,10 +209,10 @@ export const CONFIG_MODELS = {
     AUCTION: '',
   },
   [Network.Testnet]: {
-    FEE: `${PACKAGES[Network.Testnet].MEMEZ_FUN}::memez_fees::MemezFees`,
-    PUMP: `${PACKAGES[Network.Testnet].MEMEZ_FUN}::memez_pump_model::PumpModel`,
-    STABLE: `${PACKAGES[Network.Testnet].MEMEZ_FUN}::memez_stable_model::StableModel`,
-    AUCTION: `${PACKAGES[Network.Testnet].MEMEZ_FUN}::memez_auction_model::AuctionModel`,
+    FEE: `${PACKAGES[Network.Testnet].MEMEZ_FUN.original}::memez_fees::MemezFees`,
+    PUMP: `${PACKAGES[Network.Testnet].MEMEZ_FUN.original}::memez_pump_model::PumpModel`,
+    STABLE: `${PACKAGES[Network.Testnet].MEMEZ_FUN.original}::memez_stable_model::StableModel`,
+    AUCTION: `${PACKAGES[Network.Testnet].MEMEZ_FUN.original}::memez_auction_model::AuctionModel`,
   },
 } as const;
 

@@ -619,12 +619,14 @@ export class MemezFunSDK extends SDK {
    * @param args - An object containing the necessary arguments to get the pump data for an integrator.
    * @param args.configurationKey - The configuration key to find an integrator's fee configuration.
    * @param args.totalSupply - The total supply of the meme coin.
+   * @param args.quote - The quote type of the meme coin.
    *
    * @returns The pump data for the integrator.
    */
   public async getPumpData({
     configurationKey,
     totalSupply,
+    quote,
   }: GetCurveDataArgs): Promise<PumpData> {
     const tx = new Transaction();
 
@@ -636,7 +638,10 @@ export class MemezFunSDK extends SDK {
         tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
         tx.pure.u64(totalSupply),
       ],
-      typeArguments: [normalizeStructTag(configurationKey)],
+      typeArguments: [
+        normalizeStructTag(quote),
+        normalizeStructTag(configurationKey),
+      ],
     });
 
     const result = await devInspectAndGetReturnValues(this.client, tx, [

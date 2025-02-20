@@ -86,6 +86,7 @@ export class ConfigSDK extends SDK {
     tx = new Transaction(),
     authWitness,
     configurationKey,
+    quote,
     values,
   }: SetAuctionArgs) {
     tx.moveCall({
@@ -97,7 +98,10 @@ export class ConfigSDK extends SDK {
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
-      typeArguments: [normalizeStructTag(configurationKey)],
+      typeArguments: [
+        normalizeStructTag(quote),
+        normalizeStructTag(configurationKey),
+      ],
     });
 
     return tx;
@@ -108,6 +112,7 @@ export class ConfigSDK extends SDK {
     authWitness,
     configurationKey,
     values,
+    quote,
   }: SetPumpArgs) {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
@@ -118,7 +123,10 @@ export class ConfigSDK extends SDK {
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
-      typeArguments: [normalizeStructTag(configurationKey)],
+      typeArguments: [
+        normalizeStructTag(quote),
+        normalizeStructTag(configurationKey),
+      ],
     });
 
     return tx;
@@ -128,6 +136,7 @@ export class ConfigSDK extends SDK {
     tx = new Transaction(),
     authWitness,
     configurationKey,
+    quote,
     values,
   }: SetStableArgs) {
     tx.moveCall({
@@ -139,7 +148,10 @@ export class ConfigSDK extends SDK {
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
-      typeArguments: [normalizeStructTag(configurationKey)],
+      typeArguments: [
+        normalizeStructTag(quote),
+        normalizeStructTag(configurationKey),
+      ],
     });
 
     return tx;
