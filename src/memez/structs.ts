@@ -21,13 +21,7 @@ export const MemezFees = bcs.struct('MemezFees', {
   vestingPeriod: bcs.u64(),
 });
 
-export function VecMap(K: BcsType<any, any>, V: BcsType<any, any>) {
-  // You can use the names of the generic params in the type name to
-  return bcs.struct(
-    // You can use the names of the generic params to give your type a more useful name
-    `VecMap<${K.name}, ${V.name}>`,
-    {
-      contents: bcs.vector(bcs.struct(K.name, { key: K, value: V })),
-    }
-  );
-}
+export const VecMap = (K: BcsType<any, any>, V: BcsType<any, any>) =>
+  bcs.struct(`VecMap<${K.name}, ${V.name}>`, {
+    contents: bcs.vector(bcs.struct('Entry', { key: K, value: V })),
+  });
