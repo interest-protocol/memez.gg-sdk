@@ -541,7 +541,7 @@ export class MemezFunSDK extends SDK {
       module: this.modules.PUMP,
       function: 'pump_amount',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     const result = await devInspectAndGetReturnValues(this.client, tx, [
@@ -589,15 +589,15 @@ export class MemezFunSDK extends SDK {
       module: this.modules.PUMP,
       function: 'dump_amount',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     const result = await devInspectAndGetReturnValues(this.client, tx, [
       [bcs.vector(bcs.u64())],
     ]);
 
-    const [amountOut, , swapFeeIn, burnFee] = result[0][0].map(
-      (value: string) => BigInt(value)
+    const [amountOut, swapFeeIn, burnFee] = result[0][0].map((value: string) =>
+      BigInt(value)
     );
 
     return { amountOut, swapFeeIn, burnFee };
