@@ -1,4 +1,5 @@
 import { Transaction } from '@mysten/sui/transactions';
+import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../memez';
 import { executeTx, keypair, memezTestnet } from '../utils.script';
@@ -6,7 +7,7 @@ import { executeTx, keypair, memezTestnet } from '../utils.script';
 const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
 
 const TREASURY_CAP =
-  '0x7e342b9fad97f61219bdaf1976851b270f4e325ea3571caf0472777eaea271d1';
+  '0xe330c077347c3a1fcba412c304ed9fddca5f5da0512edcac8e4705f841c95f6d';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
@@ -15,7 +16,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
   const tx = new Transaction();
 
-  const creationSuiFee = tx.splitCoins(tx.gas, [tx.pure.u64(20)]);
+  const creationSuiFee = tx.splitCoins(tx.gas, [tx.pure.u64(30_000_000n)]);
 
   const { tx: tx2, metadataCap } = await memezTestnet.newPumpPool({
     tx,
@@ -30,6 +31,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: true,
+    quoteCoinType: SUI_TYPE_ARG,
   });
 
   tx.transferObjects([metadataCap], tx.pure.address(recipient));

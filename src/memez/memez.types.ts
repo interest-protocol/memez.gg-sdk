@@ -236,6 +236,7 @@ export interface MigrateArgs extends MaybeTx {
 export interface MigratorMigrateArgs extends MaybeTx {
   migrator: TransactionResult;
   memeCoinType: string;
+  quoteCoinType: string;
 }
 
 export interface KeepTokenArgs extends MaybeTx {

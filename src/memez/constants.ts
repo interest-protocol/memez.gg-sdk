@@ -76,10 +76,10 @@ export const PACKAGES: Record<Network, Package> = {
     },
     MEMEZ_MIGRATOR: {
       original: normalizeSuiAddress(
-        '0xca0cd5448f4876f24d3e93c57637bd868ac6aec0d8bb69f658272d67a4ebf35f'
+        '0x1c709c9f80361a4fb32a122b46a7381f8f6cf267016fdbf6e87b04622ba3476b'
       ),
       latest: normalizeSuiAddress(
-        '0xca0cd5448f4876f24d3e93c57637bd868ac6aec0d8bb69f658272d67a4ebf35f'
+        '0x1c709c9f80361a4fb32a122b46a7381f8f6cf267016fdbf6e87b04622ba3476b'
       ),
     },
     MEMEZ_WITNESS: {
@@ -184,7 +184,7 @@ export const MIGRATOR_WITNESSES = {
     TEST: '',
   },
   [Network.Testnet]: {
-    TEST: `${PACKAGES[Network.Testnet].MEMEZ_MIGRATOR.original}::test_migrator::Witness`,
+    TEST: `${PACKAGES[Network.Testnet].MEMEZ_MIGRATOR.original}::dummy::Witness`,
   },
 } as const;
 

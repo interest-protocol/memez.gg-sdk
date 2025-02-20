@@ -399,9 +399,9 @@ export class MemezFunSDK extends SDK {
     const memeCoin = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
-      function: 'dev_claim',
+      function: 'dev_purchase_claim',
       arguments: [tx.object(pool.objectId), this.getVersion(tx)],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {
@@ -467,7 +467,7 @@ export class MemezFunSDK extends SDK {
       module: this.modules.PUMP,
       function: 'to_coin',
       arguments: [tx.object(pool.objectId), this.ownedObject(tx, memeToken)],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {
@@ -501,7 +501,7 @@ export class MemezFunSDK extends SDK {
       module: this.modules.PUMP,
       function: 'migrate',
       arguments: [tx.object(pool.objectId), this.getVersion(tx)],
-      typeArguments: [pool.memeCoinType],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
 
     return {

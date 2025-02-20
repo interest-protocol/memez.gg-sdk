@@ -12,13 +12,14 @@ export class MigratorSDK extends SDK {
     tx = new Transaction(),
     migrator,
     memeCoinType,
+    quoteCoinType,
   }: MigratorMigrateArgs) {
     tx.moveCall({
       package: this.packages.MEMEZ_MIGRATOR.latest,
-      module: 'test_migrator',
+      module: 'dummy',
       function: 'migrate',
       arguments: [migrator],
-      typeArguments: [memeCoinType],
+      typeArguments: [memeCoinType, quoteCoinType],
     });
 
     return {

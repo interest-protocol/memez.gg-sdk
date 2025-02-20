@@ -35,6 +35,14 @@ export const getMemeCoinMarketCap = ({
   suiUSDCPrice,
   memeCoinTotalSupply = 1_000_000_000n,
 }: GetMemeCoinMarketCapArgs) => {
+  if (
+    suiBalance + virtualLiquidity === 0n ||
+    suiUSDCPrice == 0 ||
+    memeBalance === 0n
+  ) {
+    return 0;
+  }
+
   const suiBalanceDecimal = new Decimal(suiBalance.toString());
   const virtualLiquidityDecimal = new Decimal(virtualLiquidity.toString());
   const memeBalanceDecimal = new Decimal(memeBalance.toString());

@@ -5,7 +5,7 @@ import { log, memezTestnet, TEST_POOL_ID } from '../utils.script';
     poolId: TEST_POOL_ID,
     quoteCoinType: '0x2::sui::SUI',
     memeCoinType:
-      '0xa718d2c0c0dcb90f6e4a9b78e1f0f886d9f790e8d1a1471ad44a411a5d63732c::meme::MEME',
+      '0xccba2a10e21adb177c0cd252049d774db4943d5acdd43904131ef7958c73d86a::meme::MEME',
     curveType:
       '0x63fed690a1154cfc4b31658443227de047cf3d305179aa5836e177c9efa57854::memez_pump::Pump',
   });
