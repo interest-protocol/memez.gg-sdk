@@ -1,5 +1,4 @@
 import {
-  CallArg,
   ObjectRef,
   Transaction,
   TransactionObjectArgument,
@@ -11,6 +10,7 @@ import type {
   CONFIG_MODELS,
   MIGRATOR_WITNESSES,
 } from './constants';
+import type { SHARED_OBJECTS } from './constants';
 
 export type ObjectInput = TransactionObjectArgument | string | ObjectRef;
 
@@ -25,27 +25,17 @@ export interface MaybeTx {
   tx?: Transaction;
 }
 
-export type Package = Record<
-  'MEMEZ_FUN' | 'MEMEZ_MIGRATOR' | 'ACL' | 'VESTING' | 'MEMEZ_WITNESS',
-  string
->;
-
-export type SharedObject = Extract<
-  CallArg,
-  {
-    Object: unknown;
-  }
->;
-
-export interface ShareObjectValueMap {
-  IMMUT: SharedObject;
-  MUT: SharedObject;
+export interface PackageValues {
+  original: string;
+  latest: string;
 }
 
-export type MemezFunSharedObjects = Record<
-  'ACL' | 'MIGRATOR_LIST' | 'VERSION' | 'CONFIG',
-  ShareObjectValueMap
+export type Package = Record<
+  'MEMEZ_FUN' | 'MEMEZ_MIGRATOR' | 'ACL' | 'VESTING' | 'MEMEZ_WITNESS',
+  PackageValues & Record<string, string>
 >;
+
+export type MemezFunSharedObjects = (typeof SHARED_OBJECTS)[Network];
 
 export type OwnedObjects = Record<
   | 'SUPER_ADMIN'

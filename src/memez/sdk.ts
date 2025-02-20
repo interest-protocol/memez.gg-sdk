@@ -66,11 +66,11 @@ export class SDK {
 
   signIn({ tx = new Transaction(), admin }: SignInArgs) {
     const authWitness = tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'sign_in',
       arguments: [
-        tx.object(this.sharedObjects.ACL.IMMUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: false })),
         this.ownedObject(tx, admin),
       ],
     });
@@ -83,10 +83,12 @@ export class SDK {
 
   getVersion(tx: Transaction) {
     return tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.VERSION,
       function: 'get_version',
-      arguments: [tx.object(this.sharedObjects.VERSION.IMMUT)],
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.VERSION({ mutable: false })),
+      ],
     });
   }
 

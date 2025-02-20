@@ -25,11 +25,11 @@ export class ConfigSDK extends SDK {
     witness,
   }: AddMigrationWitnessArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.MIGRATOR_LIST,
       function: 'add',
       arguments: [
-        tx.object(this.sharedObjects.MIGRATOR_LIST.MUT),
+        tx.sharedObjectRef(this.sharedObjects.MIGRATOR_LIST({ mutable: true })),
         this.ownedObject(tx, authWitness),
       ],
       typeArguments: [normalizeStructTag(witness)],
@@ -44,11 +44,11 @@ export class ConfigSDK extends SDK {
     witness,
   }: RemoveMigrationWitnessArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.MIGRATOR_LIST,
       function: 'remove',
       arguments: [
-        tx.object(this.sharedObjects.MIGRATOR_LIST.MUT),
+        tx.sharedObjectRef(this.sharedObjects.MIGRATOR_LIST({ mutable: true })),
         this.ownedObject(tx, authWitness),
       ],
       typeArguments: [normalizeStructTag(witness)],
@@ -65,11 +65,11 @@ export class ConfigSDK extends SDK {
     recipients,
   }: SetFeesArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'set_fees',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.MUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.vector(bcs.u64())).serialize(values).toBytes()),
         tx.pure(
@@ -89,11 +89,11 @@ export class ConfigSDK extends SDK {
     values,
   }: SetAuctionArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'set_auction',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.MUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
@@ -110,11 +110,11 @@ export class ConfigSDK extends SDK {
     values,
   }: SetPumpArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'set_pump',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.MUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
@@ -131,11 +131,11 @@ export class ConfigSDK extends SDK {
     values,
   }: SetStableArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'set_stable',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.MUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
         tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
@@ -152,11 +152,11 @@ export class ConfigSDK extends SDK {
     authWitness,
   }: RemoveConfigurationArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'remove',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.MUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
       ],
       typeArguments: [

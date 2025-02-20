@@ -1,5 +1,4 @@
 import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
-import { OwnedObjectRef } from '@mysten/sui/client';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 import { Transaction, TransactionResult } from '@mysten/sui/transactions';
 import dotenv from 'dotenv';
@@ -36,28 +35,18 @@ export const executeTx = async (tx: Transaction, client = testnetClient) => {
     signer: keypair,
     transaction: tx,
     options: { showEffects: true },
-    requestType: 'WaitForLocalExecution',
   });
 
   // return if the tx hasn't succeed
   if (result.effects?.status?.status !== 'success') {
-    console.log('\n\nCreating a new stable pool failed');
+    console.log('\n\nTX failed');
     return;
   }
 
   console.log('SUCCESS!');
 
-  // get all created objects IDs
-  const createdObjectIds = result.effects?.created?.map(
-    (item: OwnedObjectRef) => item.reference.objectId
-  );
-
-  if (createdObjectIds) {
-    // fetch objects data
-    return client.multiGetObjects({
-      ids: createdObjectIds,
-      options: { showContent: true, showType: true, showOwner: true },
-    });
+  if (result.effects.created) {
+    log(result.effects.created);
   }
 };
 

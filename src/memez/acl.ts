@@ -24,11 +24,11 @@ export class AclSDK extends SDK {
 
   public newAdmin({ tx = new Transaction(), superAdmin }: NewAdminArgs) {
     const admin = tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'new',
       arguments: [
-        tx.object(this.sharedObjects.ACL.MUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
       ],
     });
@@ -50,11 +50,11 @@ export class AclSDK extends SDK {
     );
 
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'new_and_transfer',
       arguments: [
-        tx.object(this.sharedObjects.ACL.MUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
         tx.pure.address(recipient),
       ],
@@ -69,11 +69,11 @@ export class AclSDK extends SDK {
     admin,
   }: RevokeAdminArgs) {
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'revoke',
       arguments: [
-        tx.object(this.sharedObjects.ACL.MUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
         tx.pure.address(admin),
       ],
@@ -84,11 +84,11 @@ export class AclSDK extends SDK {
 
   public destroyAdmin({ tx = new Transaction(), admin }: DestroyAdminArgs) {
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'destroy_admin',
       arguments: [
-        tx.object(this.sharedObjects.ACL.MUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, admin),
       ],
     });
@@ -101,11 +101,11 @@ export class AclSDK extends SDK {
     superAdmin,
   }: DestroySuperAdminArgs) {
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'destroy',
       arguments: [
-        tx.object(this.sharedObjects.ACL.MUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
       ],
     });
@@ -119,7 +119,7 @@ export class AclSDK extends SDK {
     recipient,
   }: StartSuperAdminTransferArgs) {
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'start_transfer',
       arguments: [this.ownedObject(tx, superAdmin), tx.pure.address(recipient)],
@@ -133,7 +133,7 @@ export class AclSDK extends SDK {
     superAdmin,
   }: FinishSuperAdminTransferArgs) {
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'finish_transfer',
       arguments: [this.ownedObject(tx, superAdmin)],
@@ -146,11 +146,11 @@ export class AclSDK extends SDK {
     const tx = new Transaction();
 
     tx.moveCall({
-      package: this.packages.ACL,
+      package: this.packages.ACL.latest,
       module: this.modules.ACL,
       function: 'is_admin',
       arguments: [
-        tx.object(this.sharedObjects.ACL.IMMUT),
+        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: false })),
         tx.pure.address(admin),
       ],
     });

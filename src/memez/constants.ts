@@ -1,12 +1,6 @@
-import { Inputs } from '@mysten/sui/transactions';
 import { normalizeSuiAddress, normalizeSuiObjectId } from '@mysten/sui/utils';
 
-import {
-  MemezFunSharedObjects,
-  Network,
-  OwnedObjects,
-  Package,
-} from './memez.types';
+import { Network, OwnedObjects, Package } from './memez.types';
 
 export enum Modules {
   FUN = 'memez_fun',
@@ -19,37 +13,77 @@ export enum Modules {
 
 // TODO: Need to be updated
 export enum Treasuries {
-  IPX = '0x1',
   RECRD = '0x2',
-  FAN_TV = '0x3',
-  MEMEZ = '0x4',
-  WINX = '0x5',
+  MEMEZ = '0x3',
+  WINX = '0x4',
+  INSIDEX = '0x5',
+  DEXTER = '0x6',
 }
 
 export const PACKAGES: Record<Network, Package> = {
   [Network.Mainnet]: {
-    MEMEZ_FUN: normalizeSuiAddress('0x0'),
-    ACL: normalizeSuiAddress('0x0'),
-    VESTING: normalizeSuiAddress('0x0'),
-    MEMEZ_MIGRATOR: normalizeSuiAddress('0x0'),
-    MEMEZ_WITNESS: normalizeSuiAddress('0x0'),
+    MEMEZ_FUN: {
+      original: normalizeSuiAddress('0x0'),
+      latest: normalizeSuiAddress('0x0'),
+    },
+    ACL: {
+      original: normalizeSuiAddress('0x0'),
+      latest: normalizeSuiAddress('0x0'),
+    },
+    VESTING: {
+      original: normalizeSuiAddress('0x0'),
+      latest: normalizeSuiAddress('0x0'),
+    },
+    MEMEZ_MIGRATOR: {
+      original: normalizeSuiAddress('0x0'),
+      latest: normalizeSuiAddress('0x0'),
+    },
+    MEMEZ_WITNESS: {
+      original: normalizeSuiAddress('0x0'),
+      latest: normalizeSuiAddress('0x0'),
+    },
   },
   [Network.Testnet]: {
-    MEMEZ_FUN: normalizeSuiAddress(
-      '0x9e7ba1c8563b2aa3a6a0d868d87cb5108669662938944de44d717ad9cc798a3c'
-    ),
-    ACL: normalizeSuiAddress(
-      '0x11c2848af65397a7fe48e1526b47d50226a72ceb67e77cf77f9bab0bf759c4c0'
-    ),
-    VESTING: normalizeSuiAddress(
-      '0x8f5393f347cdc7afb58bedec29853904c8e625fd5a23109563f851f127bce450'
-    ),
-    MEMEZ_MIGRATOR: normalizeSuiAddress(
-      '0xca0cd5448f4876f24d3e93c57637bd868ac6aec0d8bb69f658272d67a4ebf35f'
-    ),
-    MEMEZ_WITNESS: normalizeSuiAddress(
-      '0x06267071d0eecfb7d16418cb71da4c7b7941b28208a71086ff3e47731c2d263a'
-    ),
+    MEMEZ_FUN: {
+      original: normalizeSuiAddress(
+        '0x63fed690a1154cfc4b31658443227de047cf3d305179aa5836e177c9efa57854'
+      ),
+      latest: normalizeSuiAddress(
+        '0x63fed690a1154cfc4b31658443227de047cf3d305179aa5836e177c9efa57854'
+      ),
+    },
+    ACL: {
+      original: normalizeSuiAddress(
+        '0x5d406d0307d260f6ffc01f87960b0c28b8c5c3f0e8e71897b1a924a757232179'
+      ),
+      latest: normalizeSuiAddress(
+        '0x5d406d0307d260f6ffc01f87960b0c28b8c5c3f0e8e71897b1a924a757232179'
+      ),
+    },
+    VESTING: {
+      original: normalizeSuiAddress(
+        '0xdada5d84429db8d56a775593b2893fc030826055dc84fa47ccdfd4933a63d093'
+      ),
+      latest: normalizeSuiAddress(
+        '0xdada5d84429db8d56a775593b2893fc030826055dc84fa47ccdfd4933a63d093'
+      ),
+    },
+    MEMEZ_MIGRATOR: {
+      original: normalizeSuiAddress(
+        '0xca0cd5448f4876f24d3e93c57637bd868ac6aec0d8bb69f658272d67a4ebf35f'
+      ),
+      latest: normalizeSuiAddress(
+        '0xca0cd5448f4876f24d3e93c57637bd868ac6aec0d8bb69f658272d67a4ebf35f'
+      ),
+    },
+    MEMEZ_WITNESS: {
+      original: normalizeSuiAddress(
+        '0x06267071d0eecfb7d16418cb71da4c7b7941b28208a71086ff3e47731c2d263a'
+      ),
+      latest: normalizeSuiAddress(
+        '0x06267071d0eecfb7d16418cb71da4c7b7941b28208a71086ff3e47731c2d263a'
+      ),
+    },
   },
 } as const;
 
@@ -64,142 +98,78 @@ export const OWNED_OBJECTS: Record<Network, OwnedObjects> = {
   },
   [Network.Testnet]: {
     SUPER_ADMIN: normalizeSuiObjectId(
-      '0x5de799b5adc55c96259dc72a7c50f39c2dab8a8383402fef7583ccdda81a0889'
+      '0xe3058ee659ef181a8669da12c3368e5b87ac93cb6a66a6a78fe3e812dcb04d15'
     ),
     ACL_UPGRADE_CAP: normalizeSuiObjectId(
-      '0xe65636aa5cc2820ac65aa4c0f85174e9f17c7768e51cc5991a4b98b46d5d4378'
+      '0x5e56e4dda714c27c1f246c9e570ce0aee4dc25a520e2d6e6931aa7a7b72cdd72'
     ),
     VESTING_UPGRADE_CAP: normalizeSuiObjectId(
-      '0xedb18a7b96717cc2f18bc6ff88db55cdd7321aebe83b8572578ae6c5f795b80c'
+      '0x5aecaddf8df660e91d7b002a6bea814fdb5ef34f940ae7bc4ac17db817c51bed'
     ),
     MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
-      '0x35271f135e300c2a67da9a7f91c825b5c2c9cf088bdd3035bb5ca298292a6332'
+      '0xea9d2a2c0bce0646024085055dfea8840f1ce6eb448593e1243009b9d89edcfc'
     ),
     MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
       '0x0806f525f06e0fcf0f79baeabcf4c49de2be292b87f59c9fabf59fbf779fe2f4'
     ),
     ADMIN: normalizeSuiObjectId(
-      '0xc6fd083dc011d0493600798ba92c789adae2e85e44889726b0c5b87ba3de146d'
+      '0x710cece8f8c6bfacf8bdac919058cabb842d451b7ae6a6fb8e42c9c3a7af415b'
     ),
   },
 } as const;
 
-export const SHARED_OBJECTS: Record<Network, MemezFunSharedObjects> = {
+export const SHARED_OBJECTS = {
   [Network.Mainnet]: {
-    ACL: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
-    VERSION: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
-    CONFIG: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
-    MIGRATOR_LIST: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId('0x0'),
-        initialSharedVersion: '1',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
+    ACL: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId('0x0'),
+      initialSharedVersion: '1',
+      mutable,
+    }),
+    VERSION: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId('0x0'),
+      initialSharedVersion: '1',
+      mutable,
+    }),
+    CONFIG: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId('0x0'),
+      initialSharedVersion: '1',
+      mutable,
+    }),
+    MIGRATOR_LIST: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId('0x0'),
+      initialSharedVersion: '1',
+      mutable,
+    }),
   } as const,
   [Network.Testnet]: {
-    ACL: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0x463b3f541a85ea47f30ce9a81303572aa48c5db0104dd14a98f18a9f529a6c8c'
-        ),
-        initialSharedVersion: '129657919',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0x463b3f541a85ea47f30ce9a81303572aa48c5db0104dd14a98f18a9f529a6c8c'
-        ),
-        initialSharedVersion: '129657919',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
-    MIGRATOR_LIST: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0xc147bae64a118a2c493d647c8026d3758ba96fa7584c1decfb8fa1e8579fd053'
-        ),
-        initialSharedVersion: '129657938',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0xc147bae64a118a2c493d647c8026d3758ba96fa7584c1decfb8fa1e8579fd053'
-        ),
-        initialSharedVersion: '129657938',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
-    VERSION: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0x174fbafd6d505bdde541ed86a2b634b1a8958d3c2e3b22a33944f098ae6f2112'
-        ),
-        initialSharedVersion: '129657938',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0x174fbafd6d505bdde541ed86a2b634b1a8958d3c2e3b22a33944f098ae6f2112'
-        ),
-        initialSharedVersion: '129657938',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
-    CONFIG: {
-      IMMUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0x01e346b809fa77b56cc78519e9ce8d5f8fe1aae92e8ebb145f80b5e226ca908c'
-        ),
-        initialSharedVersion: '129657938',
-        mutable: false,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-      MUT: Inputs.SharedObjectRef({
-        objectId: normalizeSuiObjectId(
-          '0x01e346b809fa77b56cc78519e9ce8d5f8fe1aae92e8ebb145f80b5e226ca908c'
-        ),
-        initialSharedVersion: '129657938',
-        mutable: true,
-      }) as ReturnType<typeof Inputs.SharedObjectRef>,
-    },
+    ACL: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0x1b5397ee2f6f8ccfb26016c1ed996f25b2277acb9ed5173fa0bed386360960d8'
+      ),
+      initialSharedVersion: '384530228',
+      mutable,
+    }),
+    MIGRATOR_LIST: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0xf35e6124170d1c7618090bed501edd8fc5f8d8f2d053fbc5f12db93300491ab7'
+      ),
+      initialSharedVersion: '384530230',
+      mutable,
+    }),
+    VERSION: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0x0e74ece4efbc1a15b1ff5bd5653e13281f691b9db8faf669b13783ecc414c848'
+      ),
+      initialSharedVersion: '384530230',
+      mutable,
+    }),
+    CONFIG: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0xd7d747343106d3586f9d96dce4741702de9033875b007f4a485f6593b2e53d79'
+      ),
+      initialSharedVersion: '384530230',
+      mutable,
+    }),
   } as const,
 };
 
@@ -216,16 +186,18 @@ export const CONFIG_KEYS = {
   [Network.Mainnet]: {
     DEFAULT: '',
     RECRD: '',
-    FAN_TV: '',
     MEMEZ: '',
     WINX: '',
+    DEXTER: '',
+    INSIDEX: '',
   },
   [Network.Testnet]: {
     DEFAULT: `${PACKAGES[Network.Testnet].MEMEZ_FUN}::memez_config::DefaultKey`,
     RECRD: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Recrd`,
-    FAN_TV: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::FanTv`,
     MEMEZ: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Memez`,
     WINX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Winx`,
+    DEXTER: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Dexter`,
+    INSIDEX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS}::memez_witness::Insiderx`,
   },
 } as const;
 

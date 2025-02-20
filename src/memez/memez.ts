@@ -131,12 +131,14 @@ export class MemezFunSDK extends SDK {
     invariant(memeCoinType, 'Invalid TreasuryCap: no memeCoinType found');
 
     const metadataCap = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'new',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.IMMUT),
-        tx.object(this.sharedObjects.MIGRATOR_LIST.IMMUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+        tx.sharedObjectRef(
+          this.sharedObjects.MIGRATOR_LIST({ mutable: false })
+        ),
         this.ownedObject(tx, memeCoinTreasuryCap),
         this.ownedObject(tx, creationSuiFee),
         tx.pure.u64(totalSupply),
@@ -191,7 +193,7 @@ export class MemezFunSDK extends SDK {
     invariant(!pool.usesTokenStandard, 'pool uses token standard');
 
     const memeCoin = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'pump',
       arguments: [
@@ -239,7 +241,7 @@ export class MemezFunSDK extends SDK {
     invariant(pool.usesTokenStandard, 'pool uses token standard');
 
     const memeToken = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'pump_token',
       arguments: [
@@ -287,7 +289,7 @@ export class MemezFunSDK extends SDK {
     invariant(!pool.usesTokenStandard, 'pool uses token standard');
 
     const suiCoin = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'dump',
       arguments: [
@@ -335,7 +337,7 @@ export class MemezFunSDK extends SDK {
     invariant(pool.usesTokenStandard, 'pool uses token standard');
 
     const suiCoin = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'dump_token',
       arguments: [
@@ -375,7 +377,7 @@ export class MemezFunSDK extends SDK {
     }
 
     const memeCoin = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'dev_claim',
       arguments: [tx.object(pool.objectId), this.getVersion(tx)],
@@ -441,7 +443,7 @@ export class MemezFunSDK extends SDK {
     invariant(pool.usesTokenStandard, 'pool uses token standard');
 
     const memeCoin = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'to_coin',
       arguments: [tx.object(pool.objectId), this.ownedObject(tx, memeToken)],
@@ -475,7 +477,7 @@ export class MemezFunSDK extends SDK {
     }
 
     const migrator = tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'migrate',
       arguments: [tx.object(pool.objectId), this.getVersion(tx)],
@@ -515,7 +517,7 @@ export class MemezFunSDK extends SDK {
     const tx = new Transaction();
 
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'pump_amount',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
@@ -563,7 +565,7 @@ export class MemezFunSDK extends SDK {
     const tx = new Transaction();
 
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'dump_amount',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
@@ -595,10 +597,12 @@ export class MemezFunSDK extends SDK {
     const tx = new Transaction();
 
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'fees',
-      arguments: [tx.object(this.sharedObjects.CONFIG.IMMUT)],
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+      ],
       typeArguments: [normalizeStructTag(configurationKey)],
     });
 
@@ -625,11 +629,11 @@ export class MemezFunSDK extends SDK {
     const tx = new Transaction();
 
     tx.moveCall({
-      package: this.packages.MEMEZ_FUN,
+      package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
       function: 'get_pump',
       arguments: [
-        tx.object(this.sharedObjects.CONFIG.IMMUT),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
         tx.pure.u64(totalSupply),
       ],
       typeArguments: [normalizeStructTag(configurationKey)],
