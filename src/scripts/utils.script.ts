@@ -7,7 +7,7 @@ import util from 'util';
 
 import { AclSDK } from '../memez/acl';
 import { ConfigSDK } from '../memez/config';
-import { MemezFunSDK } from '../memez/memez';
+import { MemezPumpSDK } from '../memez/pump';
 
 dotenv.config();
 
@@ -28,7 +28,7 @@ export const aclTestnet = new AclSDK();
 
 export const configTestnet = new ConfigSDK();
 
-export const memezTestnet = new MemezFunSDK();
+export const memezPumpTestnet = new MemezPumpSDK();
 
 export const executeTx = async (tx: Transaction, client = testnetClient) => {
   const result = await client.signAndExecuteTransaction({

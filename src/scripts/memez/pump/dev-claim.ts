@@ -1,11 +1,11 @@
 import {
   executeTx,
   keypair,
-  memezTestnet,
+  memezPumpTestnet,
   TEST_POOL_ID,
-} from '../utils.script';
+} from '../../utils.script';
 (async () => {
-  const { memeCoin, tx } = await memezTestnet.devClaim({
+  const { memeCoin, tx } = await memezPumpTestnet.devClaim({
     pool: TEST_POOL_ID,
   });
 

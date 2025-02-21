@@ -4,13 +4,13 @@ import {
   executeTx,
   getCoinOfValue,
   keypair,
-  memezTestnet,
+  memezPumpTestnet,
   TEST_POOL_ID,
-} from '../utils.script';
+} from '../../utils.script';
 (async () => {
   const tx = new Transaction();
 
-  const pool = await memezTestnet.getPumpPool(TEST_POOL_ID);
+  const pool = await memezPumpTestnet.getPumpPool(TEST_POOL_ID);
 
   const memeCoin = await getCoinOfValue({
     tx,
@@ -18,7 +18,7 @@ import {
     coinValue: 1_000_000_000n,
   });
 
-  const { suiCoin, tx: tx2 } = await memezTestnet.dump({
+  const { suiCoin, tx: tx2 } = await memezPumpTestnet.dump({
     pool: TEST_POOL_ID,
     memeCoin,
     tx,

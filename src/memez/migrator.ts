@@ -1,7 +1,7 @@
 import { Transaction } from '@mysten/sui/transactions';
 
-import { MigratorMigrateArgs, SdkConstructorArgs } from './memez.types';
 import { SDK } from './sdk';
+import { MigratorMigrateArgs, SdkConstructorArgs } from './types/memez.types';
 
 export class MigratorSDK extends SDK {
   constructor(args: SdkConstructorArgs | undefined | null = null) {

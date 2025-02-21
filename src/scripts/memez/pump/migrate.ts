@@ -1,12 +1,12 @@
-import { MigratorSDK } from '../../memez/migrator';
-import { executeTx, memezTestnet, TEST_POOL_ID } from '../utils.script';
+import { MigratorSDK } from '../../../memez/migrator';
+import { executeTx, memezPumpTestnet, TEST_POOL_ID } from '../../utils.script';
 
 (async () => {
-  const { tx, migrator } = await memezTestnet.migrate({
+  const { tx, migrator } = await memezPumpTestnet.migrate({
     pool: TEST_POOL_ID,
   });
 
-  const pool = await memezTestnet.getPumpPool(TEST_POOL_ID);
+  const pool = await memezPumpTestnet.getPumpPool(TEST_POOL_ID);
 
   const migratorSDK = new MigratorSDK();
 

@@ -5,7 +5,7 @@ import {
   SUI_TYPE_ARG,
 } from '@mysten/sui/utils';
 
-import { Network, OwnedObjects, Package } from './memez.types';
+import { Network, OwnedObjects, Package } from './types/memez.types';
 
 export enum Modules {
   FUN = 'memez_fun',
@@ -204,7 +204,7 @@ export const CONFIG_KEYS = {
     MEMEZ: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Memez`,
     WINX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Winx`,
     DEXTER: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Dexter`,
-    INSIDEX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Insiderx`,
+    INSIDEX: `${PACKAGES[Network.Testnet].MEMEZ_WITNESS.original}::memez_witness::Insidex`,
   },
 } as const;
 

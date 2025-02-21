@@ -9,19 +9,19 @@ import type {
   CONFIG_KEYS,
   CONFIG_MODELS,
   MIGRATOR_WITNESSES,
-} from './constants';
-import type { SHARED_OBJECTS } from './constants';
+} from '../constants';
+import type { SHARED_OBJECTS } from '../constants';
 
 export type ObjectInput = TransactionObjectArgument | string | ObjectRef;
 
-type U64 = string | bigint | number;
+export type U64 = string | bigint | number;
 
 export enum Network {
   Mainnet = 'mainnet',
   Testnet = 'testnet',
 }
 
-type StructTag = {
+export type StructTag = {
   address: string;
   module: string;
   name: string;
@@ -73,48 +73,6 @@ export type MigratorWitness =
 
 export type ConfigModel =
   (typeof CONFIG_MODELS)[Network][keyof (typeof CONFIG_MODELS)[Network]];
-
-export interface DevPurchaseData {
-  developer: string;
-  firstPurchase: ObjectInput;
-}
-
-export interface NewPumpPoolArgs extends MaybeTx {
-  memeCoinTreasuryCap: string | ObjectRef;
-  creationSuiFee?: ObjectInput;
-  totalSupply?: U64;
-  useTokenStandard?: boolean;
-  devPurchaseData?: DevPurchaseData;
-  metadata?: Record<string, string>;
-  configurationKey: ConfigKey;
-  migrationWitness: MigratorWitness;
-  stakeHolders?: string[];
-  quoteCoinType: string | StructTag;
-}
-
-export interface PumpArgs extends MaybeTx {
-  pool: string | MemezPool<PumpState>;
-  suiCoin: ObjectInput;
-  minAmountOut?: U64;
-}
-
-export interface PumpTokenArgs extends MaybeTx {
-  pool: string | MemezPool<PumpState>;
-  suiCoin: ObjectInput;
-  minAmountOut?: U64;
-}
-
-export interface DumpTokenArgs extends MaybeTx {
-  pool: string | MemezPool<PumpState>;
-  memeToken: ObjectInput;
-  minAmountOut?: U64;
-}
-
-export interface DumpArgs extends MaybeTx {
-  pool: string | MemezPool<PumpState>;
-  memeCoin: ObjectInput;
-  minAmountOut?: U64;
-}
 
 export interface MemezPool<T> {
   objectId: string;
@@ -249,22 +207,6 @@ export interface ToCoinArgs extends MaybeTx {
   memeToken: ObjectInput;
 }
 
-export interface QuoteArgs {
-  pool: string | MemezPool<PumpState>;
-  amount: U64;
-}
-
-export interface QuotePumpReturnValues {
-  amountOut: bigint;
-  swapFeeIn: bigint;
-}
-
-export interface QuoteDumpReturnValues {
-  amountOut: bigint;
-  swapFeeIn: bigint;
-  burnFee: bigint;
-}
-
 export interface GetFeesArgs {
   configurationKey: ConfigKey;
 }
@@ -273,6 +215,12 @@ export interface GetCurveDataArgs {
   configurationKey: ConfigKey;
   totalSupply: U64;
   quoteCoinType: string | StructTag;
+}
+
+export interface StableData {
+  maxTargetQuoteLiquidity: bigint;
+  liquidityProvision: bigint;
+  memeSaleAmount: bigint;
 }
 
 export interface PumpData {

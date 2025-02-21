@@ -4,11 +4,11 @@ import { CONFIG_KEYS } from '../../memez';
 import { log, memezPumpTestnet } from '../utils.script';
 
 (async () => {
-  const pumpData = await memezPumpTestnet.getPumpData({
+  const stableData = await memezPumpTestnet.getStableData({
     configurationKey: CONFIG_KEYS.testnet.DEFAULT,
     totalSupply: 1e9 * 1e9,
     quoteCoinType: SUI_TYPE_ARG,
   });
 
-  log(pumpData);
+  log(stableData);
 })();

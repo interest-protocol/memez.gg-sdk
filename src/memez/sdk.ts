@@ -2,20 +2,25 @@ import { bcs } from '@mysten/sui/bcs';
 import { SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
 import { normalizeStructTag, normalizeSuiAddress } from '@mysten/sui/utils';
+import { SUI_FRAMEWORK_ADDRESS, SUI_TYPE_ARG } from '@mysten/sui/utils';
+import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import { has } from 'ramda';
 import invariant from 'tiny-invariant';
 
 import { Modules } from './constants';
+import { VecMap } from './structs';
+import { MemezFees } from './structs';
 import {
+  GetFeesArgs,
   GetPoolMetadataArgs,
+  KeepTokenArgs,
   MemezFunSharedObjects,
   Network,
   ObjectInput,
   Package,
   SdkConstructorArgs,
   SignInArgs,
-} from './memez.types';
-import { VecMap } from './structs';
+} from './types/memez.types';
 import { getSdkDefaultArgs, parseMemezPool } from './utils';
 
 export class SDK {
@@ -27,6 +32,8 @@ export class SDK {
   #rpcUrl: string;
 
   client: SuiClient;
+
+  defaultSupply = 1_000_000_000_000_000_000n;
 
   constructor(args: SdkConstructorArgs | undefined | null = null) {
     const data = {
@@ -68,6 +75,65 @@ export class SDK {
     };
   }
 
+  /**
+   * Gets an integrator.
+   *
+   * @param args - An object containing the necessary arguments to get the fees for the pool.
+   * @param args.configurationKey - The configuration key to find an integrator's fee configuration.
+   *
+   * @returns The fees for the pool.
+   */
+  public async getFees({
+    configurationKey,
+  }: GetFeesArgs): Promise<typeof MemezFees.$inferType> {
+    const tx = new Transaction();
+
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.CONFIG,
+      function: 'fees',
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+      ],
+      typeArguments: [normalizeStructTag(configurationKey)],
+    });
+
+    const result = await devInspectAndGetReturnValues(this.client, tx, [
+      [MemezFees],
+    ]);
+
+    return result[0][0];
+  }
+
+  /**
+   * Utility function to return the Token to the sender.
+   *
+   * @param args - An object containing the necessary arguments to keep the meme token in the pool.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.memeCoinType - The type of the meme coin.
+   * @param args.token - The meme token to return to the sender.
+   *
+   * @returns An object containing the transaction.
+   * @returns values.tx - The Transaction.
+   */
+  public async keepToken({
+    tx = new Transaction(),
+    memeCoinType,
+    token,
+  }: KeepTokenArgs) {
+    tx.moveCall({
+      package: SUI_FRAMEWORK_ADDRESS,
+      module: 'token',
+      function: 'keep',
+      arguments: [this.ownedObject(tx, token)],
+      typeArguments: [memeCoinType],
+    });
+
+    return {
+      tx,
+    };
+  }
+
   signIn({ tx = new Transaction(), admin }: SignInArgs) {
     const authWitness = tx.moveCall({
       package: this.packages.ACL.latest,
@@ -93,6 +159,15 @@ export class SDK {
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.VERSION({ mutable: false })),
       ],
+    });
+  }
+
+  zeroSuiCoin(tx: Transaction) {
+    return tx.moveCall({
+      package: SUI_FRAMEWORK_ADDRESS,
+      module: 'coin',
+      function: 'zero',
+      typeArguments: [SUI_TYPE_ARG],
     });
   }
 

@@ -4,6 +4,7 @@ import { isValidSuiAddress } from '@mysten/sui/utils';
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import invariant from 'tiny-invariant';
 
+import { SDK } from './sdk';
 import {
   DestroyAdminArgs,
   DestroySuperAdminArgs,
@@ -14,8 +15,7 @@ import {
   RevokeAdminArgs,
   SdkConstructorArgs,
   StartSuperAdminTransferArgs,
-} from './memez.types';
-import { SDK } from './sdk';
+} from './types/memez.types';
 
 export class AclSDK extends SDK {
   constructor(args: SdkConstructorArgs | undefined | null = null) {

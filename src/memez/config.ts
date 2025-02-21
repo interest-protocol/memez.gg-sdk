@@ -2,6 +2,7 @@ import { bcs } from '@mysten/sui/bcs';
 import { Transaction } from '@mysten/sui/transactions';
 import { normalizeStructTag } from '@mysten/sui/utils';
 
+import { SDK } from './sdk';
 import {
   AddMigrationWitnessArgs,
   RemoveConfigurationArgs,
@@ -11,8 +12,7 @@ import {
   SetFeesArgs,
   SetPumpArgs,
   SetStableArgs,
-} from './memez.types';
-import { SDK } from './sdk';
+} from './types/memez.types';
 
 export class ConfigSDK extends SDK {
   constructor(args: SdkConstructorArgs | undefined | null = null) {

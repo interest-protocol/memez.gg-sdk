@@ -5,39 +5,35 @@ import {
   isValidSuiObjectId,
   normalizeStructTag,
   normalizeSuiAddress,
-  SUI_FRAMEWORK_ADDRESS,
-  SUI_TYPE_ARG,
 } from '@mysten/sui/utils';
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import { pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
+import { SDK } from './sdk';
 import {
   DevClaimArgs,
+  GetCurveDataArgs,
+  MigrateArgs,
+  PumpData,
+  SdkConstructorArgs,
+  StableData,
+  ToCoinArgs,
+} from './types/memez.types';
+import {
   DumpArgs,
   DumpTokenArgs,
-  GetCurveDataArgs,
-  GetFeesArgs,
-  KeepTokenArgs,
-  MigrateArgs,
   NewPumpPoolArgs,
   PumpArgs,
-  PumpData,
   PumpTokenArgs,
   QuoteArgs,
   QuoteDumpReturnValues,
   QuotePumpReturnValues,
-  SdkConstructorArgs,
-  ToCoinArgs,
-} from './memez.types';
-import { SDK } from './sdk';
-import { MemezFees } from './structs';
+} from './types/pump.types';
 
-export class MemezFunSDK extends SDK {
-  #defaultSupply = 1_000_000_000_000_000_000n;
-
+export class MemezPumpSDK extends SDK {
   /**
-   * Initiates the MemezFun SDK.
+   * Initiates the MemezPump SDK.
    *
    * @param args - An object containing the necessary arguments to initialize the SDK.
    * @param args.fullNodeUrl - The full node URL to use for the SDK.
@@ -69,15 +65,15 @@ export class MemezFunSDK extends SDK {
    * @returns values.metadataCap - The meme coin MetadataCap.
    * @returns values.tx - The Transaction.
    */
-  public async newPumpPool({
+  public async newPool({
     tx = new Transaction(),
-    creationSuiFee = this.#zeroSuiCoin(tx),
+    creationSuiFee = this.zeroSuiCoin(tx),
     memeCoinTreasuryCap,
-    totalSupply = this.#defaultSupply,
+    totalSupply = this.defaultSupply,
     useTokenStandard = false,
     devPurchaseData = {
       developer: normalizeSuiAddress('0x0'),
-      firstPurchase: this.#zeroSuiCoin(tx),
+      firstPurchase: this.zeroSuiCoin(tx),
     },
     metadata = {},
     configurationKey,
@@ -411,35 +407,6 @@ export class MemezFunSDK extends SDK {
   }
 
   /**
-   * Utility function to return the Token to the sender.
-   *
-   * @param args - An object containing the necessary arguments to keep the meme token in the pool.
-   * @param args.tx - Sui client Transaction class to chain move calls.
-   * @param args.memeCoinType - The type of the meme coin.
-   * @param args.token - The meme token to return to the sender.
-   *
-   * @returns An object containing the transaction.
-   * @returns values.tx - The Transaction.
-   */
-  public async keepToken({
-    tx = new Transaction(),
-    memeCoinType,
-    token,
-  }: KeepTokenArgs) {
-    tx.moveCall({
-      package: SUI_FRAMEWORK_ADDRESS,
-      module: 'token',
-      function: 'keep',
-      arguments: [this.ownedObject(tx, token)],
-      typeArguments: [memeCoinType],
-    });
-
-    return {
-      tx,
-    };
-  }
-
-  /**
    * Converts a meme token to a meme coin. This is for pools that use the Token Standard. It can only be done after the pool migrates.
    *
    * @param args - An object containing the necessary arguments to convert a meme token to a meme coin.
@@ -604,33 +571,48 @@ export class MemezFunSDK extends SDK {
   }
 
   /**
-   * Gets an integrator.
+   * Gets the pump data for an integrator. The supply must coin the decimal houses. E.g. for Sui would be 1e9.
    *
-   * @param args - An object containing the necessary arguments to get the fees for the pool.
+   * @param args - An object containing the necessary arguments to get the pump data for an integrator.
    * @param args.configurationKey - The configuration key to find an integrator's fee configuration.
+   * @param args.totalSupply - The total supply of the meme coin.
+   * @param args.quote - The quote type of the meme coin.
    *
-   * @returns The fees for the pool.
+   * @returns The pump data for the integrator.
    */
-  public async getFees({
+  public async getStableData({
     configurationKey,
-  }: GetFeesArgs): Promise<typeof MemezFees.$inferType> {
+    totalSupply,
+    quoteCoinType,
+  }: GetCurveDataArgs): Promise<StableData> {
     const tx = new Transaction();
 
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
-      function: 'fees',
+      function: 'get_stable',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+        tx.pure.u64(totalSupply),
       ],
-      typeArguments: [normalizeStructTag(configurationKey)],
+      typeArguments: [
+        normalizeStructTag(quoteCoinType),
+        normalizeStructTag(configurationKey),
+      ],
     });
 
     const result = await devInspectAndGetReturnValues(this.client, tx, [
-      [MemezFees],
+      [bcs.vector(bcs.u64())],
     ]);
 
-    return result[0][0];
+    const [maxTargetQuoteLiquidity, liquidityProvision, memeSaleAmount] =
+      result[0][0].map((value: string) => BigInt(value));
+
+    return {
+      maxTargetQuoteLiquidity,
+      liquidityProvision,
+      memeSaleAmount,
+    };
   }
 
   /**
@@ -677,14 +659,5 @@ export class MemezFunSDK extends SDK {
       targetSuiLiquidity,
       liquidityProvision,
     };
-  }
-
-  #zeroSuiCoin(tx: Transaction) {
-    return tx.moveCall({
-      package: SUI_FRAMEWORK_ADDRESS,
-      module: 'coin',
-      function: 'zero',
-      typeArguments: [SUI_TYPE_ARG],
-    });
   }
 }
