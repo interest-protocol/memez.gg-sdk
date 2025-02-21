@@ -6,7 +6,7 @@ import {
 } from '../../utils.script';
 
 const TOKEN_ID =
-  '0x2d51d2fd0e03cf8f79589e156d3d2d4b0529d8f1fb414aea20b5a1fe30c09b51';
+  '0xd2f226f40ea1783ecdef44bf8bcfca372a467d3a0469c3d14d8cb712f08ef210';
 
 (async () => {
   const { memeCoin, tx } = await memezPumpTestnet.toCoin({

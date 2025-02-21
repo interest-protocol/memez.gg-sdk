@@ -49,7 +49,7 @@
     "pump:pump-token": "tsx src/scripts/memez/pump/pump-token.ts",
     "pump:dump-token": "tsx src/scripts/memez/pump/dump-token.ts",
     "pump:to-coin": "tsx src/scripts/memez/pump/to-coin.ts",
-    "pump:quote": "tsx src/scripts/memez/pump/quote-pump.ts",
+    "pump:quote-pump": "tsx src/scripts/memez/pump/quote-pump.ts",
     "pump:quote-dump": "tsx src/scripts/memez/pump/quote-dump.ts"
   },
   "keywords": [],

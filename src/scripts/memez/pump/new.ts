@@ -7,7 +7,7 @@ import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
 const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
 
 const TREASURY_CAP =
-  '0x208d94a982b23b74876c70da1bb67eca260c9a44053710d0f309129adc315cdd';
+  '0x9a7c3b1942500b1f359ea802cb59668061de1cc04476c41262a42de48fd22ce1';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
@@ -35,7 +35,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     },
     migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
     totalSupply: TOTAL_SUPPLY,
-    useTokenStandard: false,
+    useTokenStandard: true,
     quoteCoinType: SUI_TYPE_ARG,
   });
   tx.transferObjects([metadataCap], tx.pure.address(recipient));

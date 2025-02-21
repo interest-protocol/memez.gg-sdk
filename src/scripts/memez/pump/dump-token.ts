@@ -13,7 +13,7 @@ import {
   const { suiCoin, tx: tx2 } = await memezPumpTestnet.dumpToken({
     pool: TEST_POOL_ID,
     memeToken:
-      '0x6a83f8b244cd07851e3e7b1a9c42e07beba876828e077c5c31d8c9968fb46ada',
+      '0x0e7ff43271a5e8bd96cfc0907b514490cc9a22cfca9d9029bd16d5669ce6800a',
     tx,
   });
 
