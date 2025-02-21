@@ -246,21 +246,3 @@ export const parseMemezPool = async (
     curveState,
   };
 };
-
-export const parseMetadata = (objectResponse: SuiObjectResponse) => {
-  return pathOr(
-    [],
-    ['data', 'content', 'fields', 'metadata', 'fields', 'contents'],
-    objectResponse
-  ).reduce(
-    (acc: Record<string, string>, elem: any) => {
-      const fields = pathOr({ key: '', value: '' }, ['fields'], elem);
-
-      return {
-        ...acc,
-        [fields.key]: fields.value,
-      };
-    },
-    {} as Record<string, string>
-  );
-};
