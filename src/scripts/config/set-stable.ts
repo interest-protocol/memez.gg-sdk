@@ -15,10 +15,9 @@ const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
     authWitness,
     tx,
     configurationKey,
-    // Burn Tax
-    // Virtual liquidity
-    // Target liquidity
-    // liquidity provision
+    // Nominal Value of Max Target Quote Liquidity
+    // Percentage of meme coin liquidity provision
+    // Percentage of meme amount to sell
     values: [100_000_000n * POW_9, MAX_BPS / 20n, 3000n],
     quoteCoinType: SUI_TYPE_ARG,
   });

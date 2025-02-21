@@ -68,3 +68,7 @@ export interface QuoteDumpReturnValues {
   swapFeeIn: bigint;
   burnFee: bigint;
 }
+
+export interface DistributeStakeHoldersAllocationArgs extends MaybeTx {
+  pool: string | MemezPool<PumpState>;
+}

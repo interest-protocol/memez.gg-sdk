@@ -21,6 +21,7 @@ import {
   ToCoinArgs,
 } from './types/memez.types';
 import {
+  DistributeStakeHoldersAllocationArgs,
   DumpArgs,
   DumpTokenArgs,
   NewPumpPoolArgs,
@@ -473,6 +474,35 @@ export class MemezPumpSDK extends SDK {
 
     return {
       migrator,
+      tx,
+    };
+  }
+
+  public async distributeStakeHoldersAllocation({
+    tx = new Transaction(),
+    pool,
+  }: DistributeStakeHoldersAllocationArgs) {
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getPumpPool(pool);
+    }
+
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.PUMP,
+      function: 'distribute_stake_holders_allocation',
+      arguments: [
+        tx.object(pool.objectId),
+        tx.object.clock(),
+        this.getVersion(tx),
+      ],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    return {
       tx,
     };
   }
