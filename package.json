@@ -27,6 +27,7 @@
     "build:types": "tsc --project tsconfig.prod.json",
     "build": "pnpm run clean && pnpm run build:tsup && pnpm run build:types",
     "prepublishOnly": "pnpm run clean && pnpm run build",
+    "cetus-price": "tsx src/scripts/memez/cetus-price.ts",
     "meme-coin-mcap": "tsx src/scripts/memez/meme-coin-mcap.ts",
     "get-pool-metadata": "tsx src/scripts/memez/get-pool-metadata.ts",
     "new-admin": "tsx src/scripts/acl/new-admin.ts",
@@ -49,8 +50,7 @@
     "pump:dump-token": "tsx src/scripts/memez/pump/dump-token.ts",
     "pump:to-coin": "tsx src/scripts/memez/pump/to-coin.ts",
     "pump:quote": "tsx src/scripts/memez/pump/quote-pump.ts",
-    "pump:quote-dump": "tsx src/scripts/memez/pump/quote-dump.ts",
-    "cetus-price": "tsx src/scripts/memez/cetus-price.ts"
+    "pump:quote-dump": "tsx src/scripts/memez/pump/quote-dump.ts"
   },
   "keywords": [],
   "license": "ISC",
