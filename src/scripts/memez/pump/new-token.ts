@@ -2,7 +2,7 @@ import { Transaction } from '@mysten/sui/transactions';
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
-import { executeTx, keypair, memezTestnet } from '../../utils.script';
+import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
 
 const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
 
@@ -18,7 +18,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
   const creationSuiFee = tx.splitCoins(tx.gas, [tx.pure.u64(30_000_000n)]);
 
-  const { tx: tx2, metadataCap } = await memezTestnet.newPumpPool({
+  const { tx: tx2, metadataCap } = await memezPumpTestnet.newPool({
     tx,
     configurationKey,
     metadata: {
