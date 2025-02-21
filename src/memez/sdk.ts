@@ -1,7 +1,11 @@
 import { bcs } from '@mysten/sui/bcs';
 import { SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
-import { normalizeStructTag, normalizeSuiAddress } from '@mysten/sui/utils';
+import {
+  normalizeStructTag,
+  normalizeSuiAddress,
+  normalizeSuiObjectId,
+} from '@mysten/sui/utils';
 import { SUI_FRAMEWORK_ADDRESS, SUI_TYPE_ARG } from '@mysten/sui/utils';
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import { has } from 'ramda';
@@ -15,13 +19,18 @@ import {
   GetPoolMetadataArgs,
   KeepTokenArgs,
   MemezFunSharedObjects,
+  MemezPool,
   Network,
   ObjectInput,
   Package,
+  PumpState,
   SdkConstructorArgs,
   SignInArgs,
 } from './types/memez.types';
 import { getSdkDefaultArgs, parseMemezPool } from './utils';
+
+const pumpPoolCache = new Map<string, MemezPool<PumpState>>();
+const metadataCache = new Map<string, Record<string, string>>();
 
 export class SDK {
   packages: Package;
@@ -179,6 +188,12 @@ export class SDK {
    * @returns A parsed MemezPool object.
    */
   public async getPumpPool(pumpId: string) {
+    pumpId = normalizeSuiObjectId(pumpId);
+
+    if (pumpPoolCache.has(pumpId)) {
+      return pumpPoolCache.get(pumpId)!;
+    }
+
     const suiObject = await this.client.getObject({
       id: pumpId,
       options: { showContent: true },
@@ -193,6 +208,8 @@ export class SDK {
       curveType: pool.curveType,
     });
 
+    pumpPoolCache.set(pumpId, pool);
+
     return pool;
   }
 
@@ -202,6 +219,12 @@ export class SDK {
     memeCoinType,
     curveType,
   }: GetPoolMetadataArgs): Promise<Record<string, string>> {
+    poolId = normalizeSuiObjectId(poolId);
+
+    if (metadataCache.has(poolId)) {
+      return metadataCache.get(poolId)!;
+    }
+
     const tx = new Transaction();
 
     tx.moveCall({
@@ -226,7 +249,7 @@ export class SDK {
       'No metadata found'
     );
 
-    return VecMap(bcs.string(), bcs.string())
+    const metadata = VecMap(bcs.string(), bcs.string())
       .parse(Uint8Array.from(metadataVecMap.results[0].returnValues[0][0]))
       .contents.reduce(
         (acc: Record<string, string>, elem) => {
@@ -237,6 +260,10 @@ export class SDK {
         },
         {} as Record<string, string>
       );
+
+    metadataCache.set(poolId, metadata);
+
+    return metadata;
   }
 
   ownedObject(tx: Transaction, obj: ObjectInput) {
