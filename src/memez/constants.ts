@@ -26,6 +26,12 @@ export enum Treasuries {
   DEXTER = '0x6',
 }
 
+export enum Progress {
+  Bonding = 'Bonding',
+  Migrating = 'Migrating',
+  Migrated = 'Migrated',
+}
+
 export const PACKAGES: Record<Network, Package> = {
   [Network.Mainnet]: {
     MEMEZ_FUN: {

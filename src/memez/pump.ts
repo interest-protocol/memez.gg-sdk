@@ -10,6 +10,7 @@ import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import { pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
+import { Progress } from './constants';
 import { SDK } from './sdk';
 import {
   DevClaimArgs,
@@ -31,7 +32,6 @@ import {
   QuoteDumpReturnValues,
   QuotePumpReturnValues,
 } from './types/pump.types';
-
 export class MemezPumpSDK extends SDK {
   /**
    * Initiates the MemezPump SDK.
@@ -478,6 +478,15 @@ export class MemezPumpSDK extends SDK {
     };
   }
 
+  /**
+   * Distributes the stake holders allocation. It can only be done after the pool migrates.
+   *
+   * @param args - An object containing the necessary arguments to distribute the stake holders allocation.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   *
+   * @returns An object containing the transaction.
+   */
   public async distributeStakeHoldersAllocation({
     tx = new Transaction(),
     pool,
@@ -489,6 +498,8 @@ export class MemezPumpSDK extends SDK {
       );
       pool = await this.getPumpPool(pool);
     }
+
+    invariant(pool.progress === Progress.Migrated, 'pool is not migrated');
 
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
