@@ -52,7 +52,8 @@
     "pump:quote-pump": "tsx src/scripts/memez/pump/quote-pump.ts",
     "pump:quote-dump": "tsx src/scripts/memez/pump/quote-dump.ts",
     "pump:distribute": "tsx src/scripts/memez/pump/distribute.ts",
-    "stable:new": "tsx src/scripts/memez/stable/new.ts"
+    "stable:new": "tsx src/scripts/memez/stable/new.ts",
+    "stable:get": "tsx src/scripts/memez/stable/get.ts"
   },
   "keywords": [],
   "license": "ISC",

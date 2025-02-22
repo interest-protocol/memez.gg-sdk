@@ -3,7 +3,11 @@ import {
   SuiClient,
   SuiObjectResponse,
 } from '@mysten/sui/client';
-import { normalizeStructTag, normalizeSuiObjectId } from '@mysten/sui/utils';
+import {
+  normalizeStructTag,
+  normalizeSuiAddress,
+  normalizeSuiObjectId,
+} from '@mysten/sui/utils';
 import { Decimal } from 'decimal.js';
 import { pathOr } from 'ramda';
 
@@ -13,6 +17,7 @@ import {
   MemezPool,
   PumpState,
   SdkConstructorArgs,
+  StableState,
 } from './types/memez.types';
 import { Network } from './types/memez.types';
 
@@ -67,7 +72,206 @@ export const parsePoolType = (x: string) => {
   };
 };
 
-export const parseMemezPool = async (
+export const parseStablePool = async (
+  client: SuiClient,
+  objectResponse: SuiObjectResponse
+): Promise<MemezPool<StableState>> => {
+  const { poolType, memeCoinType, curveType, quoteCoinType } = parsePoolType(
+    pathOr('0x0', ['data', 'content', 'type'], objectResponse)
+  );
+
+  const stateId = pathOr(
+    '0x0',
+    ['data', 'content', 'fields', 'state', 'fields', 'id', 'id'],
+    objectResponse
+  );
+
+  const dynamicField = await client.getDynamicFields({
+    parentId: stateId,
+  });
+
+  const dynamicFieldDataId = pathOr('0x0', ['objectId'], dynamicField.data[0]);
+
+  const stateObject = await client.getObject({
+    id: dynamicFieldDataId,
+    options: { showContent: true },
+  });
+
+  const curveState = {
+    memeReserve: BigInt(
+      pathOr(0n, ['data', 'content', 'fields', 'meme_reserve'], stateObject)
+    ),
+    developerAllocation: BigInt(
+      pathOr(0n, ['data', 'content', 'fields', 'dev_allocation'], stateObject)
+    ),
+    developerVestingPeriod: BigInt(
+      pathOr(
+        0n,
+        ['data', 'content', 'fields', 'dev_vesting_period'],
+        stateObject
+      )
+    ),
+    memeLiquidityProvision: BigInt(
+      pathOr(
+        0n,
+        ['data', 'content', 'fields', 'liquidity_provision'],
+        stateObject
+      )
+    ),
+    migrationFee: +pathOr(
+      0,
+      [
+        'data',
+        'content',
+        'fields',
+        'migration_fee',
+        'fields',
+        'pos0',
+        'fields',
+        'pos0',
+      ],
+      stateObject
+    ),
+    quoteRaiseAmount: BigInt(
+      pathOr(
+        0n,
+        [
+          'data',
+          'content',
+          'fields',
+          'fixed_rate',
+          'fields',
+          'quote_raise_amount',
+        ],
+        stateObject
+      )
+    ),
+    memeSaleAmount: BigInt(
+      pathOr(
+        0n,
+        [
+          'data',
+          'content',
+          'fields',
+          'fixed_rate',
+          'fields',
+          'meme_sale_amount',
+        ],
+        stateObject
+      )
+    ),
+    swapFee: +pathOr(
+      0,
+      [
+        'data',
+        'content',
+        'fields',
+        'fixed_rate',
+        'fields',
+        'swap_fee',
+        'fields',
+        'pos0',
+        'fields',
+        'pos0',
+      ],
+      stateObject
+    ),
+    memeBalance: BigInt(
+      pathOr(
+        0n,
+        ['data', 'content', 'fields', 'fixed_rate', 'fields', 'meme_balance'],
+        stateObject
+      )
+    ),
+    quoteBalance: BigInt(
+      pathOr(
+        0n,
+        ['data', 'content', 'fields', 'fixed_rate', 'fields', 'quote_balance'],
+        stateObject
+      )
+    ),
+    allocation: {
+      memeBalance: BigInt(
+        pathOr(
+          0n,
+          ['data', 'content', 'fields', 'allocation', 'fields', 'balance'],
+          stateObject
+        )
+      ),
+      vestingPeriod: BigInt(
+        pathOr(
+          0n,
+          [
+            'data',
+            'content',
+            'fields',
+            'allocation',
+            'fields',
+            'vesting_period',
+          ],
+          stateObject
+        )
+      ),
+      recipients: pathOr(
+        [],
+        [
+          'data',
+          'content',
+          'fields',
+          'allocation',
+          'fields',
+          'distributor',
+          'fields',
+          'recipients',
+        ],
+        stateObject
+      ).map((recipient: any) => ({
+        address: normalizeSuiAddress(recipient?.fields?.address || '0x0'),
+        bps: +recipient?.fields?.bps?.fields?.pos0 || 0,
+      })),
+    },
+  };
+
+  return {
+    objectId: normalizeSuiObjectId(
+      pathOr('0x0', ['data', 'objectId'], objectResponse)
+    ),
+    poolType,
+    quoteCoinType,
+    memeCoinType,
+    curveType,
+    usesTokenStandard: pathOr(
+      false,
+      ['data', 'content', 'fields', 'is_token'],
+      objectResponse
+    ),
+    ipxMemeCoinTreasury: normalizeSuiObjectId(
+      pathOr(
+        '0x0',
+        ['data', 'content', 'fields', 'ipx_meme_coin_treasury'],
+        objectResponse
+      )
+    ),
+    metadata: {},
+    migrationWitness: normalizeStructTag(
+      pathOr(
+        '0x0',
+        ['data', 'content', 'fields', 'migration_witness', 'fields', 'name'],
+        objectResponse
+      )
+    ),
+    dynamicFieldDataId,
+    progress: pathOr(
+      '0x0',
+      ['data', 'content', 'fields', 'progress', 'variant'],
+      objectResponse
+    ),
+    stateId,
+    curveState,
+  };
+};
+
+export const parsePumpPool = async (
   client: SuiClient,
   objectResponse: SuiObjectResponse
 ): Promise<MemezPool<PumpState>> => {
@@ -144,8 +348,8 @@ export const parseMemezPool = async (
         ],
         stateObject
       ).map((recipient: any) => ({
-        address: recipient?.fields?.address || '0x0',
-        bps: recipient?.fields?.bps?.fields?.pos0 || 0,
+        address: normalizeSuiAddress(recipient?.fields?.address || '0x0'),
+        bps: +recipient?.fields?.bps?.fields?.pos0 || 0,
       })),
     },
     memeBalance: BigInt(
@@ -199,21 +403,19 @@ export const parseMemezPool = async (
         stateObject
       )
     ),
-    migrationFee: BigInt(
-      pathOr(
-        0n,
-        [
-          'data',
-          'content',
-          'fields',
-          'migration_fee',
-          'fields',
-          'pos0',
-          'fields',
-          'pos0',
-        ],
-        stateObject
-      )
+    migrationFee: +pathOr(
+      0,
+      [
+        'data',
+        'content',
+        'fields',
+        'migration_fee',
+        'fields',
+        'pos0',
+        'fields',
+        'pos0',
+      ],
+      stateObject
     ),
     virtualLiquidity: BigInt(
       pathOr(

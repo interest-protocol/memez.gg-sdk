@@ -30,7 +30,7 @@ import {
   SignInArgs,
   StableState,
 } from './types/memez.types';
-import { getSdkDefaultArgs, parseMemezPool } from './utils';
+import { getSdkDefaultArgs, parsePumpPool, parseStablePool } from './utils';
 
 const pumpPoolCache = new Map<string, MemezPool<PumpState>>();
 const stablePoolCache = new Map<string, MemezPool<StableState>>();
@@ -203,7 +203,7 @@ export class SDK {
       options: { showContent: true },
     });
 
-    const pool = await parseMemezPool(this.client, suiObject);
+    const pool = await parsePumpPool(this.client, suiObject);
 
     pool.metadata = await this.getPoolMetadata({
       poolId: pool.objectId,
@@ -220,7 +220,7 @@ export class SDK {
   /**
    * Retrieves the Memez pool object from Sui and parses it.
    *
-   * @param pumpId - The objectId of the MemezPool.
+   * @param stableId - The objectId of the MemezPool.
    *
    * @returns A parsed MemezPool object.
    */
@@ -236,7 +236,7 @@ export class SDK {
       options: { showContent: true },
     });
 
-    const pool = (await parseMemezPool(this.client, suiObject)) as any;
+    const pool = await parseStablePool(this.client, suiObject);
 
     pool.metadata = await this.getPoolMetadata({
       poolId: pool.objectId,

@@ -104,7 +104,7 @@ export interface Allocation {
 export interface PumpState {
   devPurchase: bigint;
   liquidityProvision: bigint;
-  migrationFee: bigint;
+  migrationFee: number;
   virtualLiquidity: bigint;
   targetSuiLiquidity: bigint;
   suiBalance: bigint;
@@ -116,10 +116,15 @@ export interface PumpState {
 
 export interface StableState {
   memeReserve: bigint;
-  devAllocation: bigint;
-  devVestingPeriod: bigint;
+  developerAllocation: bigint;
+  developerVestingPeriod: bigint;
   memeLiquidityProvision: bigint;
-  migrationFee: bigint;
+  migrationFee: number;
+  quoteRaiseAmount: bigint;
+  memeSaleAmount: bigint;
+  swapFee: number;
+  memeBalance: bigint;
+  quoteBalance: bigint;
   allocation: Allocation;
 }
 
