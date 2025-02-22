@@ -7,7 +7,6 @@ import {
   normalizeSuiAddress,
 } from '@mysten/sui/utils';
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
-import { pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
 import { Progress } from './constants';
@@ -95,52 +94,15 @@ export class MemezPumpSDK extends SDK {
       'stakeHolders must be a valid Sui address'
     );
 
-    const memeCoinTreasuryCapId =
-      typeof memeCoinTreasuryCap === 'string'
-        ? memeCoinTreasuryCap
-        : memeCoinTreasuryCap.objectId;
-
-    invariant(
-      isValidSuiObjectId(memeCoinTreasuryCapId),
-      'memeCoinTreasuryCap must be a valid Sui objectId'
-    );
-
-    const treasuryCap = await this.client.getObject({
-      id: memeCoinTreasuryCapId,
-      options: {
-        showType: true,
-        showContent: true,
-      },
-    });
-
-    const treasuryCapTotalSupply = +pathOr(
-      /// Force an error if we do not find the field
-      '1',
-      ['data', 'content', 'fields', 'total_supply', 'fields', 'value'],
-      treasuryCap
-    );
-
-    invariant(
-      treasuryCapTotalSupply === 0,
-      'TreasuryCap Error: Total Supply is not 0 or not found'
-    );
-
-    const memeCoinType = treasuryCap.data?.type?.split('<')[1].slice(0, -1);
-
-    invariant(memeCoinType, 'Invalid TreasuryCap: no memeCoinType found');
-
-    const coinMetadata = await this.client.getCoinMetadata({
-      coinType: memeCoinType,
-    });
-
-    invariant(coinMetadata?.id, 'Invalid TreasuryCap: no coin metadata found');
+    const { memeCoinType, coinMetadataId } =
+      await this.getCoinMetadataAndType(memeCoinTreasuryCap);
 
     const memezMetadata = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.METADATA,
       function: 'new',
       arguments: [
-        tx.object(coinMetadata.id),
+        tx.object(coinMetadataId),
         tx.pure.vector('string', Object.keys(metadata)),
         tx.pure.vector('string', Object.values(metadata)),
       ],

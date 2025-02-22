@@ -12,7 +12,7 @@ import {
 export interface NewStablePoolArgs extends MaybeTx {
   memeCoinTreasuryCap: string | ObjectRef;
   creationSuiFee?: ObjectInput;
-  totalQuoteLiquidity: U64;
+  targetQuoteLiquidity: U64;
   totalSupply?: U64;
   useTokenStandard?: boolean;
   metadata?: Record<string, string>;

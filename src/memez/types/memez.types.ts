@@ -90,6 +90,17 @@ export interface MemezPool<T> {
   curveState: T;
 }
 
+export interface Recipient {
+  address: string;
+  bps: number;
+}
+
+export interface Allocation {
+  memeBalance: bigint;
+  vestingPeriod: bigint;
+  recipients: Recipient[];
+}
+
 export interface PumpState {
   devPurchase: bigint;
   liquidityProvision: bigint;
@@ -100,9 +111,21 @@ export interface PumpState {
   memeBalance: bigint;
   burnTax: number;
   swapFee: number;
+  allocation: Allocation;
+}
+
+export interface StableState {
+  memeReserve: bigint;
+  devAllocation: bigint;
+  devVestingPeriod: bigint;
+  memeLiquidityProvision: bigint;
+  migrationFee: bigint;
+  allocation: Allocation;
 }
 
 export type PumpPool = MemezPool<PumpState>;
+
+export type StablePool = MemezPool<StableState>;
 
 export interface NewAdminArgs extends MaybeTx {
   superAdmin: ObjectInput;

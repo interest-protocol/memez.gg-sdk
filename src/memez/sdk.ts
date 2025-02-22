@@ -1,14 +1,16 @@
 import { bcs } from '@mysten/sui/bcs';
 import { SuiClient } from '@mysten/sui/client';
 import { Transaction } from '@mysten/sui/transactions';
+import { ObjectRef } from '@mysten/sui/transactions';
 import {
+  isValidSuiObjectId,
   normalizeStructTag,
   normalizeSuiAddress,
   normalizeSuiObjectId,
 } from '@mysten/sui/utils';
 import { SUI_FRAMEWORK_ADDRESS, SUI_TYPE_ARG } from '@mysten/sui/utils';
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
-import { has } from 'ramda';
+import { has, pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
 import { Modules } from './constants';
@@ -26,10 +28,12 @@ import {
   PumpState,
   SdkConstructorArgs,
   SignInArgs,
+  StableState,
 } from './types/memez.types';
 import { getSdkDefaultArgs, parseMemezPool } from './utils';
 
 const pumpPoolCache = new Map<string, MemezPool<PumpState>>();
+const stablePoolCache = new Map<string, MemezPool<StableState>>();
 const metadataCache = new Map<string, Record<string, string>>();
 
 export class SDK {
@@ -213,6 +217,39 @@ export class SDK {
     return pool;
   }
 
+  /**
+   * Retrieves the Memez pool object from Sui and parses it.
+   *
+   * @param pumpId - The objectId of the MemezPool.
+   *
+   * @returns A parsed MemezPool object.
+   */
+  public async getStablePool(stableId: string) {
+    stableId = normalizeSuiObjectId(stableId);
+
+    if (stablePoolCache.has(stableId)) {
+      return stablePoolCache.get(stableId)!;
+    }
+
+    const suiObject = await this.client.getObject({
+      id: stableId,
+      options: { showContent: true },
+    });
+
+    const pool = (await parseMemezPool(this.client, suiObject)) as any;
+
+    pool.metadata = await this.getPoolMetadata({
+      poolId: pool.objectId,
+      quoteCoinType: pool.quoteCoinType,
+      memeCoinType: pool.memeCoinType,
+      curveType: pool.curveType,
+    });
+
+    stablePoolCache.set(stableId, pool);
+
+    return pool;
+  }
+
   public async getPoolMetadata({
     poolId,
     quoteCoinType,
@@ -264,6 +301,53 @@ export class SDK {
     metadataCache.set(poolId, metadata);
 
     return metadata;
+  }
+
+  async getCoinMetadataAndType(memeCoinTreasuryCap: string | ObjectRef) {
+    const memeCoinTreasuryCapId =
+      typeof memeCoinTreasuryCap === 'string'
+        ? memeCoinTreasuryCap
+        : memeCoinTreasuryCap.objectId;
+
+    invariant(
+      isValidSuiObjectId(memeCoinTreasuryCapId),
+      'memeCoinTreasuryCap must be a valid Sui objectId'
+    );
+
+    const treasuryCap = await this.client.getObject({
+      id: memeCoinTreasuryCapId,
+      options: {
+        showType: true,
+        showContent: true,
+      },
+    });
+
+    const treasuryCapTotalSupply = +pathOr(
+      /// Force an error if we do not find the field
+      '1',
+      ['data', 'content', 'fields', 'total_supply', 'fields', 'value'],
+      treasuryCap
+    );
+
+    invariant(
+      treasuryCapTotalSupply === 0,
+      'TreasuryCap Error: Total Supply is not 0 or not found'
+    );
+
+    const memeCoinType = treasuryCap.data?.type?.split('<')[1].slice(0, -1);
+
+    invariant(memeCoinType, 'Invalid TreasuryCap: no memeCoinType found');
+
+    const coinMetadata = await this.client.getCoinMetadata({
+      coinType: memeCoinType,
+    });
+
+    invariant(coinMetadata?.id, 'Invalid TreasuryCap: no coin metadata found');
+
+    return {
+      memeCoinType,
+      coinMetadataId: coinMetadata.id!,
+    };
   }
 
   ownedObject(tx: Transaction, obj: ObjectInput) {

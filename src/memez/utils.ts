@@ -108,6 +108,46 @@ export const parseMemezPool = async (
       ],
       stateObject
     ),
+    allocation: {
+      memeBalance: BigInt(
+        pathOr(
+          0n,
+          ['data', 'content', 'fields', 'allocation', 'fields', 'balance'],
+          stateObject
+        )
+      ),
+      vestingPeriod: BigInt(
+        pathOr(
+          0n,
+          [
+            'data',
+            'content',
+            'fields',
+            'allocation',
+            'fields',
+            'vesting_period',
+          ],
+          stateObject
+        )
+      ),
+      recipients: pathOr(
+        [],
+        [
+          'data',
+          'content',
+          'fields',
+          'allocation',
+          'fields',
+          'distributor',
+          'fields',
+          'recipients',
+        ],
+        stateObject
+      ).map((recipient: any) => ({
+        address: recipient?.fields?.address || '0x0',
+        bps: recipient?.fields?.bps?.fields?.pos0 || 0,
+      })),
+    },
     memeBalance: BigInt(
       pathOr(
         0n,

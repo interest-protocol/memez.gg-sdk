@@ -8,6 +8,7 @@ import util from 'util';
 import { AclSDK } from '../memez/acl';
 import { ConfigSDK } from '../memez/config';
 import { MemezPumpSDK } from '../memez/pump';
+import { MemezStableSDK } from '../memez/stable';
 
 dotenv.config();
 
@@ -20,6 +21,9 @@ export const keypair = Ed25519Keypair.fromSecretKey(
 export const TEST_POOL_ID =
   '0xeb8b77a46c1327c19528cacbddc6598dfcffc5979782e76398c7b64b69930695';
 
+export const TEST_STABLE_POOL_ID =
+  '0xf2d856ad92fa7088760db6edab82b6c76db7b173a5cf807f4c3f00a7933f5388';
+
 export const POW_9 = 10n ** 9n;
 
 export const testnetClient = new SuiClient({ url: getFullnodeUrl('testnet') });
@@ -29,6 +33,8 @@ export const aclTestnet = new AclSDK();
 export const configTestnet = new ConfigSDK();
 
 export const memezPumpTestnet = new MemezPumpSDK();
+
+export const memezStableTestnet = new MemezStableSDK();
 
 export const executeTx = async (tx: Transaction, client = testnetClient) => {
   const result = await client.signAndExecuteTransaction({

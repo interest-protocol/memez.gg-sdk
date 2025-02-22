@@ -15,6 +15,7 @@ export enum Modules {
   CONFIG = 'memez_config',
   VERSION = 'memez_allowed_versions',
   METADATA = 'memez_metadata',
+  STABLE = 'memez_stable',
 }
 
 // TODO: Need to be updated
