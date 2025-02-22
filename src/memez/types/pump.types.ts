@@ -31,13 +31,13 @@ export interface NewPumpPoolArgs extends MaybeTx {
 
 export interface PumpArgs extends MaybeTx {
   pool: string | MemezPool<PumpState>;
-  suiCoin: ObjectInput;
+  quoteCoin: ObjectInput;
   minAmountOut?: U64;
 }
 
 export interface PumpTokenArgs extends MaybeTx {
   pool: string | MemezPool<PumpState>;
-  suiCoin: ObjectInput;
+  quoteCoin: ObjectInput;
   minAmountOut?: U64;
 }
 

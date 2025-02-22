@@ -158,7 +158,7 @@ export class MemezPumpSDK extends SDK {
   public async pump({
     tx = new Transaction(),
     pool,
-    suiCoin,
+    quoteCoin,
     minAmountOut = 0n,
   }: PumpArgs) {
     if (typeof pool === 'string') {
@@ -177,7 +177,7 @@ export class MemezPumpSDK extends SDK {
       function: 'pump',
       arguments: [
         tx.object(pool.objectId),
-        this.ownedObject(tx, suiCoin),
+        this.ownedObject(tx, quoteCoin),
         tx.pure.u64(minAmountOut),
         this.getVersion(tx),
       ],
@@ -206,7 +206,7 @@ export class MemezPumpSDK extends SDK {
   public async pumpToken({
     tx = new Transaction(),
     pool,
-    suiCoin,
+    quoteCoin,
     minAmountOut = 0n,
   }: PumpTokenArgs) {
     if (typeof pool === 'string') {
@@ -225,7 +225,7 @@ export class MemezPumpSDK extends SDK {
       function: 'pump_token',
       arguments: [
         tx.object(pool.objectId),
-        this.ownedObject(tx, suiCoin),
+        this.ownedObject(tx, quoteCoin),
         tx.pure.u64(minAmountOut),
         this.getVersion(tx),
       ],
