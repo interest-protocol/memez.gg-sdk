@@ -7,7 +7,7 @@ import { executeTx, keypair, memezStableTestnet } from '../../utils.script';
 const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
 
 const TREASURY_CAP =
-  '0xd70740a9a7b9b519222887f50708bd82fdba8d4a82c00a489e5f98b7d11e7f03';
+  '0x973594e084b411a62335182111ab252dc7fa274444f7ad64b2c267903d64a8d4';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
@@ -32,7 +32,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
     targetQuoteLiquidity: 3n * 1_000_000_000n,
     totalSupply: TOTAL_SUPPLY,
-    useTokenStandard: false,
+    useTokenStandard: true,
     quoteCoinType: SUI_TYPE_ARG,
     developer: recipient,
     developerAllocation: TOTAL_SUPPLY / 100n,

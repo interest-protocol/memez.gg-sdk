@@ -15,7 +15,7 @@
       "types": "./dist/memez/index.d.ts"
     }
   },
-  "version": "1.3.3",
+  "version": "2.0.0",
   "description": "",
   "publishConfig": {
     "access": "public"
@@ -57,7 +57,13 @@
     "stable:pump": "tsx src/scripts/memez/stable/pump.ts",
     "stable:dump": "tsx src/scripts/memez/stable/dump.ts",
     "stable:quote-dump": "tsx src/scripts/memez/stable/quote-dump.ts",
-    "stable:quote-pump": "tsx src/scripts/memez/stable/quote-pump.ts"
+    "stable:quote-pump": "tsx src/scripts/memez/stable/quote-pump.ts",
+    "stable:migrate": "tsx src/scripts/memez/stable/migrate.ts",
+    "stable:dev-claim": "tsx src/scripts/memez/stable/dev-claim.ts",
+    "stable:distribute": "tsx src/scripts/memez/stable/distribute.ts",
+    "stable:pump-token": "tsx src/scripts/memez/stable/pump-token.ts",
+    "stable:dump-token": "tsx src/scripts/memez/stable/dump-token.ts",
+    "stable:to-coin": "tsx src/scripts/memez/stable/to-coin.ts"
   },
   "keywords": [],
   "license": "ISC",

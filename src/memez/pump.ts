@@ -18,7 +18,6 @@ import {
   PumpData,
   SdkConstructorArgs,
   StableData,
-  ToCoinArgs,
 } from './types/memez.types';
 import {
   DistributeStakeHoldersAllocationArgs,
@@ -30,6 +29,7 @@ import {
   QuoteArgs,
   QuoteDumpReturnValues,
   QuotePumpReturnValues,
+  ToCoinArgs,
 } from './types/pump.types';
 export class MemezPumpSDK extends SDK {
   /**
@@ -148,7 +148,7 @@ export class MemezPumpSDK extends SDK {
    * @param args - An object containing the necessary arguments to pump the meme coin into the pool.
    * @param args.tx - Sui client Transaction class to chain move calls.
    * @param args.pool - The objectId of the MemezPool or the full parsed pool.
-   * @param args.suiCoin - The Sui coin to sell for the meme coin.
+   * @param args.quoteCoin - The quote coin to sell for the meme coin.
    * @param args.minAmountOut - The minimum amount meme coin expected to be received.
    *
    * @returns An object containing the meme coin and the transaction.
@@ -196,7 +196,7 @@ export class MemezPumpSDK extends SDK {
    * @param args - An object containing the necessary arguments to pump the meme token into the pool.
    * @param args.tx - Sui client Transaction class to chain move calls.
    * @param args.pool - The objectId of the MemezPool or the full parsed pool.
-   * @param args.suiCoin - The Sui coin to sell for the meme token.
+   * @param args.quoteCoin - The quote coin to sell for the meme token.
    * @param args.minAmountOut - The minimum amount meme token expected to be received.
    *
    * @returns An object containing the meme token and the transaction.
@@ -248,7 +248,7 @@ export class MemezPumpSDK extends SDK {
    * @param args.minAmountOut - The minimum amount Sui expected to be received.
    *
    * @returns An object containing the Sui coin and the transaction.
-   * @returns values.suiCoin - The Sui coin.
+   * @returns values.quoteCoin - The quote coin.
    * @returns values.tx - The Transaction.
    */
   public async dump({
@@ -267,7 +267,7 @@ export class MemezPumpSDK extends SDK {
 
     invariant(!pool.usesTokenStandard, 'pool uses token standard');
 
-    const suiCoin = tx.moveCall({
+    const quoteCoin = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'dump',
@@ -282,7 +282,7 @@ export class MemezPumpSDK extends SDK {
     });
 
     return {
-      suiCoin,
+      quoteCoin,
       tx,
     };
   }
@@ -297,7 +297,7 @@ export class MemezPumpSDK extends SDK {
    * @param args.minAmountOut - The minimum amount Sui expected to be received.
    *
    * @returns An object containing the Sui coin and the transaction.
-   * @returns values.suiCoin - The Sui coin.
+   * @returns values.quoteCoin - The quote coin.
    * @returns values.tx - The Transaction.
    */
   public async dumpToken({
@@ -315,7 +315,7 @@ export class MemezPumpSDK extends SDK {
     }
     invariant(pool.usesTokenStandard, 'pool uses token standard');
 
-    const suiCoin = tx.moveCall({
+    const quoteCoin = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'dump_token',
@@ -330,7 +330,7 @@ export class MemezPumpSDK extends SDK {
     });
 
     return {
-      suiCoin,
+      quoteCoin,
       tx,
     };
   }

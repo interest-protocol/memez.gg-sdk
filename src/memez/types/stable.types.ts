@@ -62,3 +62,20 @@ export interface QuoteDumpReturnValues {
   quoteAmountOut: bigint;
   swapFeeIn: bigint;
 }
+
+export interface MigrateArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+}
+
+export interface DeveloperAllocationClaimArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+}
+
+export interface DistributeStakeHoldersAllocationArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+}
+
+export interface ToCoinArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+  memeToken: ObjectInput;
+}

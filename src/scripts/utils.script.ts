@@ -22,7 +22,7 @@ export const TEST_POOL_ID =
   '0xeb8b77a46c1327c19528cacbddc6598dfcffc5979782e76398c7b64b69930695';
 
 export const TEST_STABLE_POOL_ID =
-  '0xf2d856ad92fa7088760db6edab82b6c76db7b173a5cf807f4c3f00a7933f5388';
+  '0x03c1e8043e4b8596d02feb4cfecd498ff0028a896aa91b8365e0a0243f96178a';
 
 export const POW_9 = 10n ** 9n;
 

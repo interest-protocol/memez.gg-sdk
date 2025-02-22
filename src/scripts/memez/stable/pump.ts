@@ -10,7 +10,7 @@ import {
 (async () => {
   const tx = new Transaction();
 
-  const quoteCoin = tx.splitCoins(tx.gas, [tx.pure.u64(1n * POW_9)]);
+  const quoteCoin = tx.splitCoins(tx.gas, [tx.pure.u64(10n * POW_9)]);
 
   const {
     memeCoin,

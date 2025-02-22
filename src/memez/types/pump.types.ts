@@ -72,3 +72,8 @@ export interface QuoteDumpReturnValues {
 export interface DistributeStakeHoldersAllocationArgs extends MaybeTx {
   pool: string | MemezPool<PumpState>;
 }
+
+export interface ToCoinArgs extends MaybeTx {
+  pool: string | MemezPool<PumpState>;
+  memeToken: ObjectInput;
+}

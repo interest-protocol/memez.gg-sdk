@@ -230,11 +230,6 @@ export interface KeepTokenArgs extends MaybeTx {
   token: ObjectInput;
 }
 
-export interface ToCoinArgs extends MaybeTx {
-  pool: string | MemezPool<PumpState>;
-  memeToken: ObjectInput;
-}
-
 export interface GetFeesArgs {
   configurationKey: ConfigKey;
 }

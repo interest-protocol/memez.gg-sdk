@@ -10,11 +10,11 @@ import {
 (async () => {
   const tx = new Transaction();
 
-  const suiCoin = tx.splitCoins(tx.gas, [tx.pure.u64(4n * POW_9)]);
+  const quoteCoin = tx.splitCoins(tx.gas, [tx.pure.u64(4n * POW_9)]);
 
   const { memeCoin, tx: tx2 } = await memezPumpTestnet.pump({
     pool: TEST_POOL_ID,
-    suiCoin,
+    quoteCoin,
     tx,
   });
 

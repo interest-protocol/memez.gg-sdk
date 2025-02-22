@@ -8,17 +8,22 @@ import {
 import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import invariant from 'tiny-invariant';
 
+import { Progress } from './constants';
 import { SDK } from './sdk';
 import { SdkConstructorArgs } from './types/memez.types';
 import {
+  DeveloperAllocationClaimArgs,
+  DistributeStakeHoldersAllocationArgs,
   DumpArgs,
   DumpTokenArgs,
+  MigrateArgs,
   NewStablePoolArgs,
   PumpArgs,
   PumpTokenArgs,
   QuoteArgs,
   QuoteDumpReturnValues,
   QuotePumpReturnValues,
+  ToCoinArgs,
 } from './types/stable.types';
 
 export class MemezStableSDK extends SDK {
@@ -328,5 +333,157 @@ export class MemezStableSDK extends SDK {
     );
 
     return { quoteAmountOut, swapFeeIn };
+  }
+
+  /**
+   * Allows the developer to claim the first purchase coins. It can only be done after the pool migrates.
+   *
+   * @param args - An object containing the necessary arguments to claim the first purchase coins.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   *
+   * @returns An object containing the memezVesting and the transaction.
+   * @returns values.memezVesting - The memezVesting.
+   * @returns values.tx - The Transaction.
+   */
+  public async developerAllocationClaim({
+    tx = new Transaction(),
+    pool,
+  }: DeveloperAllocationClaimArgs) {
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getStablePool(pool);
+    }
+
+    const memezVesting = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'dev_allocation_claim',
+      arguments: [
+        tx.object(pool.objectId),
+        tx.object.clock(),
+        this.getVersion(tx),
+      ],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    return {
+      memezVesting,
+      tx,
+    };
+  }
+
+  /**
+   * Converts a meme token to a meme coin. This is for pools that use the Token Standard. It can only be done after the pool migrates.
+   *
+   * @param args - An object containing the necessary arguments to convert a meme token to a meme coin.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   * @param args.memeToken - The meme token to convert to a meme coin.
+   *
+   * @returns An object containing the meme coin and the transaction.
+   * @returns values.memeCoin - The meme coin.
+   * @returns values.tx - The Transaction.
+   */
+  public async toCoin({ tx = new Transaction(), memeToken, pool }: ToCoinArgs) {
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getStablePool(pool);
+    }
+
+    invariant(pool.usesTokenStandard, 'pool uses token standard');
+
+    const memeCoin = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'to_coin',
+      arguments: [tx.object(pool.objectId), this.ownedObject(tx, memeToken)],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    return {
+      memeCoin,
+      tx,
+    };
+  }
+
+  /**
+   * Migrates the pool to DEX based on the MigrationWitness.
+   *
+   * @param args - An object containing the necessary arguments to migrate the pool.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   *
+   * @returns An object containing the migrator and the transaction.
+   * @returns values.migrator - The migrator.
+   * @returns values.tx - The Transaction.
+   */
+  public async migrate({ tx = new Transaction(), pool }: MigrateArgs) {
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getStablePool(pool);
+    }
+
+    const migrator = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'migrate',
+      arguments: [tx.object(pool.objectId), this.getVersion(tx)],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    return {
+      migrator,
+      tx,
+    };
+  }
+
+  /**
+   * Distributes the stake holders allocation. It can only be done after the pool migrates.
+   *
+   * @param args - An object containing the necessary arguments to distribute the stake holders allocation.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   *
+   * @returns An object containing the transaction.
+   */
+  public async distributeStakeHoldersAllocation({
+    tx = new Transaction(),
+    pool,
+  }: DistributeStakeHoldersAllocationArgs) {
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getStablePool(pool);
+    }
+
+    invariant(pool.progress === Progress.Migrated, 'pool is not migrated');
+
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'distribute_stake_holders_allocation',
+      arguments: [
+        tx.object(pool.objectId),
+        tx.object.clock(),
+        this.getVersion(tx),
+      ],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    return {
+      tx,
+    };
   }
 }

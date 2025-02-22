@@ -18,13 +18,13 @@ import {
     coinValue: 1_000_000_000n,
   });
 
-  const { suiCoin, tx: tx2 } = await memezPumpTestnet.dump({
+  const { quoteCoin, tx: tx2 } = await memezPumpTestnet.dump({
     pool: TEST_POOL_ID,
     memeCoin,
     tx,
   });
 
-  tx2.transferObjects([suiCoin], keypair.toSuiAddress());
+  tx2.transferObjects([quoteCoin], keypair.toSuiAddress());
 
   await executeTx(tx2);
 })();
