@@ -1,9 +1,11 @@
+import { bcs } from '@mysten/sui/bcs';
 import { Transaction } from '@mysten/sui/transactions';
 import {
   isValidSuiAddress,
   isValidSuiObjectId,
   normalizeStructTag,
 } from '@mysten/sui/utils';
+import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import invariant from 'tiny-invariant';
 
 import { SDK } from './sdk';
@@ -14,6 +16,9 @@ import {
   NewStablePoolArgs,
   PumpArgs,
   PumpTokenArgs,
+  QuoteArgs,
+  QuoteDumpReturnValues,
+  QuotePumpReturnValues,
 } from './types/stable.types';
 
 export class MemezStableSDK extends SDK {
@@ -230,5 +235,98 @@ export class MemezStableSDK extends SDK {
       quoteCoin,
       tx,
     };
+  }
+
+  /**
+   * Quotes the amount of meme coin received after selling Sui. The swap fee is from the coin in (Sui).
+   *
+   * @param args - An object containing the necessary arguments to quote the amount of meme coin received after selling Sui.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   * @param args.amount - The amount of Sui to sell.
+   *
+   * @returns An object containing the amount of meme coin received and the swap in fee.
+   * @returns values.amountOut - The amount of meme coin received.
+   * @returns values.swapFeeIn - The swap fee in paid in Sui.
+   */
+  public async quotePump({
+    pool,
+    amount,
+  }: QuoteArgs): Promise<QuotePumpReturnValues> {
+    if (BigInt(amount) == 0n)
+      return { excessQuoteAmount: 0n, memeAmountOut: 0n, swapFeeIn: 0n };
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getStablePool(pool);
+    }
+
+    const tx = new Transaction();
+
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'pump_amount',
+      arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    const result = await devInspectAndGetReturnValues(this.client, tx, [
+      [bcs.vector(bcs.u64())],
+    ]);
+
+    const [excessQuoteAmount, memeAmountOut, swapFeeIn] = result[0][0].map(
+      (value: string) => BigInt(value)
+    );
+
+    return { excessQuoteAmount, memeAmountOut, swapFeeIn };
+  }
+
+  /**
+   * Quotes the amount of Sui received after selling meme coin. The swap fee is from the coin in (MemeCoin).
+   *
+   * @param args - An object containing the necessary arguments to quote the amount of Sui received after selling meme coin.
+   * @param args.pool - The objectId of the MemezPool or the full parsed pool.
+   * @param args.amount - The amount of meme coin to sell.
+   *
+   * @returns An object containing the amount of Sui received and the swap in fee.
+   * @returns values.amountOut - The amount of Sui received.
+   * @returns values.swapFeeIn - The swap fee in paid in MemeCoin.
+   * @returns values.burnFee - The burn fee in MemeCoin.
+   */
+  public async quoteDump({
+    pool,
+    amount,
+  }: QuoteArgs): Promise<QuoteDumpReturnValues> {
+    if (BigInt(amount) == 0n) return { quoteAmountOut: 0n, swapFeeIn: 0n };
+
+    if (typeof pool === 'string') {
+      invariant(
+        isValidSuiObjectId(pool),
+        'pool must be a valid Sui objectId or MemezPool'
+      );
+      pool = await this.getStablePool(pool);
+    }
+
+    const tx = new Transaction();
+
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'dump_amount',
+      arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
+      typeArguments: [pool.memeCoinType, pool.quoteCoinType],
+    });
+
+    const result = await devInspectAndGetReturnValues(this.client, tx, [
+      [bcs.vector(bcs.u64())],
+    ]);
+
+    const [quoteAmountOut, swapFeeIn] = result[0][0].map((value: string) =>
+      BigInt(value)
+    );
+
+    return { quoteAmountOut, swapFeeIn };
   }
 }
