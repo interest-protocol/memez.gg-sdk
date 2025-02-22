@@ -3,8 +3,10 @@ import { ObjectRef } from '@mysten/sui/transactions';
 import {
   ConfigKey,
   MaybeTx,
+  MemezPool,
   MigratorWitness,
   ObjectInput,
+  StableState,
   StructTag,
   U64,
 } from './memez.types';
@@ -23,4 +25,24 @@ export interface NewStablePoolArgs extends MaybeTx {
   developer: string;
   developerAllocation: U64;
   vestingDurationMs: U64;
+}
+
+export interface PumpArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+  quoteCoin: ObjectInput;
+}
+
+export interface PumpTokenArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+  quoteCoin: ObjectInput;
+}
+
+export interface DumpTokenArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+  memeToken: ObjectInput;
+}
+
+export interface DumpArgs extends MaybeTx {
+  pool: string | MemezPool<StableState>;
+  memeCoin: ObjectInput;
 }
