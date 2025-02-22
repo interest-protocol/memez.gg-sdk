@@ -59,12 +59,12 @@ export interface QuoteArgs {
 }
 
 export interface QuotePumpReturnValues {
-  amountOut: bigint;
+  memeAmountOut: bigint;
   swapFeeIn: bigint;
 }
 
 export interface QuoteDumpReturnValues {
-  amountOut: bigint;
+  quoteAmountOut: bigint;
   swapFeeIn: bigint;
   burnFee: bigint;
 }

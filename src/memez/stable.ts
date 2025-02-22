@@ -250,7 +250,7 @@ export class MemezStableSDK extends SDK {
    * @param args.amount - The amount of Sui to sell.
    *
    * @returns An object containing the amount of meme coin received and the swap in fee.
-   * @returns values.amountOut - The amount of meme coin received.
+   * @returns values.memeAmountOut - The amount of meme coin received.
    * @returns values.swapFeeIn - The swap fee in paid in Sui.
    */
   public async quotePump({
@@ -296,9 +296,8 @@ export class MemezStableSDK extends SDK {
    * @param args.amount - The amount of meme coin to sell.
    *
    * @returns An object containing the amount of Sui received and the swap in fee.
-   * @returns values.amountOut - The amount of Sui received.
+   * @returns values.quoteAmountOut - The amount of Sui received.
    * @returns values.swapFeeIn - The swap fee in paid in MemeCoin.
-   * @returns values.burnFee - The burn fee in MemeCoin.
    */
   public async quoteDump({
     pool,

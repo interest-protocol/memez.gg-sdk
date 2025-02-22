@@ -488,14 +488,14 @@ export class MemezPumpSDK extends SDK {
    * @param args.amount - The amount of Sui to sell.
    *
    * @returns An object containing the amount of meme coin received and the swap in fee.
-   * @returns values.amountOut - The amount of meme coin received.
+   * @returns values.memeAmountOut - The amount of meme coin received.
    * @returns values.swapFeeIn - The swap fee in paid in Sui.
    */
   public async quotePump({
     pool,
     amount,
   }: QuoteArgs): Promise<QuotePumpReturnValues> {
-    if (BigInt(amount) == 0n) return { amountOut: 0n, swapFeeIn: 0n };
+    if (BigInt(amount) == 0n) return { memeAmountOut: 0n, swapFeeIn: 0n };
     if (typeof pool === 'string') {
       invariant(
         isValidSuiObjectId(pool),
@@ -518,11 +518,11 @@ export class MemezPumpSDK extends SDK {
       [bcs.vector(bcs.u64())],
     ]);
 
-    const [amountOut, swapFeeIn] = result[0][0].map((value: string) =>
+    const [memeAmountOut, swapFeeIn] = result[0][0].map((value: string) =>
       BigInt(value)
     );
 
-    return { amountOut, swapFeeIn };
+    return { memeAmountOut, swapFeeIn };
   }
 
   /**
@@ -533,7 +533,7 @@ export class MemezPumpSDK extends SDK {
    * @param args.amount - The amount of meme coin to sell.
    *
    * @returns An object containing the amount of Sui received and the swap in fee.
-   * @returns values.amountOut - The amount of Sui received.
+   * @returns values.quoteAmountOut - The amount of Sui received.
    * @returns values.swapFeeIn - The swap fee in paid in MemeCoin.
    * @returns values.burnFee - The burn fee in MemeCoin.
    */
@@ -542,7 +542,7 @@ export class MemezPumpSDK extends SDK {
     amount,
   }: QuoteArgs): Promise<QuoteDumpReturnValues> {
     if (BigInt(amount) == 0n)
-      return { amountOut: 0n, swapFeeIn: 0n, burnFee: 0n };
+      return { quoteAmountOut: 0n, swapFeeIn: 0n, burnFee: 0n };
 
     if (typeof pool === 'string') {
       invariant(
@@ -566,11 +566,11 @@ export class MemezPumpSDK extends SDK {
       [bcs.vector(bcs.u64())],
     ]);
 
-    const [amountOut, swapFeeIn, burnFee] = result[0][0].map((value: string) =>
-      BigInt(value)
+    const [quoteAmountOut, swapFeeIn, burnFee] = result[0][0].map(
+      (value: string) => BigInt(value)
     );
 
-    return { amountOut, swapFeeIn, burnFee };
+    return { quoteAmountOut, swapFeeIn, burnFee };
   }
 
   /**
