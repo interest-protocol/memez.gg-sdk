@@ -653,13 +653,17 @@ export class MemezPumpSDK extends SDK {
       [bcs.vector(bcs.u64())],
     ]);
 
-    const [burnTax, virtualLiquidity, targetSuiLiquidity, liquidityProvision] =
-      result[0][0].map((value: string) => BigInt(value));
+    const [
+      burnTax,
+      virtualLiquidity,
+      targetQuoteLiquidity,
+      liquidityProvision,
+    ] = result[0][0].map((value: string) => BigInt(value));
 
     return {
       burnTax,
       virtualLiquidity,
-      targetSuiLiquidity,
+      targetQuoteLiquidity,
       liquidityProvision,
     };
   }
