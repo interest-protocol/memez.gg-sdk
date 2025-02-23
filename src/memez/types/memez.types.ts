@@ -106,8 +106,8 @@ export interface PumpState {
   liquidityProvision: bigint;
   migrationFee: number;
   virtualLiquidity: bigint;
-  targetSuiLiquidity: bigint;
-  suiBalance: bigint;
+  targetQuoteLiquidity: bigint;
+  quoteBalance: bigint;
   memeBalance: bigint;
   burnTax: number;
   swapFee: number;
@@ -249,15 +249,15 @@ export interface StableData {
 export interface PumpData {
   burnTax: bigint;
   virtualLiquidity: bigint;
-  targetSuiLiquidity: bigint;
+  targetQuoteLiquidity: bigint;
   liquidityProvision: bigint;
 }
 
 export interface GetMemeCoinMarketCapArgs {
-  suiBalance: bigint;
+  quoteBalance: bigint;
   virtualLiquidity: bigint;
   memeBalance: bigint;
-  suiUSDCPrice: number;
+  quoteUSDCPrice: number;
   memeCoinTotalSupply?: bigint;
 }
 

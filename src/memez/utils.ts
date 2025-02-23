@@ -34,28 +34,28 @@ export const getSdkDefaultArgs = (
 
 // USD Price
 export const getMemeCoinMarketCap = ({
-  suiBalance,
+  quoteBalance,
   virtualLiquidity,
   memeBalance,
-  suiUSDCPrice,
+  quoteUSDCPrice,
   memeCoinTotalSupply = 1_000_000_000n,
 }: GetMemeCoinMarketCapArgs) => {
   if (
-    suiBalance + virtualLiquidity === 0n ||
-    suiUSDCPrice == 0 ||
+    quoteBalance + virtualLiquidity === 0n ||
+    quoteUSDCPrice == 0 ||
     memeBalance === 0n
   ) {
     return 0;
   }
 
-  const suiBalanceDecimal = new Decimal(suiBalance.toString());
+  const quoteBalanceDecimal = new Decimal(quoteBalance.toString());
   const virtualLiquidityDecimal = new Decimal(virtualLiquidity.toString());
   const memeBalanceDecimal = new Decimal(memeBalance.toString());
-  const suiUSDCPriceDecimal = new Decimal(suiUSDCPrice.toString());
+  const quoteUSDCPriceDecimal = new Decimal(quoteUSDCPrice.toString());
 
-  const memeCoinPrice = suiBalanceDecimal
+  const memeCoinPrice = quoteBalanceDecimal
     .plus(virtualLiquidityDecimal)
-    .times(suiUSDCPriceDecimal)
+    .times(quoteUSDCPriceDecimal)
     .div(memeBalanceDecimal);
 
   return memeCoinPrice.times(memeCoinTotalSupply.toString()).toNumber();
@@ -366,7 +366,7 @@ export const parsePumpPool = async (
         stateObject
       )
     ),
-    suiBalance: BigInt(
+    quoteBalance: BigInt(
       pathOr(
         0n,
         [
@@ -375,7 +375,7 @@ export const parsePumpPool = async (
           'fields',
           'constant_product',
           'fields',
-          'sui_balance',
+          'quote_balance',
         ],
         stateObject
       )
@@ -431,7 +431,7 @@ export const parsePumpPool = async (
         stateObject
       )
     ),
-    targetSuiLiquidity: BigInt(
+    targetQuoteLiquidity: BigInt(
       pathOr(
         0n,
         [
@@ -440,7 +440,7 @@ export const parsePumpPool = async (
           'fields',
           'constant_product',
           'fields',
-          'target_sui_liquidity',
+          'target_quote_liquidity',
         ],
         stateObject
       )
