@@ -18,7 +18,8 @@ export const MemezFees = bcs.struct('MemezFees', {
   swapFee: FeePayload,
   migration: FeePayload,
   allocation: FeePayload,
-  vestingPeriod: bcs.u64(),
+  vesting_periods: bcs.vector(bcs.u64()),
+  dynamic_stake_holders: bcs.u64(),
 });
 
 export const VecMap = (K: BcsType<any, any>, V: BcsType<any, any>) =>
