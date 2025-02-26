@@ -26,7 +26,8 @@ const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
       [MAX_BPS, 100n],
       // last index is the allocation of meme coin in BPS
       // The [last_index - 1] is the vesting period in MS
-      [MAX_BPS, 0, 0],
+      [MAX_BPS, 0],
+      [1_000n],
     ],
     recipients: [
       [memezTreasury],

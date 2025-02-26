@@ -59,10 +59,10 @@ export const PACKAGES: Record<Network, Package> = {
   [Network.Testnet]: {
     MEMEZ_FUN: {
       original: normalizeSuiAddress(
-        '0x63fed690a1154cfc4b31658443227de047cf3d305179aa5836e177c9efa57854'
+        '0x8ac848bd470e8fcf64899f9361b21fd07c2c6da06e28f1edb5cd596f245f866c'
       ),
       latest: normalizeSuiAddress(
-        '0x63fed690a1154cfc4b31658443227de047cf3d305179aa5836e177c9efa57854'
+        '0x8ac848bd470e8fcf64899f9361b21fd07c2c6da06e28f1edb5cd596f245f866c'
       ),
     },
     ACL: {
@@ -83,10 +83,10 @@ export const PACKAGES: Record<Network, Package> = {
     },
     MEMEZ_MIGRATOR: {
       original: normalizeSuiAddress(
-        '0x1c709c9f80361a4fb32a122b46a7381f8f6cf267016fdbf6e87b04622ba3476b'
+        '0x5dd8927889172a7227e081bb3cb77ce3af4c9021390f5bb47aec329efea6359c'
       ),
       latest: normalizeSuiAddress(
-        '0x1c709c9f80361a4fb32a122b46a7381f8f6cf267016fdbf6e87b04622ba3476b'
+        '0x5dd8927889172a7227e081bb3cb77ce3af4c9021390f5bb47aec329efea6359c'
       ),
     },
     MEMEZ_WITNESS: {
@@ -120,13 +120,13 @@ export const OWNED_OBJECTS: Record<Network, OwnedObjects> = {
       '0x5aecaddf8df660e91d7b002a6bea814fdb5ef34f940ae7bc4ac17db817c51bed'
     ),
     MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
-      '0xea9d2a2c0bce0646024085055dfea8840f1ce6eb448593e1243009b9d89edcfc'
+      '0x6891c0c75260d687f0219736452c9677de7abbdd757d95903ccce6b468f40d97'
     ),
     MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
       '0x0806f525f06e0fcf0f79baeabcf4c49de2be292b87f59c9fabf59fbf779fe2f4'
     ),
     ADMIN: normalizeSuiObjectId(
-      '0x710cece8f8c6bfacf8bdac919058cabb842d451b7ae6a6fb8e42c9c3a7af415b'
+      '0x8998ca48bb71c4df67705a551485e1129fbd542b8e85f2680b5b4d69e237d338'
     ),
   },
 } as const;
@@ -164,23 +164,23 @@ export const SHARED_OBJECTS = {
     }),
     MIGRATOR_LIST: ({ mutable }: { mutable: boolean }) => ({
       objectId: normalizeSuiObjectId(
-        '0xf35e6124170d1c7618090bed501edd8fc5f8d8f2d053fbc5f12db93300491ab7'
+        '0xc7530527c63a3bf6dfde19522409c0b93654fe55f9664ccb54b97b94f4c58b19'
       ),
-      initialSharedVersion: '384530230',
+      initialSharedVersion: '384530298',
       mutable,
     }),
     VERSION: ({ mutable }: { mutable: boolean }) => ({
       objectId: normalizeSuiObjectId(
-        '0x0e74ece4efbc1a15b1ff5bd5653e13281f691b9db8faf669b13783ecc414c848'
+        '0xd645a047027384fee98f52d32b5730a7de65e07e79b9df8afa09ee675b9f914c'
       ),
-      initialSharedVersion: '384530230',
+      initialSharedVersion: '384530298',
       mutable,
     }),
     CONFIG: ({ mutable }: { mutable: boolean }) => ({
       objectId: normalizeSuiObjectId(
-        '0xd7d747343106d3586f9d96dce4741702de9033875b007f4a485f6593b2e53d79'
+        '0x42136e28848781b5a0c5ff544b2df0af414588289200ee01d01fdb3b0a66a418'
       ),
-      initialSharedVersion: '384530230',
+      initialSharedVersion: '384530298',
       mutable,
     }),
   } as const,

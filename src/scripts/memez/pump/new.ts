@@ -7,7 +7,7 @@ import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
 const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
 
 const TREASURY_CAP =
-  '0x9a7c3b1942500b1f359ea802cb59668061de1cc04476c41262a42de48fd22ce1';
+  '0x9745a47275872b52136973a5d8b760d97e2712ed883098eba036931209584006';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
