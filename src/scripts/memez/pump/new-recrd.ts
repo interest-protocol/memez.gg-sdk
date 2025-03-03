@@ -29,7 +29,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     memeCoinTreasuryCap: TREASURY_CAP,
     migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
     totalSupply: TOTAL_SUPPLY,
-    useTokenStandard: true,
+    useTokenStandard: false,
     quoteCoinType: SUI_TYPE_ARG,
     stakeHolders: [normalizeSuiAddress('0x2'), normalizeSuiAddress('0x3')],
   });
