@@ -7,17 +7,14 @@ import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
 const configurationKey = CONFIG_KEYS.testnet.RECRD;
 
 const TREASURY_CAP =
-  '0xa665dfa8aa5f8e33ec7c282b4d78fd302709bb9ab31638f9e12188f4620d52e5';
+  '0xa4d76c2997ab675b9fabba82a37b05a67189da8a8d85d88a74787cf72ccea140';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
 (async () => {
   const recipient = keypair.toSuiAddress();
   const tx = new Transaction();
-  const [creationSuiFee, devPurchase] = tx.splitCoins(tx.gas, [
-    tx.pure.u64(30_000_000n),
-    tx.pure.u64(1_000_000_000n),
-  ]);
+  const creationSuiFee = tx.splitCoins(tx.gas, [tx.pure.u64(30_000_000n)]);
   const { tx: tx2, metadataCap } = await memezPumpTestnet.newPool({
     tx,
     configurationKey,
@@ -30,10 +27,6 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     },
     creationSuiFee,
     memeCoinTreasuryCap: TREASURY_CAP,
-    devPurchaseData: {
-      developer: recipient,
-      firstPurchase: devPurchase,
-    },
     migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: true,
