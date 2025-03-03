@@ -3,7 +3,7 @@ import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 import { CONFIG_KEYS, OWNED_OBJECTS } from '../../memez';
 import { configTestnet, executeTx } from '../utils.script';
 const ownedObjects = OWNED_OBJECTS.testnet;
-const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
+const configurationKey = CONFIG_KEYS.testnet.RECRD;
 
 (async () => {
   const { tx, authWitness } = configTestnet.signIn({

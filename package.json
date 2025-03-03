@@ -63,7 +63,8 @@
     "stable:distribute": "tsx src/scripts/memez/stable/distribute.ts",
     "stable:pump-token": "tsx src/scripts/memez/stable/pump-token.ts",
     "stable:dump-token": "tsx src/scripts/memez/stable/dump-token.ts",
-    "stable:to-coin": "tsx src/scripts/memez/stable/to-coin.ts"
+    "stable:to-coin": "tsx src/scripts/memez/stable/to-coin.ts",
+    "pump:new-recrd": "tsx src/scripts/memez/pump/new-recrd.ts"
   },
   "keywords": [],
   "license": "ISC",
