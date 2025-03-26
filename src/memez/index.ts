@@ -3,6 +3,7 @@ import * as StableTypes from './types/stable.types';
 
 export * from './acl';
 export * from './constants';
+export * from './migrator';
 export * from './pump';
 export * from './stable';
 export * from './structs';

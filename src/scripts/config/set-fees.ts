@@ -20,7 +20,7 @@ const configurationKey = CONFIG_KEYS.testnet.RECRD;
     configurationKey,
     values: [
       // last index is the creator fee nominal
-      [3334n, 6666n, 30_000_000n],
+      [3334n, 6666n, 0n],
       // last index is the swap fee in bps
       [5_000n, 2_500n, 2_500n, 100n],
       // last index is the migration fee nominal
