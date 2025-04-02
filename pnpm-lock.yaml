@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@cetusprotocol/cetus-sui-clmm-sdk':
         specifier: ^5.3.0
-        version: 5.3.0(@mysten/bcs@1.1.1)(@mysten/sui@1.16.0(typescript@5.7.2))
+        version: 5.3.0(@mysten/bcs@1.5.0)(@mysten/sui@1.26.0(typescript@5.7.2))
       '@mysten/sui':
-        specifier: ^1.16.0
-        version: 1.16.0(typescript@5.7.2)
+        specifier: ^1.26.0
+        version: 1.26.0(typescript@5.7.2)
       '@polymedia/suitcase-core':
         specifier: ^0.0.36
-        version: 0.0.36(@mysten/sui@1.16.0(typescript@5.7.2))
+        version: 0.0.36(@mysten/sui@1.26.0(typescript@5.7.2))
       ramda:
         specifier: ^0.30.1
         version: 0.30.1
@@ -477,11 +477,11 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@mysten/bcs@1.1.1':
-    resolution: {integrity: sha512-8X3IwmVfkwgHnNHR4izpi7f7aD0iVDU2B8p2KoIzCA9sCGcl9O2RnFDezHbNGgT+yBT+dKVDpTAczhnwZ6eUkQ==}
+  '@mysten/bcs@1.5.0':
+    resolution: {integrity: sha512-v39dm5oNfKYMAf2CVI+L0OaJiG9RVXsjqPM4BwTKcHNCZOvr35IIewGtXtWXsI67SQU2TRq8lhQzeibdiC/CNg==}
 
-  '@mysten/sui@1.16.0':
-    resolution: {integrity: sha512-KI4richLtbq4RYbv5SmhWMIFD5BRW0tNOSGxZMLxjDBqBwkTqkQ4WBvmxjpbG/2WsLw0SCNrc7JYmoiaB58aLA==}
+  '@mysten/sui@1.26.0':
+    resolution: {integrity: sha512-mSoWTgT7Vta+Oyex0yInrVfUXbeEZ0dH4Lvjwm24PDsKCvcLkt4sCooqiC6Z40jCne5uX1G0P/3OMmI0EN5w5A==}
     engines: {node: '>=18'}
 
   '@noble/curves@1.7.0':
@@ -610,8 +610,8 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
 
-  '@scure/base@1.2.1':
-    resolution: {integrity: sha512-DGmGtC8Tt63J5GfHgfl5CuAXh96VF/LD8K9Hr/Gv0J2lAoRGlPOMpqMpMbCTOoOJMZCk2Xt+DskdDyn6dEFdzQ==}
+  '@scure/base@1.2.4':
+    resolution: {integrity: sha512-5Yy9czTO47mqz+/J8GM6GIId4umdCk1wc1q8rKERQulIoc8VP9pzDcghv10Tl2E7R96ZUx/PhND3ESYUQX8NuQ==}
 
   '@scure/bip32@1.6.0':
     resolution: {integrity: sha512-82q1QfklrUUdXJzjuRU7iG7D7XiFx5PHYVS0+oeNKhyDLT7WPqs6pBcM2W5ZdwOwKCwoE1Vy1se+DHjcXwCYnA==}
@@ -796,12 +796,6 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  base-x@5.0.0:
-    resolution: {integrity: sha512-sMW3VGSX1QWVFA6l8U62MLKz29rRfpTlYdCqLdpLo1/Yd4zZwSbnUaDfciIAowAqvq7YFnWq9hrhdg1KYgc1lQ==}
-
-  bech32@2.0.0:
-    resolution: {integrity: sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg==}
-
   bn.js@5.2.1:
     resolution: {integrity: sha512-eXRvHzWyYPBuB4NBy0cmYQjGitUrtqwbvlzP3G6VFnNRbsZQIxQ10PbKKHt8gZ/HW/D/747aDl+QkDqg3KQLMQ==}
 
@@ -814,9 +808,6 @@ packages:
   braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
-
-  bs58@6.0.0:
-    resolution: {integrity: sha512-PD0wEnEYg6ijszw/u8s+iI3H17cTymlrwkKhDhPZq+Sokl3AU4htyBFTjAeNAlCCmg0f53g6ih3jATyCKftTfw==}
 
   builtin-modules@3.3.0:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
@@ -1439,9 +1430,6 @@ packages:
   jackspeak@4.0.2:
     resolution: {integrity: sha512-bZsjR/iRjl1Nk1UkjGpAzLNfQtzuijhn2g+pbZb98HQ1Gk8vM9hfbxeMBP+M2/UUdwj0RqGG3mlvk2MsAqwvEw==}
     engines: {node: 20 || >=22}
-
-  jose@5.9.6:
-    resolution: {integrity: sha512-AMlnetc9+CV9asI19zHmrgS/WYsWUwCn2R7RzlbJWD7F9eWYUTGyBmU9o6PxngtLGOiDGPRu+Uc4fhKzbpteZQ==}
 
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
@@ -2099,10 +2087,10 @@ snapshots:
       graphql: 16.9.0
       typescript: 5.7.2
 
-  '@cetusprotocol/cetus-sui-clmm-sdk@5.3.0(@mysten/bcs@1.1.1)(@mysten/sui@1.16.0(typescript@5.7.2))':
+  '@cetusprotocol/cetus-sui-clmm-sdk@5.3.0(@mysten/bcs@1.5.0)(@mysten/sui@1.26.0(typescript@5.7.2))':
     dependencies:
-      '@mysten/bcs': 1.1.1
-      '@mysten/sui': 1.16.0(typescript@5.7.2)
+      '@mysten/bcs': 1.5.0
+      '@mysten/sui': 1.26.0(typescript@5.7.2)
       '@suchipi/femver': 1.0.0
       '@syntsugar/cc-graph': 0.1.1
       '@types/bn.js': 5.1.6
@@ -2352,25 +2340,22 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@mysten/bcs@1.1.1':
+  '@mysten/bcs@1.5.0':
     dependencies:
-      bs58: 6.0.0
+      '@scure/base': 1.2.4
 
-  '@mysten/sui@1.16.0(typescript@5.7.2)':
+  '@mysten/sui@1.26.0(typescript@5.7.2)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
-      '@mysten/bcs': 1.1.1
+      '@mysten/bcs': 1.5.0
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.1
+      '@scure/base': 1.2.4
       '@scure/bip32': 1.6.0
       '@scure/bip39': 1.5.0
-      '@suchipi/femver': 1.0.0
-      bech32: 2.0.0
       gql.tada: 1.8.10(graphql@16.9.0)(typescript@5.7.2)
       graphql: 16.9.0
-      jose: 5.9.6
       poseidon-lite: 0.2.1
-      tweetnacl: 1.0.3
       valibot: 0.36.0
     transitivePeerDependencies:
       - '@gql.tada/svelte-support'
@@ -2400,9 +2385,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@polymedia/suitcase-core@0.0.36(@mysten/sui@1.16.0(typescript@5.7.2))':
+  '@polymedia/suitcase-core@0.0.36(@mysten/sui@1.26.0(typescript@5.7.2))':
     dependencies:
-      '@mysten/sui': 1.16.0(typescript@5.7.2)
+      '@mysten/sui': 1.26.0(typescript@5.7.2)
 
   '@rollup/rollup-android-arm-eabi@4.28.0':
     optional: true
@@ -2460,18 +2445,18 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@scure/base@1.2.1': {}
+  '@scure/base@1.2.4': {}
 
   '@scure/bip32@1.6.0':
     dependencies:
       '@noble/curves': 1.7.0
       '@noble/hashes': 1.6.1
-      '@scure/base': 1.2.1
+      '@scure/base': 1.2.4
 
   '@scure/bip39@1.5.0':
     dependencies:
       '@noble/hashes': 1.6.1
-      '@scure/base': 1.2.1
+      '@scure/base': 1.2.4
 
   '@suchipi/femver@1.0.0': {}
 
@@ -2686,10 +2671,6 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  base-x@5.0.0: {}
-
-  bech32@2.0.0: {}
-
   bn.js@5.2.1: {}
 
   brace-expansion@1.1.11:
@@ -2704,10 +2685,6 @@ snapshots:
   braces@3.0.3:
     dependencies:
       fill-range: 7.1.1
-
-  bs58@6.0.0:
-    dependencies:
-      base-x: 5.0.0
 
   builtin-modules@3.3.0: {}
 
@@ -3489,8 +3466,6 @@ snapshots:
   jackspeak@4.0.2:
     dependencies:
       '@isaacs/cliui': 8.0.2
-
-  jose@5.9.6: {}
 
   joycon@3.1.1: {}
 

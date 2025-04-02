@@ -22,7 +22,6 @@ import {
   KeepTokenArgs,
   MemezFunSharedObjects,
   MemezPool,
-  Network,
   ObjectInput,
   Package,
   PumpState,
@@ -41,7 +40,10 @@ export class SDK {
   sharedObjects: MemezFunSharedObjects;
   modules = Modules;
 
-  #network: Network;
+  MAX_BPS = 10_000;
+
+  MAX_U64 = 18446744073709551615n;
+
   #rpcUrl: string;
 
   client: SuiClient;
@@ -69,23 +71,14 @@ export class SDK {
       'You must provide sharedObjects for this specific network'
     );
 
-    invariant(
-      data.network,
-      'You must provide network for this specific network'
-    );
-
-    this.#network = data.network;
     this.#rpcUrl = data.fullNodeUrl;
     this.packages = data.packages;
     this.sharedObjects = data.sharedObjects;
     this.client = new SuiClient({ url: data.fullNodeUrl });
   }
 
-  public networkConfig() {
-    return {
-      rpcUrl: this.#rpcUrl,
-      network: this.#network,
-    };
+  public rpcUrl() {
+    return this.#rpcUrl;
   }
 
   /**

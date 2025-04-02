@@ -1,17 +1,17 @@
-import { MIGRATOR_WITNESSES, OWNED_OBJECTS } from '../../memez';
+import { CONFIG_KEYS, OWNED_OBJECTS } from '../../memez';
 import { configTestnet, executeTx } from '../utils.script';
 
-const migratorWitness = MIGRATOR_WITNESSES.TEST;
+const configurationKey = CONFIG_KEYS.NEXA;
 
 (async () => {
   const { tx, authWitness } = configTestnet.signIn({
     admin: OWNED_OBJECTS.ADMIN,
   });
 
-  const tx2 = configTestnet.addMigrationWitness({
+  const tx2 = configTestnet.allowCustomConfig({
     authWitness,
-    witness: migratorWitness,
     tx,
+    configurationKey,
   });
 
   await executeTx(tx2);

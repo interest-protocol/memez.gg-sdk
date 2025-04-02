@@ -24,6 +24,7 @@ import {
   DumpArgs,
   DumpTokenArgs,
   NewPumpPoolArgs,
+  NewPumpPoolWithConfigArgs,
   PumpArgs,
   PumpTokenArgs,
   QuoteArgs,
@@ -120,6 +121,136 @@ export class MemezPumpSDK extends SDK {
         ),
         this.ownedObject(tx, memeCoinTreasuryCap),
         this.ownedObject(tx, creationSuiFee),
+        tx.pure.u64(totalSupply),
+        tx.pure.bool(useTokenStandard),
+        this.ownedObject(tx, firstPurchase),
+        memezMetadata,
+        tx.pure.vector('address', stakeHolders),
+        tx.pure.address(developer),
+        this.getVersion(tx),
+      ],
+      typeArguments: [
+        normalizeStructTag(memeCoinType),
+        normalizeStructTag(quoteCoinType),
+        normalizeStructTag(configurationKey),
+        normalizeStructTag(migrationWitness),
+      ],
+    });
+
+    return {
+      metadataCap,
+      tx,
+    };
+  }
+
+  /**
+   * Creates a new MemezPool using the Pump invariant.
+   *
+   * @param args - An object containing the necessary arguments to create a new MemezPool.
+   * @param args.tx - Sui client Transaction class to chain move calls.
+   * @param args.creationSuiFee - The Sui fee to use for the creation of the MemezPool.
+   * @param args.memeCoinTreasuryCap - The meme coin treasury cap.
+   * @param args.totalSupply - The total supply of the meme coin.
+   * @param args.devPurchaseData - The developer purchase data object. It includes the developer address and the first purchase in Sui.
+   * @param args.useTokenStandard - Whether to use the token standard for the MemezPool.
+   * @param args.metadata - A record of social metadata of the meme coin.
+   * @param args.configurationKey - The configuration key to use for the MemezPool.
+   * @param args.migrationWitness - The migration witness to use for the MemezPool.
+   * @param args.memeCoinType - The meme coin type to use for the MemezPool.
+   * @param args.quote - The quote type of the meme coin.
+   * @param args.burnTax - The burn tax to use for the MemezPool.
+   * @param args.virtualLiquidity - The virtual liquidity to use for the MemezPool.
+   * @param args.targetQuoteLiquidity - The target quote liquidity to use for the MemezPool.
+   * @param args.liquidityProvision - The liquidity provision to use for the MemezPool.
+   *
+   * @returns An object containing the meme coin MetadataCap and the transaction.
+   * @returns values.metadataCap - The meme coin MetadataCap.
+   * @returns values.tx - The Transaction.
+   */
+  public async newPoolWithConfig({
+    tx = new Transaction(),
+    creationSuiFee = this.zeroSuiCoin(tx),
+    memeCoinTreasuryCap,
+    totalSupply = this.defaultSupply,
+    useTokenStandard = false,
+    devPurchaseData = {
+      developer: normalizeSuiAddress('0x0'),
+      firstPurchase: this.zeroSuiCoin(tx),
+    },
+    metadata = {},
+    configurationKey,
+    migrationWitness,
+    stakeHolders = [],
+    quoteCoinType,
+    burnTax,
+    virtualLiquidity,
+    targetQuoteLiquidity,
+    liquidityProvision,
+  }: NewPumpPoolWithConfigArgs) {
+    invariant(
+      burnTax >= 0 && burnTax <= this.MAX_BPS,
+      'burnTax must be between 0 and 10_000'
+    );
+    invariant(
+      liquidityProvision >= 0 && liquidityProvision <= this.MAX_BPS,
+      'liquidityProvision must be between 0 and 10_000'
+    );
+
+    const { developer, firstPurchase } = devPurchaseData;
+
+    invariant(BigInt(totalSupply) > 0n, 'totalSupply must be greater than 0');
+    invariant(
+      isValidSuiAddress(developer),
+      'developer must be a valid Sui address'
+    );
+
+    invariant(
+      stakeHolders.every((stakeHolder) => isValidSuiAddress(stakeHolder)),
+      'stakeHolders must be a valid Sui address'
+    );
+
+    const { memeCoinType, coinMetadataId } =
+      await this.getCoinMetadataAndType(memeCoinTreasuryCap);
+
+    const memezMetadata = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.METADATA,
+      function: 'new',
+      arguments: [
+        tx.object(coinMetadataId),
+        tx.pure.vector('string', Object.keys(metadata)),
+        tx.pure.vector('string', Object.values(metadata)),
+      ],
+      typeArguments: [normalizeStructTag(memeCoinType)],
+    });
+
+    const pumpConfig = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.PUMP_CONFIG,
+      function: 'new',
+      arguments: [
+        tx.pure.vector('u64', [
+          burnTax,
+          virtualLiquidity,
+          targetQuoteLiquidity,
+          liquidityProvision,
+        ]),
+      ],
+      typeArguments: [normalizeStructTag(quoteCoinType)],
+    });
+
+    const metadataCap = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.PUMP,
+      function: 'new_with_config',
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+        tx.sharedObjectRef(
+          this.sharedObjects.MIGRATOR_LIST({ mutable: false })
+        ),
+        this.ownedObject(tx, memeCoinTreasuryCap),
+        this.ownedObject(tx, creationSuiFee),
+        pumpConfig,
         tx.pure.u64(totalSupply),
         tx.pure.bool(useTokenStandard),
         this.ownedObject(tx, firstPurchase),

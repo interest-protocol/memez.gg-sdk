@@ -4,10 +4,10 @@ import { log, memezPumpTestnet, TEST_POOL_ID } from '../utils.script';
   const r = await memezPumpTestnet.getPumpPool(TEST_POOL_ID);
 
   const marketCap = await getMemeCoinMarketCap({
-    suiBalance: r.curveState.suiBalance,
+    quoteBalance: r.curveState.quoteBalance,
     virtualLiquidity: r.curveState.virtualLiquidity,
     memeBalance: r.curveState.memeBalance,
-    suiUSDCPrice: 5,
+    quoteUSDPrice: 5,
   });
 
   log(marketCap);

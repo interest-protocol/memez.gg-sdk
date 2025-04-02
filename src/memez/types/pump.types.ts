@@ -29,6 +29,13 @@ export interface NewPumpPoolArgs extends MaybeTx {
   quoteCoinType: string | StructTag;
 }
 
+export interface NewPumpPoolWithConfigArgs extends NewPumpPoolArgs {
+  burnTax: number;
+  virtualLiquidity: U64;
+  targetQuoteLiquidity: U64;
+  liquidityProvision: number;
+}
+
 export interface PumpArgs extends MaybeTx {
   pool: string | MemezPool<PumpState>;
   quoteCoin: ObjectInput;

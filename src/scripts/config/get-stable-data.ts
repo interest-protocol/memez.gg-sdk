@@ -5,7 +5,7 @@ import { log, memezPumpTestnet } from '../utils.script';
 
 (async () => {
   const stableData = await memezPumpTestnet.getStableData({
-    configurationKey: CONFIG_KEYS.testnet.DEFAULT,
+    configurationKey: CONFIG_KEYS.DEFAULT,
     totalSupply: 1e9 * 1e9,
     quoteCoinType: SUI_TYPE_ARG,
   });

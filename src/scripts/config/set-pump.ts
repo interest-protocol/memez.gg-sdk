@@ -2,12 +2,11 @@ import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, OWNED_OBJECTS } from '../../memez';
 import { configTestnet, executeTx } from '../utils.script';
-const ownedObjects = OWNED_OBJECTS.testnet;
-const configurationKey = CONFIG_KEYS.testnet.RECRD;
+const configurationKey = CONFIG_KEYS.RECRD;
 
 (async () => {
   const { tx, authWitness } = configTestnet.signIn({
-    admin: ownedObjects.ADMIN,
+    admin: OWNED_OBJECTS.ADMIN,
   });
 
   const tx2 = configTestnet.setPump({

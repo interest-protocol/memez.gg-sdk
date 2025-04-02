@@ -4,7 +4,7 @@ import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
 import { executeTx, keypair, memezStableTestnet } from '../../utils.script';
 
-const configurationKey = CONFIG_KEYS.testnet.DEFAULT;
+const configurationKey = CONFIG_KEYS.DEFAULT;
 
 const TREASURY_CAP =
   '0x973594e084b411a62335182111ab252dc7fa274444f7ad64b2c267903d64a8d4';
@@ -29,7 +29,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     },
     creationSuiFee,
     memeCoinTreasuryCap: TREASURY_CAP,
-    migrationWitness: MIGRATOR_WITNESSES.testnet.TEST,
+    migrationWitness: MIGRATOR_WITNESSES.TEST,
     targetQuoteLiquidity: 3n * 1_000_000_000n,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: true,

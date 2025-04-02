@@ -5,6 +5,7 @@ import { normalizeStructTag } from '@mysten/sui/utils';
 import { SDK } from './sdk';
 import {
   AddMigrationWitnessArgs,
+  AllowCustomConfigArgs,
   RemoveConfigurationArgs,
   RemoveMigrationWitnessArgs,
   SdkConstructorArgs,
@@ -175,6 +176,25 @@ export class ConfigSDK extends SDK {
         normalizeStructTag(configurationKey),
         normalizeStructTag(model),
       ],
+    });
+
+    return tx;
+  }
+
+  public allowCustomConfig({
+    tx = new Transaction(),
+    configurationKey,
+    authWitness,
+  }: AllowCustomConfigArgs) {
+    tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.CONFIG,
+      function: 'allow_custom_config',
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
+        this.ownedObject(tx, authWitness),
+      ],
+      typeArguments: [normalizeStructTag(configurationKey)],
     });
 
     return tx;

@@ -1,8 +1,7 @@
-import { Transaction } from '@mysten/sui/transactions';
+import { coinWithBalance, Transaction } from '@mysten/sui/transactions';
 
 import {
   executeTx,
-  getCoinOfValue,
   keypair,
   memezPumpTestnet,
   TEST_POOL_ID,
@@ -12,11 +11,10 @@ import {
 
   const pool = await memezPumpTestnet.getPumpPool(TEST_POOL_ID);
 
-  const memeCoin = await getCoinOfValue({
-    tx,
-    coinType: pool.memeCoinType,
-    coinValue: 1_000_000_000n,
-  });
+  const memeCoin = coinWithBalance({
+    balance: 1_000_000_000n,
+    type: pool.memeCoinType,
+  })(tx);
 
   const { quoteCoin, tx: tx2 } = await memezPumpTestnet.dump({
     pool: TEST_POOL_ID,

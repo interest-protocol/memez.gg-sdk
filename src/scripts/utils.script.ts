@@ -1,6 +1,6 @@
 import { getFullnodeUrl, SuiClient } from '@mysten/sui/client';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
-import { Transaction, TransactionResult } from '@mysten/sui/transactions';
+import { Transaction } from '@mysten/sui/transactions';
 import dotenv from 'dotenv';
 import invariant from 'tiny-invariant';
 import util from 'util';
@@ -19,10 +19,9 @@ export const keypair = Ed25519Keypair.fromSecretKey(
 );
 
 export const TEST_POOL_ID =
-  '0x80b520a35f46ef8cdc44db5c45ea2b41f50e440612e9f5c5d3a08a999237956a';
+  '0xdee310f359d21cea27f4afd607bc89879c9c5a28185f70ba6ef92536a3b70c39';
 
-export const TEST_STABLE_POOL_ID =
-  '0x03c1e8043e4b8596d02feb4cfecd498ff0028a896aa91b8365e0a0243f96178a';
+export const TEST_STABLE_POOL_ID = '';
 
 export const POW_9 = 10n ** 9n;
 
@@ -61,45 +60,3 @@ export const log = (x: unknown) =>
 
 export const sleep = async (ms = 0) =>
   new Promise((resolve) => setTimeout(resolve, ms));
-
-export function removeLeadingZeros(address: string): string {
-  return (address as any).replaceAll(/0x0+/g, '0x');
-}
-
-interface GetCoinOfValueArgs {
-  tx: Transaction;
-  coinType: string;
-  coinValue: bigint;
-  client?: SuiClient;
-}
-
-export async function getCoinOfValue({
-  tx,
-  coinType,
-  coinValue,
-  client = testnetClient,
-}: GetCoinOfValueArgs): Promise<TransactionResult> {
-  let coinOfValue: TransactionResult;
-  coinType = removeLeadingZeros(coinType);
-  if (coinType === '0x2::sui::SUI') {
-    coinOfValue = tx.splitCoins(tx.gas, [tx.pure.u64(coinValue)]);
-  } else {
-    const paginatedCoins = await client.getCoins({
-      owner: keypair.toSuiAddress(),
-      coinType,
-    });
-
-    const [firstCoin, ...otherCoins] = paginatedCoins.data;
-
-    const firstCoinInput = tx.object(firstCoin.coinObjectId);
-
-    if (otherCoins.length > 0) {
-      tx.mergeCoins(
-        firstCoinInput,
-        otherCoins.map((coin) => coin.coinObjectId)
-      );
-    }
-    coinOfValue = tx.splitCoins(firstCoinInput, [tx.pure.u64(coinValue)]);
-  }
-  return coinOfValue;
-}

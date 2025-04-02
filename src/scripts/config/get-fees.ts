@@ -3,7 +3,7 @@ import { log, memezPumpTestnet } from '../utils.script';
 
 (async () => {
   const fees = await memezPumpTestnet.getFees({
-    configurationKey: CONFIG_KEYS.testnet.DEFAULT,
+    configurationKey: CONFIG_KEYS.DEFAULT,
   });
 
   log(fees);

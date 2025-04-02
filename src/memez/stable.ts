@@ -18,6 +18,7 @@ import {
   DumpTokenArgs,
   MigrateArgs,
   NewStablePoolArgs,
+  NewStablePoolWithConfigArgs,
   PumpArgs,
   PumpTokenArgs,
   QuoteArgs,
@@ -93,6 +94,106 @@ export class MemezStableSDK extends SDK {
         ),
         this.ownedObject(tx, memeCoinTreasuryCap),
         this.ownedObject(tx, creationSuiFee),
+        tx.pure.u64(targetQuoteLiquidity),
+        tx.pure.u64(totalSupply),
+        tx.pure.bool(useTokenStandard),
+        memezMetadata,
+        tx.pure.vector('u64', [developerAllocation, vestingDurationMs]),
+        tx.pure.vector('address', stakeHolders),
+        tx.pure.address(developer),
+        this.getVersion(tx),
+      ],
+      typeArguments: [
+        normalizeStructTag(memeCoinType),
+        normalizeStructTag(quoteCoinType),
+        normalizeStructTag(configurationKey),
+        normalizeStructTag(migrationWitness),
+      ],
+    });
+
+    return {
+      metadataCap,
+      tx,
+    };
+  }
+
+  public async newPoolWithConfig({
+    tx = new Transaction(),
+    configurationKey,
+    migrationWitness,
+    stakeHolders = [],
+    quoteCoinType,
+    developer,
+    developerAllocation = 0n,
+    vestingDurationMs = 0n,
+    memeCoinTreasuryCap,
+    creationSuiFee = this.zeroSuiCoin(tx),
+    targetQuoteLiquidity,
+    totalSupply = this.defaultSupply,
+    useTokenStandard = false,
+    metadata = {},
+    maxTargetQuoteLiquidity = this.MAX_U64,
+    liquidityProvision,
+    memeSalePercentage,
+  }: NewStablePoolWithConfigArgs) {
+    invariant(
+      liquidityProvision >= 0 && liquidityProvision <= this.MAX_BPS,
+      'liquidityProvision must be between 0 and 10_000'
+    );
+    invariant(
+      memeSalePercentage >= 0 && memeSalePercentage <= this.MAX_BPS,
+      'memeSalePercentage must be between 0 and 10_000'
+    );
+
+    invariant(
+      isValidSuiAddress(developer),
+      'developer must be a valid Sui address'
+    );
+
+    invariant(
+      stakeHolders.every((stakeHolder) => isValidSuiAddress(stakeHolder)),
+      'stakeHolders must be a valid Sui address'
+    );
+
+    const { memeCoinType, coinMetadataId } =
+      await this.getCoinMetadataAndType(memeCoinTreasuryCap);
+
+    const memezMetadata = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.METADATA,
+      function: 'new',
+      arguments: [
+        tx.object(coinMetadataId),
+        tx.pure.vector('string', Object.keys(metadata)),
+        tx.pure.vector('string', Object.values(metadata)),
+      ],
+      typeArguments: [normalizeStructTag(memeCoinType)],
+    });
+
+    const stableConfig = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE_CONFIG,
+      function: 'new_with_config',
+      arguments: [
+        tx.pure.u64(maxTargetQuoteLiquidity),
+        tx.pure.u64(liquidityProvision),
+        tx.pure.u64(memeSalePercentage),
+      ],
+      typeArguments: [normalizeStructTag(quoteCoinType)],
+    });
+
+    const metadataCap = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.STABLE,
+      function: 'new',
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+        tx.sharedObjectRef(
+          this.sharedObjects.MIGRATOR_LIST({ mutable: false })
+        ),
+        this.ownedObject(tx, memeCoinTreasuryCap),
+        this.ownedObject(tx, creationSuiFee),
+        stableConfig,
         tx.pure.u64(targetQuoteLiquidity),
         tx.pure.u64(totalSupply),
         tx.pure.bool(useTokenStandard),

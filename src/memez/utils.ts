@@ -19,17 +19,11 @@ import {
   SdkConstructorArgs,
   StableState,
 } from './types/memez.types';
-import { Network } from './types/memez.types';
 
-export const getSdkDefaultArgs = (
-  network = Network.Testnet
-): SdkConstructorArgs => ({
-  packages: PACKAGES[network],
-  fullNodeUrl: getFullnodeUrl(
-    network === Network.Mainnet ? 'mainnet' : 'testnet'
-  ),
-  sharedObjects: SHARED_OBJECTS[network],
-  network,
+export const getSdkDefaultArgs = (): SdkConstructorArgs => ({
+  packages: PACKAGES,
+  fullNodeUrl: getFullnodeUrl('testnet'),
+  sharedObjects: SHARED_OBJECTS,
 });
 
 // USD Price
@@ -37,12 +31,12 @@ export const getMemeCoinMarketCap = ({
   quoteBalance,
   virtualLiquidity,
   memeBalance,
-  quoteUSDCPrice,
+  quoteUSDPrice,
   memeCoinTotalSupply = 1_000_000_000n,
 }: GetMemeCoinMarketCapArgs) => {
   if (
     quoteBalance + virtualLiquidity === 0n ||
-    quoteUSDCPrice == 0 ||
+    quoteUSDPrice == 0 ||
     memeBalance === 0n
   ) {
     return 0;
@@ -51,11 +45,11 @@ export const getMemeCoinMarketCap = ({
   const quoteBalanceDecimal = new Decimal(quoteBalance.toString());
   const virtualLiquidityDecimal = new Decimal(virtualLiquidity.toString());
   const memeBalanceDecimal = new Decimal(memeBalance.toString());
-  const quoteUSDCPriceDecimal = new Decimal(quoteUSDCPrice.toString());
+  const quoteUSDPriceDecimal = new Decimal(quoteUSDPrice.toString());
 
   const memeCoinPrice = quoteBalanceDecimal
     .plus(virtualLiquidityDecimal)
-    .times(quoteUSDCPriceDecimal)
+    .times(quoteUSDPriceDecimal)
     .div(memeBalanceDecimal);
 
   return memeCoinPrice.times(memeCoinTotalSupply.toString()).toNumber();

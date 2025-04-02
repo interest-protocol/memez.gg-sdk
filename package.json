@@ -15,7 +15,7 @@
       "types": "./dist/memez/index.d.ts"
     }
   },
-  "version": "2.4.0",
+  "version": "3.0.0",
   "description": "",
   "publishConfig": {
     "access": "public"
@@ -64,7 +64,8 @@
     "stable:pump-token": "tsx src/scripts/memez/stable/pump-token.ts",
     "stable:dump-token": "tsx src/scripts/memez/stable/dump-token.ts",
     "stable:to-coin": "tsx src/scripts/memez/stable/to-coin.ts",
-    "pump:new-recrd": "tsx src/scripts/memez/pump/new-recrd.ts"
+    "pump:new-with-config": "tsx src/scripts/memez/pump/new-with-config.ts",
+    "allow-custom-config": "tsx src/scripts/config/allow-custom-config.ts"
   },
   "keywords": [],
   "license": "ISC",
@@ -92,7 +93,7 @@
   },
   "dependencies": {
     "@cetusprotocol/cetus-sui-clmm-sdk": "^5.3.0",
-    "@mysten/sui": "^1.16.0",
+    "@mysten/sui": "^1.26.0",
     "@polymedia/suitcase-core": "^0.0.36",
     "ramda": "^0.30.1",
     "tiny-invariant": "^1.3.3"

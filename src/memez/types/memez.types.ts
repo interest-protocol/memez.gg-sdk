@@ -16,11 +16,6 @@ export type ObjectInput = TransactionObjectArgument | string | ObjectRef;
 
 export type U64 = string | bigint | number;
 
-export enum Network {
-  Mainnet = 'mainnet',
-  Testnet = 'testnet',
-}
-
 export type StructTag = {
   address: string;
   module: string;
@@ -42,7 +37,7 @@ export type Package = Record<
   PackageValues & Record<string, string>
 >;
 
-export type MemezFunSharedObjects = (typeof SHARED_OBJECTS)[Network];
+export type MemezFunSharedObjects = typeof SHARED_OBJECTS;
 
 export type OwnedObjects = Record<
   | 'SUPER_ADMIN'
@@ -62,17 +57,14 @@ export interface SdkConstructorArgs {
   fullNodeUrl?: string;
   packages?: Package;
   sharedObjects?: MemezFunSharedObjects;
-  network?: Network;
 }
 
-export type ConfigKey =
-  (typeof CONFIG_KEYS)[Network][keyof (typeof CONFIG_KEYS)[Network]];
+export type ConfigKey = (typeof CONFIG_KEYS)[keyof typeof CONFIG_KEYS];
 
 export type MigratorWitness =
-  (typeof MIGRATOR_WITNESSES)[Network][keyof (typeof MIGRATOR_WITNESSES)[Network]];
+  (typeof MIGRATOR_WITNESSES)[keyof typeof MIGRATOR_WITNESSES];
 
-export type ConfigModel =
-  (typeof CONFIG_MODELS)[Network][keyof (typeof CONFIG_MODELS)[Network]];
+export type ConfigModel = (typeof CONFIG_MODELS)[keyof typeof CONFIG_MODELS];
 
 export interface MemezPool<T> {
   objectId: string;
@@ -211,6 +203,11 @@ export interface RemoveConfigurationArgs extends MaybeTx {
   authWitness: ObjectInput;
 }
 
+export interface AllowCustomConfigArgs extends MaybeTx {
+  configurationKey: ConfigKey;
+  authWitness: ObjectInput;
+}
+
 export interface DevClaimArgs extends MaybeTx {
   pool: string | MemezPool<PumpState>;
 }
@@ -257,7 +254,7 @@ export interface GetMemeCoinMarketCapArgs {
   quoteBalance: bigint;
   virtualLiquidity: bigint;
   memeBalance: bigint;
-  quoteUSDCPrice: number;
+  quoteUSDPrice: number;
   memeCoinTotalSupply?: bigint;
 }
 

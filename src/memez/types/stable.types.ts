@@ -27,6 +27,12 @@ export interface NewStablePoolArgs extends MaybeTx {
   vestingDurationMs: U64;
 }
 
+export interface NewStablePoolWithConfigArgs extends NewStablePoolArgs {
+  maxTargetQuoteLiquidity?: U64;
+  liquidityProvision: number;
+  memeSalePercentage: number;
+}
+
 export interface PumpArgs extends MaybeTx {
   pool: string | MemezPool<StableState>;
   quoteCoin: ObjectInput;
