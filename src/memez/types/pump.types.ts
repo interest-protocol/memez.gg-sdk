@@ -30,14 +30,14 @@ export interface NewPumpPoolArgs extends MaybeTx {
 }
 
 export interface NewPumpPoolWithConfigArgs extends NewPumpPoolArgs {
-  burnTax: number;
+  burnTax?: number;
   virtualLiquidity: U64;
   targetQuoteLiquidity: U64;
   liquidityProvision?: number;
 }
 
 export interface NewUncheckedPumpPoolWithConfigArgs extends NewPumpPoolArgs {
-  burnTax: number;
+  burnTax?: number;
   virtualLiquidity: U64;
   targetQuoteLiquidity: U64;
   liquidityProvision?: number;
