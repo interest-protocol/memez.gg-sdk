@@ -2,22 +2,24 @@ import { Transaction } from '@mysten/sui/transactions';
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
-import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
+import {
+  executeTx,
+  keypair,
+  memezPumpTestnet,
+  testnetClient,
+} from '../../utils.script';
 
 const configurationKey = CONFIG_KEYS.NEXA;
 
 const TREASURY_CAP =
-  '0x0a9de7f42bd24819f43bb0479a918235b3f7c5c82b49370a232634e9c911c7e8';
+  '0xcad74d3f16ed90631aedaa3b197b52051edd82684c23c510ed69b7e7c9c58aa3';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
 (async () => {
   const recipient = keypair.toSuiAddress();
   const tx = new Transaction();
-  const [creationSuiFee, devPurchase] = tx.splitCoins(tx.gas, [
-    tx.pure.u64(30_000_000n),
-    tx.pure.u64(1_000_000_000n),
-  ]);
+
   const { tx: tx2, metadataCap } = await memezPumpTestnet.newPoolWithConfig({
     tx,
     configurationKey,
@@ -27,12 +29,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
       GitHub: 'https://github.com/meme',
       videoUrl: 'https://memez.gg',
     },
-    creationSuiFee,
     memeCoinTreasuryCap: TREASURY_CAP,
-    devPurchaseData: {
-      developer: recipient,
-      firstPurchase: devPurchase,
-    },
     migrationWitness: MIGRATOR_WITNESSES.TEST,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: false,
@@ -43,5 +40,16 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     liquidityProvision: 0,
   });
   tx.transferObjects([metadataCap], tx.pure.address(recipient));
-  await executeTx(tx2);
+
+  tx2.setSender(
+    '0x4a81a450d6cbb3c373c80b542c20523f7eab8c39c346ef521c54526e61d2baa6'
+  );
+
+  const result = await testnetClient.devInspectTransactionBlock({
+    transactionBlock: tx2,
+    sender:
+      '0x4a81a450d6cbb3c373c80b542c20523f7eab8c39c346ef521c54526e61d2baa6',
+  });
+
+  console.log(result);
 })();

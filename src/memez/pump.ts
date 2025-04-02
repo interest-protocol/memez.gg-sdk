@@ -185,7 +185,7 @@ export class MemezPumpSDK extends SDK {
     burnTax,
     virtualLiquidity,
     targetQuoteLiquidity,
-    liquidityProvision,
+    liquidityProvision = 0,
   }: NewPumpPoolWithConfigArgs) {
     invariant(
       burnTax >= 0 && burnTax <= this.MAX_BPS,
