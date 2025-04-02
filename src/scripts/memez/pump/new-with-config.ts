@@ -2,12 +2,7 @@ import { Transaction } from '@mysten/sui/transactions';
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
-import {
-  executeTx,
-  keypair,
-  memezPumpTestnet,
-  testnetClient,
-} from '../../utils.script';
+import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
 
 const configurationKey = CONFIG_KEYS.NEXA;
 
@@ -29,6 +24,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
       GitHub: 'https://github.com/meme',
       videoUrl: 'https://memez.gg',
     },
+
     memeCoinTreasuryCap: TREASURY_CAP,
     migrationWitness: MIGRATOR_WITNESSES.TEST,
     totalSupply: TOTAL_SUPPLY,
@@ -45,11 +41,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     '0x4a81a450d6cbb3c373c80b542c20523f7eab8c39c346ef521c54526e61d2baa6'
   );
 
-  const result = await testnetClient.devInspectTransactionBlock({
-    transactionBlock: tx2,
-    sender:
-      '0x4a81a450d6cbb3c373c80b542c20523f7eab8c39c346ef521c54526e61d2baa6',
-  });
+  const result = await executeTx(tx2);
 
   console.log(result);
 })();

@@ -25,6 +25,7 @@ import {
   DumpTokenArgs,
   NewPumpPoolArgs,
   NewPumpPoolWithConfigArgs,
+  NewUncheckedPumpPoolWithConfigArgs,
   PumpArgs,
   PumpTokenArgs,
   QuoteArgs,
@@ -211,6 +212,111 @@ export class MemezPumpSDK extends SDK {
 
     const { memeCoinType, coinMetadataId } =
       await this.getCoinMetadataAndType(memeCoinTreasuryCap);
+
+    const memezMetadata = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.METADATA,
+      function: 'new',
+      arguments: [
+        tx.object(coinMetadataId),
+        tx.pure.vector('string', Object.keys(metadata)),
+        tx.pure.vector('string', Object.values(metadata)),
+      ],
+      typeArguments: [normalizeStructTag(memeCoinType)],
+    });
+
+    const pumpConfig = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.PUMP_CONFIG,
+      function: 'new',
+      arguments: [
+        tx.pure.vector('u64', [
+          burnTax,
+          virtualLiquidity,
+          targetQuoteLiquidity,
+          liquidityProvision,
+        ]),
+      ],
+      typeArguments: [normalizeStructTag(quoteCoinType)],
+    });
+
+    const metadataCap = tx.moveCall({
+      package: this.packages.MEMEZ_FUN.latest,
+      module: this.modules.PUMP,
+      function: 'new_with_config',
+      arguments: [
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: false })),
+        tx.sharedObjectRef(
+          this.sharedObjects.MIGRATOR_LIST({ mutable: false })
+        ),
+        this.ownedObject(tx, memeCoinTreasuryCap),
+        this.ownedObject(tx, creationSuiFee),
+        pumpConfig,
+        tx.pure.u64(totalSupply),
+        tx.pure.bool(useTokenStandard),
+        this.ownedObject(tx, firstPurchase),
+        memezMetadata,
+        tx.pure.vector('address', stakeHolders),
+        tx.pure.address(developer),
+        this.getVersion(tx),
+      ],
+      typeArguments: [
+        normalizeStructTag(memeCoinType),
+        normalizeStructTag(quoteCoinType),
+        normalizeStructTag(configurationKey),
+        normalizeStructTag(migrationWitness),
+      ],
+    });
+
+    return {
+      metadataCap,
+      tx,
+    };
+  }
+
+  public async newUncheckedPoolWithConfig({
+    tx = new Transaction(),
+    creationSuiFee = this.zeroSuiCoin(tx),
+    memeCoinTreasuryCap,
+    totalSupply = this.defaultSupply,
+    useTokenStandard = false,
+    devPurchaseData = {
+      developer: normalizeSuiAddress('0x0'),
+      firstPurchase: this.zeroSuiCoin(tx),
+    },
+    metadata = {},
+    configurationKey,
+    migrationWitness,
+    stakeHolders = [],
+    quoteCoinType,
+    burnTax,
+    virtualLiquidity,
+    targetQuoteLiquidity,
+    liquidityProvision = 0,
+    coinMetadataId,
+    memeCoinType,
+  }: NewUncheckedPumpPoolWithConfigArgs) {
+    invariant(
+      burnTax >= 0 && burnTax <= this.MAX_BPS,
+      'burnTax must be between 0 and 10_000'
+    );
+    invariant(
+      liquidityProvision >= 0 && liquidityProvision <= this.MAX_BPS,
+      'liquidityProvision must be between 0 and 10_000'
+    );
+
+    const { developer, firstPurchase } = devPurchaseData;
+
+    invariant(BigInt(totalSupply) > 0n, 'totalSupply must be greater than 0');
+    invariant(
+      isValidSuiAddress(developer),
+      'developer must be a valid Sui address'
+    );
+
+    invariant(
+      stakeHolders.every((stakeHolder) => isValidSuiAddress(stakeHolder)),
+      'stakeHolders must be a valid Sui address'
+    );
 
     const memezMetadata = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
