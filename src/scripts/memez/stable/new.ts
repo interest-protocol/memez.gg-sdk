@@ -4,10 +4,10 @@ import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
 import { executeTx, keypair, memezStableTestnet } from '../../utils.script';
 
-const configurationKey = CONFIG_KEYS.DEFAULT;
+const configurationKey = CONFIG_KEYS.MEMEZ;
 
 const TREASURY_CAP =
-  '0x973594e084b411a62335182111ab252dc7fa274444f7ad64b2c267903d64a8d4';
+  '0xda60bae8bced3f309d989c5a6684fefd756221d288d4fab31c1d63242c78206a';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
@@ -15,8 +15,6 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
   const recipient = keypair.toSuiAddress();
 
   const tx = new Transaction();
-
-  const creationSuiFee = tx.splitCoins(tx.gas, [tx.pure.u64(30_000_000n)]);
 
   const { tx: tx2, metadataCap } = await memezStableTestnet.newPool({
     tx,
@@ -27,12 +25,13 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
       GitHub: 'https://github.com/meme',
       videoUrl: 'https://memez.gg',
     },
-    creationSuiFee,
     memeCoinTreasuryCap: TREASURY_CAP,
     migrationWitness: MIGRATOR_WITNESSES.TEST,
     targetQuoteLiquidity: 3n * 1_000_000_000n,
     totalSupply: TOTAL_SUPPLY,
-    useTokenStandard: true,
+    liquidityProvision: 10_000 / 20,
+    memeSalePercentage: 3000,
+    useTokenStandard: false,
     quoteCoinType: SUI_TYPE_ARG,
     developer: recipient,
     developerAllocation: TOTAL_SUPPLY / 100n,

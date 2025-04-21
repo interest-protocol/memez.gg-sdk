@@ -25,10 +25,6 @@ export interface NewStablePoolArgs extends MaybeTx {
   developer: string;
   developerAllocation: U64;
   vestingDurationMs: U64;
-}
-
-export interface NewStablePoolWithConfigArgs extends NewStablePoolArgs {
-  maxTargetQuoteLiquidity?: U64;
   liquidityProvision: number;
   memeSalePercentage: number;
 }
