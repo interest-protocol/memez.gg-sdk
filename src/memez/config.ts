@@ -5,14 +5,12 @@ import { normalizeStructTag } from '@mysten/sui/utils';
 import { SDK } from './sdk';
 import {
   AddMigrationWitnessArgs,
-  AllowCustomConfigArgs,
+  AddQuoteCoinArgs,
   RemoveConfigurationArgs,
   RemoveMigrationWitnessArgs,
+  RemoveQuoteCoinArgs,
   SdkConstructorArgs,
-  SetAuctionArgs,
   SetFeesArgs,
-  SetPumpArgs,
-  SetStableArgs,
 } from './types/memez.types';
 
 export class ConfigSDK extends SDK {
@@ -23,17 +21,21 @@ export class ConfigSDK extends SDK {
   public addMigrationWitness({
     tx = new Transaction(),
     authWitness,
-    witness,
+    configKey,
+    migratorWitness,
   }: AddMigrationWitnessArgs) {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
-      module: this.modules.MIGRATOR_LIST,
-      function: 'add',
+      module: this.modules.CONFIG,
+      function: 'add_migrator_witness',
       arguments: [
-        tx.sharedObjectRef(this.sharedObjects.MIGRATOR_LIST({ mutable: true })),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
       ],
-      typeArguments: [normalizeStructTag(witness)],
+      typeArguments: [
+        normalizeStructTag(configKey),
+        normalizeStructTag(migratorWitness),
+      ],
     });
 
     return tx;
@@ -42,17 +44,21 @@ export class ConfigSDK extends SDK {
   public removeMigrationWitness({
     tx = new Transaction(),
     authWitness,
-    witness,
+    configKey,
+    migratorWitness,
   }: RemoveMigrationWitnessArgs) {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
-      module: this.modules.MIGRATOR_LIST,
-      function: 'remove',
+      module: this.modules.CONFIG,
+      function: 'remove_migrator_witness',
       arguments: [
-        tx.sharedObjectRef(this.sharedObjects.MIGRATOR_LIST({ mutable: true })),
+        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
       ],
-      typeArguments: [normalizeStructTag(witness)],
+      typeArguments: [
+        normalizeStructTag(configKey),
+        normalizeStructTag(migratorWitness),
+      ],
     });
 
     return tx;
@@ -83,75 +89,46 @@ export class ConfigSDK extends SDK {
     return tx;
   }
 
-  public setAuction({
+  public addQuoteCoin({
     tx = new Transaction(),
     authWitness,
-    configurationKey,
+    configKey,
     quoteCoinType,
-    values,
-  }: SetAuctionArgs) {
+  }: AddQuoteCoinArgs) {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
-      function: 'set_auction',
+      function: 'add_quote_coin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
-        tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
       typeArguments: [
+        normalizeStructTag(configKey),
         normalizeStructTag(quoteCoinType),
-        normalizeStructTag(configurationKey),
       ],
     });
 
     return tx;
   }
 
-  public setPump({
+  public removeQuoteCoin({
     tx = new Transaction(),
     authWitness,
-    configurationKey,
-    values,
+    configKey,
     quoteCoinType,
-  }: SetPumpArgs) {
+  }: RemoveQuoteCoinArgs) {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.CONFIG,
-      function: 'set_pump',
+      function: 'remove_quote_coin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
-        tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
       ],
       typeArguments: [
+        normalizeStructTag(configKey),
         normalizeStructTag(quoteCoinType),
-        normalizeStructTag(configurationKey),
-      ],
-    });
-
-    return tx;
-  }
-
-  public setStable({
-    tx = new Transaction(),
-    authWitness,
-    configurationKey,
-    quoteCoinType,
-    values,
-  }: SetStableArgs) {
-    tx.moveCall({
-      package: this.packages.MEMEZ_FUN.latest,
-      module: this.modules.CONFIG,
-      function: 'set_stable',
-      arguments: [
-        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
-        this.ownedObject(tx, authWitness),
-        tx.pure(bcs.vector(bcs.u64()).serialize(values).toBytes()),
-      ],
-      typeArguments: [
-        normalizeStructTag(quoteCoinType),
-        normalizeStructTag(configurationKey),
       ],
     });
 
@@ -160,7 +137,7 @@ export class ConfigSDK extends SDK {
 
   public removeConfiguration({
     tx = new Transaction(),
-    configurationKey,
+    key,
     model,
     authWitness,
   }: RemoveConfigurationArgs) {
@@ -172,29 +149,7 @@ export class ConfigSDK extends SDK {
         tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
         this.ownedObject(tx, authWitness),
       ],
-      typeArguments: [
-        normalizeStructTag(configurationKey),
-        normalizeStructTag(model),
-      ],
-    });
-
-    return tx;
-  }
-
-  public allowCustomConfig({
-    tx = new Transaction(),
-    configurationKey,
-    authWitness,
-  }: AllowCustomConfigArgs) {
-    tx.moveCall({
-      package: this.packages.MEMEZ_FUN.latest,
-      module: this.modules.CONFIG,
-      function: 'allow_custom_config',
-      arguments: [
-        tx.sharedObjectRef(this.sharedObjects.CONFIG({ mutable: true })),
-        this.ownedObject(tx, authWitness),
-      ],
-      typeArguments: [normalizeStructTag(configurationKey)],
+      typeArguments: [normalizeStructTag(key), normalizeStructTag(model)],
     });
 
     return tx;

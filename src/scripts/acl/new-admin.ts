@@ -5,7 +5,7 @@ import { aclTestnet, executeTx, keypair } from '../utils.script';
   const recipient = keypair.toSuiAddress();
 
   const tx = aclTestnet.newAdminAndTransfer({
-    superAdmin: OWNED_OBJECTS.SUPER_ADMIN,
+    superAdmin: OWNED_OBJECTS.MEMEZ_SUPER_ADMIN,
     recipient,
   });
 

@@ -13,7 +13,7 @@ import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import { has, pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
-import { Modules } from './constants';
+import { Modules, PACKAGES } from './constants';
 import { VecMap } from './structs';
 import { MemezFees } from './structs';
 import {
@@ -23,7 +23,6 @@ import {
   MemezFunSharedObjects,
   MemezPool,
   ObjectInput,
-  Package,
   PumpState,
   SdkConstructorArgs,
   SignInArgs,
@@ -36,9 +35,11 @@ const stablePoolCache = new Map<string, MemezPool<StableState>>();
 const metadataCache = new Map<string, Record<string, string>>();
 
 export class SDK {
-  packages: Package;
+  packages: typeof PACKAGES;
   sharedObjects: MemezFunSharedObjects;
   modules = Modules;
+
+  memezOTW: string;
 
   MAX_BPS = 10_000;
 
@@ -75,6 +76,7 @@ export class SDK {
     this.packages = data.packages;
     this.sharedObjects = data.sharedObjects;
     this.client = new SuiClient({ url: data.fullNodeUrl });
+    this.memezOTW = `${PACKAGES.MEMEZ.original}::memez::MEMEZ`;
   }
 
   public rpcUrl() {
@@ -142,13 +144,14 @@ export class SDK {
 
   signIn({ tx = new Transaction(), admin }: SignInArgs) {
     const authWitness = tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
       function: 'sign_in',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: false })),
         this.ownedObject(tx, admin),
       ],
+      typeArguments: [normalizeStructTag(this.memezOTW)],
     });
 
     return {

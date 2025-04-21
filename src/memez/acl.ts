@@ -24,13 +24,14 @@ export class AclSDK extends SDK {
 
   public newAdmin({ tx = new Transaction(), superAdmin }: NewAdminArgs) {
     const admin = tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
-      function: 'new',
+      function: 'new_admin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
       ],
+      typeArguments: [this.memezOTW],
     });
 
     return {
@@ -49,16 +50,18 @@ export class AclSDK extends SDK {
       'recipient must be a valid Sui address'
     );
 
-    tx.moveCall({
-      package: this.packages.ACL.latest,
+    const admin = tx.moveCall({
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
-      function: 'new_and_transfer',
+      function: 'new_admin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
-        tx.pure.address(recipient),
       ],
+      typeArguments: [this.memezOTW],
     });
+
+    tx.transferObjects([admin], recipient);
 
     return tx;
   }
@@ -69,7 +72,7 @@ export class AclSDK extends SDK {
     admin,
   }: RevokeAdminArgs) {
     tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
       function: 'revoke',
       arguments: [
@@ -77,6 +80,7 @@ export class AclSDK extends SDK {
         this.ownedObject(tx, superAdmin),
         tx.pure.address(admin),
       ],
+      typeArguments: [this.memezOTW],
     });
 
     return tx;
@@ -84,13 +88,14 @@ export class AclSDK extends SDK {
 
   public destroyAdmin({ tx = new Transaction(), admin }: DestroyAdminArgs) {
     tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
       function: 'destroy_admin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, admin),
       ],
+      typeArguments: [this.memezOTW],
     });
 
     return tx;
@@ -101,13 +106,14 @@ export class AclSDK extends SDK {
     superAdmin,
   }: DestroySuperAdminArgs) {
     tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
-      function: 'destroy',
+      function: 'destroy_super_admin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: true })),
         this.ownedObject(tx, superAdmin),
       ],
+      typeArguments: [this.memezOTW],
     });
 
     return tx;
@@ -119,10 +125,11 @@ export class AclSDK extends SDK {
     recipient,
   }: StartSuperAdminTransferArgs) {
     tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
       function: 'start_transfer',
       arguments: [this.ownedObject(tx, superAdmin), tx.pure.address(recipient)],
+      typeArguments: [this.memezOTW],
     });
 
     return tx;
@@ -133,10 +140,11 @@ export class AclSDK extends SDK {
     superAdmin,
   }: FinishSuperAdminTransferArgs) {
     tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
       function: 'finish_transfer',
       arguments: [this.ownedObject(tx, superAdmin)],
+      typeArguments: [this.memezOTW],
     });
 
     return tx;
@@ -146,13 +154,14 @@ export class AclSDK extends SDK {
     const tx = new Transaction();
 
     tx.moveCall({
-      package: this.packages.ACL.latest,
+      package: this.packages.INTEREST_ACL.latest,
       module: this.modules.ACL,
       function: 'is_admin',
       arguments: [
         tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: false })),
         tx.pure.address(admin),
       ],
+      typeArguments: [this.memezOTW],
     });
 
     const result = await devInspectAndGetReturnValues(this.client, tx, [

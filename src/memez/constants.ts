@@ -5,12 +5,9 @@ import {
   SUI_TYPE_ARG,
 } from '@mysten/sui/utils';
 
-import { OwnedObjects, Package } from './types/memez.types';
-
 export enum Modules {
   FUN = 'memez_fun',
-  ACL = 'acl',
-  MIGRATOR_LIST = 'memez_migrator_list',
+  ACL = 'access_control',
   PUMP = 'memez_pump',
   CONFIG = 'memez_config',
   VERSION = 'memez_allowed_versions',
@@ -24,9 +21,8 @@ export enum Modules {
 export enum Treasuries {
   RECRD = '0x2',
   MEMEZ = '0x3',
-  WINX = '0x4',
-  NEXA = '0x5',
-  DEXTER = '0x6',
+  NEXA = '0x4',
+  XPUMP = '0x5',
 }
 
 export enum Progress {
@@ -35,32 +31,32 @@ export enum Progress {
   Migrated = 'Migrated',
 }
 
-export const PACKAGES: Package = {
+export const PACKAGES = {
   MEMEZ_FUN: {
     original: normalizeSuiAddress(
-      '0x0d2de7abb5af102967b8bdd0d550fd571da19e563ece6806ebd25692b21b2f8a'
+      '0x646e2bc436448a03b457dc48f6276586dd70838d0adce8f9515d50f64328dea6'
     ),
     latest: normalizeSuiAddress(
-      '0x0d2de7abb5af102967b8bdd0d550fd571da19e563ece6806ebd25692b21b2f8a'
+      '0x646e2bc436448a03b457dc48f6276586dd70838d0adce8f9515d50f64328dea6'
     ),
   },
-  ACL: {
+  MEMEZ: {
     original: normalizeSuiAddress(
-      '0x5d406d0307d260f6ffc01f87960b0c28b8c5c3f0e8e71897b1a924a757232179'
+      '0x1cdc5a945766eadba28f2fff020d8b16eb5336d5892288590a525df1fcdd307f'
     ),
     latest: normalizeSuiAddress(
-      '0x5d406d0307d260f6ffc01f87960b0c28b8c5c3f0e8e71897b1a924a757232179'
+      '0x1cdc5a945766eadba28f2fff020d8b16eb5336d5892288590a525df1fcdd307f'
     ),
   },
   VESTING: {
     original: normalizeSuiAddress(
-      '0xdada5d84429db8d56a775593b2893fc030826055dc84fa47ccdfd4933a63d093'
+      '0xbc838799ce0c571fddb5c650adae05ed141070501558743f2f28d2d3fbede8d6'
     ),
     latest: normalizeSuiAddress(
-      '0xdada5d84429db8d56a775593b2893fc030826055dc84fa47ccdfd4933a63d093'
+      '0xbc838799ce0c571fddb5c650adae05ed141070501558743f2f28d2d3fbede8d6'
     ),
   },
-  MEMEZ_MIGRATOR: {
+  TEST_MEMEZ_MIGRATOR: {
     original: normalizeSuiAddress(
       '0xf66e73ad11ab61164ebc5b581ba05a1ac1be01b8d64e19acabfb0f0572e3251e'
     ),
@@ -76,82 +72,82 @@ export const PACKAGES: Package = {
       '0x6083aeb2d22514d0e849fdde75b60c7d0f857facefb3b2d7d2e975b78d8a0c75'
     ),
   },
+  INTEREST_ACL: {
+    original: normalizeSuiAddress(
+      '0x32ffaa298a6d6528864bf2b32acfcb7976a95e26dcc24e40e2535c0551b9d68a'
+    ),
+    latest: normalizeSuiAddress(
+      '0x32ffaa298a6d6528864bf2b32acfcb7976a95e26dcc24e40e2535c0551b9d68a'
+    ),
+  },
 } as const;
 
-export const OWNED_OBJECTS: OwnedObjects = {
-  SUPER_ADMIN: normalizeSuiObjectId(
-    '0xe3058ee659ef181a8669da12c3368e5b87ac93cb6a66a6a78fe3e812dcb04d15'
-  ),
-  ACL_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x5e56e4dda714c27c1f246c9e570ce0aee4dc25a520e2d6e6931aa7a7b72cdd72'
+export const OWNED_OBJECTS = {
+  MEMEZ_SUPER_ADMIN: normalizeSuiObjectId(
+    '0xa31863b769a961e28f6937563483b7476208f7a9f4b10dd661fc4c5978a7eba8'
   ),
   VESTING_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x5aecaddf8df660e91d7b002a6bea814fdb5ef34f940ae7bc4ac17db817c51bed'
+    '0x91d2da1c0929db3e040d483fbbf5f169ce9b964b07ce3c084efbfcccf74220ec'
   ),
   MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
-    '0xc667d90fed63b6c96ef89b002c5616d8147fc27ab5a3bb1c4c43dc73b4e7f323'
+    '0x749551a71c6dc97e374d77ff872fe6646fe249ab22e55966a4bdb4ab71ea8cc1'
   ),
   MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
     '0x0806f525f06e0fcf0f79baeabcf4c49de2be292b87f59c9fabf59fbf779fe2f4'
   ),
   ADMIN: normalizeSuiObjectId(
-    '0x8998ca48bb71c4df67705a551485e1129fbd542b8e85f2680b5b4d69e237d338'
+    '0xf3083824beecb93d1ed2ebb1cec5bcea80e962291b14c7e7836472db349d25ef'
+  ),
+  MEMEZ_PUBLISHER: normalizeSuiObjectId(
+    '0xa979ae60cc980f79d21503f59542897ccc7269a2e5fac266e0a6ac43066aab64'
+  ),
+  MEMEZ_UPGRADE_CAP: normalizeSuiObjectId(
+    '0x82dcbdd113e3609cdd23e305f957832f1b44522e692ced9d72c60413f10b5bcf'
   ),
 } as const;
 
 export const SHARED_OBJECTS = {
   ACL: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0x1b5397ee2f6f8ccfb26016c1ed996f25b2277acb9ed5173fa0bed386360960d8'
+      '0xdcbc773e0893b6c848d5a6d49cb672b7f7e251312d044d65c2d1675a1debfff8'
     ),
-    initialSharedVersion: '384530228',
-    mutable,
-  }),
-  MIGRATOR_LIST: ({ mutable }: { mutable: boolean }) => ({
-    objectId: normalizeSuiObjectId(
-      '0xe33c39026d61bb05d38bf662fc38d6337048c7a569d1707b3d1477bb1023967c'
-    ),
-    initialSharedVersion: '395367155',
+    initialSharedVersion: '395367186',
     mutable,
   }),
   VERSION: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0xff4bcdce04b9297e57ed9a4e25d79d3fcdc506c4ddf2fb278a93f572209e4c0d'
+      '0x51a8f0e4872ac07208dd4b7c0b33a0b972ddc0d80b0f6c8144f6ac7947516499'
     ),
-    initialSharedVersion: '395367155',
+    initialSharedVersion: '395367188',
     mutable,
   }),
   CONFIG: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0x89a460758f68139433736ca802c8ed54f0f9df70acbda314daab968744d89864'
+      '0x2e8a424acb907e3112701f3987a451d9674fb8340fc5304ad6aa27473222272d'
     ),
-    initialSharedVersion: '395367155',
+    initialSharedVersion: '395367188',
     mutable,
   }),
 } as const;
 
 export const MIGRATOR_WITNESSES = {
-  TEST: `${PACKAGES.MEMEZ_MIGRATOR.original}::dummy::Witness`,
+  TEST: `${PACKAGES.TEST_MEMEZ_MIGRATOR.original}::dummy::Witness`,
+} as const;
+
+export const TYPES = {
+  MEMEZ_OTW: `${PACKAGES.MEMEZ.original}::memez::MEMEZ`,
+  MEMEZ_FEE: `${PACKAGES.MEMEZ_FUN.original}::memez_fees::MemezFees`,
 } as const;
 
 export const CONFIG_KEYS = {
-  DEFAULT: `${PACKAGES.MEMEZ_FUN.original}::memez_config::DefaultKey`,
   RECRD: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Recrd`,
   NEXA: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Nexa`,
   MEMEZ: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Memez`,
 } as const;
 
-export const CONFIG_MODELS = {
-  FEE: `${PACKAGES.MEMEZ_FUN.original}::memez_fees::MemezFees`,
-  PUMP: `${PACKAGES.MEMEZ_FUN.original}::memez_pump_model::PumpModel`,
-  STABLE: `${PACKAGES.MEMEZ_FUN.original}::memez_stable_model::StableModel`,
-  AUCTION: `${PACKAGES.MEMEZ_FUN.original}::memez_auction_model::AuctionModel`,
-} as const;
-
 export const MAX_BPS = 10_000n;
 
 export const CONFIG_QUOTE_COIN_TYPES = {
-  [CONFIG_KEYS.DEFAULT]: normalizeStructTag(SUI_TYPE_ARG),
   [CONFIG_KEYS.RECRD]: normalizeStructTag(SUI_TYPE_ARG),
   [CONFIG_KEYS.NEXA]: normalizeStructTag(SUI_TYPE_ARG),
   [CONFIG_KEYS.MEMEZ]: normalizeStructTag(SUI_TYPE_ARG),

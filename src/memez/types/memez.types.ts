@@ -5,12 +5,8 @@ import {
   TransactionResult,
 } from '@mysten/sui/transactions';
 
-import type {
-  CONFIG_KEYS,
-  CONFIG_MODELS,
-  MIGRATOR_WITNESSES,
-} from '../constants';
-import type { SHARED_OBJECTS } from '../constants';
+import type { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../constants';
+import type { PACKAGES, SHARED_OBJECTS } from '../constants';
 
 export type ObjectInput = TransactionObjectArgument | string | ObjectRef;
 
@@ -32,22 +28,7 @@ export interface PackageValues {
   latest: string;
 }
 
-export type Package = Record<
-  'MEMEZ_FUN' | 'MEMEZ_MIGRATOR' | 'ACL' | 'VESTING' | 'MEMEZ_WITNESS',
-  PackageValues & Record<string, string>
->;
-
 export type MemezFunSharedObjects = typeof SHARED_OBJECTS;
-
-export type OwnedObjects = Record<
-  | 'SUPER_ADMIN'
-  | 'ACL_UPGRADE_CAP'
-  | 'VESTING_UPGRADE_CAP'
-  | 'MEMEZ_FUN_UPGRADE_CAP'
-  | 'MEMEZ_MIGRATOR_UPGRADE_CAP'
-  | 'ADMIN',
-  string
->;
 
 export interface SignInArgs extends MaybeTx {
   admin: ObjectInput;
@@ -55,7 +36,7 @@ export interface SignInArgs extends MaybeTx {
 
 export interface SdkConstructorArgs {
   fullNodeUrl?: string;
-  packages?: Package;
+  packages?: typeof PACKAGES;
   sharedObjects?: MemezFunSharedObjects;
 }
 
@@ -63,8 +44,6 @@ export type ConfigKey = (typeof CONFIG_KEYS)[keyof typeof CONFIG_KEYS];
 
 export type MigratorWitness =
   (typeof MIGRATOR_WITNESSES)[keyof typeof MIGRATOR_WITNESSES];
-
-export type ConfigModel = (typeof CONFIG_MODELS)[keyof typeof CONFIG_MODELS];
 
 export interface MemezPool<T> {
   objectId: string;
@@ -161,12 +140,26 @@ export interface IsAdminArgs {
 
 export interface AddMigrationWitnessArgs extends MaybeTx {
   authWitness: ObjectInput;
-  witness: MigratorWitness;
+  configKey: ConfigKey;
+  migratorWitness: MigratorWitness;
 }
 
 export interface RemoveMigrationWitnessArgs extends MaybeTx {
   authWitness: ObjectInput;
-  witness: MigratorWitness;
+  configKey: ConfigKey;
+  migratorWitness: MigratorWitness;
+}
+
+export interface AddQuoteCoinArgs extends MaybeTx {
+  authWitness: ObjectInput;
+  configKey: ConfigKey;
+  quoteCoinType: string | StructTag;
+}
+
+export interface RemoveQuoteCoinArgs extends MaybeTx {
+  authWitness: ObjectInput;
+  configKey: ConfigKey;
+  quoteCoinType: string | StructTag;
 }
 
 export interface SetFeesArgs extends MaybeTx {
@@ -176,35 +169,9 @@ export interface SetFeesArgs extends MaybeTx {
   recipients: string[][];
 }
 
-export interface SetAuctionArgs extends MaybeTx {
-  authWitness: ObjectInput;
-  configurationKey: ConfigKey;
-  quoteCoinType: string | StructTag;
-  values: U64[];
-}
-
-export interface SetPumpArgs extends MaybeTx {
-  authWitness: ObjectInput;
-  configurationKey: ConfigKey;
-  quoteCoinType: string | StructTag;
-  values: U64[];
-}
-
-export interface SetStableArgs extends MaybeTx {
-  authWitness: ObjectInput;
-  configurationKey: ConfigKey;
-  quoteCoinType: string | StructTag;
-  values: U64[];
-}
-
 export interface RemoveConfigurationArgs extends MaybeTx {
-  configurationKey: ConfigKey;
-  model: ConfigModel;
-  authWitness: ObjectInput;
-}
-
-export interface AllowCustomConfigArgs extends MaybeTx {
-  configurationKey: ConfigKey;
+  key: string;
+  model: string;
   authWitness: ObjectInput;
 }
 

@@ -8,7 +8,7 @@ const migratorWitness = MIGRATOR_WITNESSES.TEST;
     admin: OWNED_OBJECTS.ADMIN,
   });
 
-  const tx2 = configTestnet.addMigrationWitness({
+  const tx2 = configTestnet.removeMigrationWitness({
     authWitness,
     configKey: CONFIG_KEYS.MEMEZ,
     migratorWitness,

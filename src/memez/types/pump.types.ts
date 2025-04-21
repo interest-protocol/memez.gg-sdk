@@ -27,20 +27,13 @@ export interface NewPumpPoolArgs extends MaybeTx {
   migrationWitness: MigratorWitness;
   stakeHolders?: string[];
   quoteCoinType: string | StructTag;
-}
-
-export interface NewPumpPoolWithConfigArgs extends NewPumpPoolArgs {
   burnTax?: number;
   virtualLiquidity: U64;
   targetQuoteLiquidity: U64;
   liquidityProvision?: number;
 }
 
-export interface NewUncheckedPumpPoolWithConfigArgs extends NewPumpPoolArgs {
-  burnTax?: number;
-  virtualLiquidity: U64;
-  targetQuoteLiquidity: U64;
-  liquidityProvision?: number;
+export interface NewUncheckedPumpPoolArgs extends NewPumpPoolArgs {
   coinMetadataId: string;
   memeCoinType: string;
 }

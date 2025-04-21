@@ -1,21 +1,14 @@
 import { bcs, BcsType } from '@mysten/sui/bcs';
-import { fromHex, toHex } from '@mysten/sui/utils';
-
-const Address = bcs.bytes(32).transform({
-  // To change the input type, you need to provide a type definition for the input
-  input: (val: string) => fromHex(val),
-  output: (val) => toHex(val),
-});
 
 export const FeePayload = bcs.struct('FeePayload', {
   value: bcs.u64(),
   percentages: bcs.vector(bcs.u64()),
-  recipients: bcs.vector(Address),
+  recipients: bcs.vector(bcs.Address),
 });
 
 export const MemezFees = bcs.struct('MemezFees', {
-  creatorFee: FeePayload,
-  swapFee: FeePayload,
+  creation: FeePayload,
+  swap: FeePayload,
   migration: FeePayload,
   allocation: FeePayload,
   vesting_periods: bcs.vector(bcs.u64()),

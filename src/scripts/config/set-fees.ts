@@ -3,7 +3,7 @@ import { normalizeSuiAddress } from '@mysten/sui/utils';
 import { CONFIG_KEYS, OWNED_OBJECTS, Treasuries } from '../../memez';
 import { configTestnet, executeTx } from '../utils.script';
 
-const configurationKey = CONFIG_KEYS.NEXA;
+const configurationKey = CONFIG_KEYS.MEMEZ;
 
 (async () => {
   const { tx, authWitness } = configTestnet.signIn({
@@ -11,7 +11,6 @@ const configurationKey = CONFIG_KEYS.NEXA;
   });
 
   const memezTreasury = normalizeSuiAddress(Treasuries.MEMEZ);
-  const nexaTreasury = normalizeSuiAddress('0x8');
 
   const tx2 = configTestnet.setFees({
     authWitness,
@@ -23,14 +22,16 @@ const configurationKey = CONFIG_KEYS.NEXA;
       // last index is the swap fee in bps
       [10_000n, 25n],
       // last index is the migration fee nominal
-      [6_000n, 4_000n, 50n],
+      [10_000n, 50n],
+      // Allow values
       [10_000n, 0n],
-      [0n, 0n, 0n],
+      // Vesting period
+      [0n],
     ],
     recipients: [
       [memezTreasury],
       [memezTreasury],
-      [nexaTreasury, memezTreasury],
+      [memezTreasury],
       [memezTreasury],
     ],
   });
