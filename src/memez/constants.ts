@@ -58,10 +58,10 @@ export const PACKAGES = {
   },
   TEST_MEMEZ_MIGRATOR: {
     original: normalizeSuiAddress(
-      '0xf66e73ad11ab61164ebc5b581ba05a1ac1be01b8d64e19acabfb0f0572e3251e'
+      '0x343ef1c5e36c63903b0a36ee8920476d0151ce22b33ae4f2ebe001535ace48bb'
     ),
     latest: normalizeSuiAddress(
-      '0xf66e73ad11ab61164ebc5b581ba05a1ac1be01b8d64e19acabfb0f0572e3251e'
+      '0x343ef1c5e36c63903b0a36ee8920476d0151ce22b33ae4f2ebe001535ace48bb'
     ),
   },
   MEMEZ_WITNESS: {
@@ -92,8 +92,8 @@ export const OWNED_OBJECTS = {
   MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
     '0x749551a71c6dc97e374d77ff872fe6646fe249ab22e55966a4bdb4ab71ea8cc1'
   ),
-  MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x0806f525f06e0fcf0f79baeabcf4c49de2be292b87f59c9fabf59fbf779fe2f4'
+  TEST_MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
+    '0x123088ffb2395a6a2e8a5873eb3fdec622c6485a4e18e323eee52a949cb757ec'
   ),
   ADMIN: normalizeSuiObjectId(
     '0xf3083824beecb93d1ed2ebb1cec5bcea80e962291b14c7e7836472db349d25ef'

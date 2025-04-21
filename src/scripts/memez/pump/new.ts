@@ -4,20 +4,17 @@ import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
 import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
 
-const configurationKey = CONFIG_KEYS.DEFAULT;
+const configurationKey = CONFIG_KEYS.MEMEZ;
 
 const TREASURY_CAP =
-  '0x9745a47275872b52136973a5d8b760d97e2712ed883098eba036931209584006';
+  '0x71e1cea24d6d4ef555633087c1384f1d0f2a92b8710ed15a74b0d79705a9372b';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
 (async () => {
   const recipient = keypair.toSuiAddress();
   const tx = new Transaction();
-  const [creationSuiFee, devPurchase] = tx.splitCoins(tx.gas, [
-    tx.pure.u64(30_000_000n),
-    tx.pure.u64(1_000_000_000n),
-  ]);
+
   const { tx: tx2, metadataCap } = await memezPumpTestnet.newPool({
     tx,
     configurationKey,
@@ -27,17 +24,21 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
       GitHub: 'https://github.com/meme',
       videoUrl: 'https://memez.gg',
     },
-    creationSuiFee,
+
     memeCoinTreasuryCap: TREASURY_CAP,
-    devPurchaseData: {
-      developer: recipient,
-      firstPurchase: devPurchase,
-    },
     migrationWitness: MIGRATOR_WITNESSES.TEST,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: false,
     quoteCoinType: SUI_TYPE_ARG,
+    burnTax: 0,
+    virtualLiquidity: 5_000_000_000,
+    targetQuoteLiquidity: 3_000_000_000,
+    liquidityProvision: 0,
   });
+
   tx.transferObjects([metadataCap], tx.pure.address(recipient));
-  await executeTx(tx2);
+
+  const result = await executeTx(tx2);
+
+  console.log(result);
 })();

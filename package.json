@@ -37,6 +37,8 @@
     "remove-config": "tsx src/scripts/config/remove-config.ts",
     "set-fees": "tsx src/scripts/config/set-fees.ts",
     "get-fees": "tsx src/scripts/config/get-fees.ts",
+    "add-quote-coin": "tsx src/scripts/config/add-quote-coin.ts",
+    "remove-quote-coin": "tsx src/scripts/config/remove-quote-coin.ts",
     "pump:new": "tsx src/scripts/memez/pump/new.ts",
     "pump:new-token": "tsx src/scripts/memez/pump/new-token.ts",
     "pump:get": "tsx src/scripts/memez/pump/get.ts",
@@ -61,8 +63,7 @@
     "stable:distribute": "tsx src/scripts/memez/stable/distribute.ts",
     "stable:pump-token": "tsx src/scripts/memez/stable/pump-token.ts",
     "stable:dump-token": "tsx src/scripts/memez/stable/dump-token.ts",
-    "stable:to-coin": "tsx src/scripts/memez/stable/to-coin.ts",
-    "pump:new-with-config": "tsx src/scripts/memez/pump/new-with-config.ts"
+    "stable:to-coin": "tsx src/scripts/memez/stable/to-coin.ts"
   },
   "keywords": [],
   "license": "ISC",

@@ -141,10 +141,9 @@ export class MemezPumpSDK extends SDK {
           totalSupply,
         ]),
       ],
-      typeArguments: [normalizeStructTag(quoteCoinType)],
     });
 
-    const metadataCap = tx.moveCall({
+    const [pool, metadataCap] = tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
       function: 'new',
@@ -165,6 +164,16 @@ export class MemezPumpSDK extends SDK {
         normalizeStructTag(quoteCoinType),
         normalizeStructTag(configurationKey),
         normalizeStructTag(migrationWitness),
+      ],
+    });
+
+    tx.moveCall({
+      package: '0x2',
+      module: 'transfer',
+      function: 'public_share_object',
+      arguments: [pool],
+      typeArguments: [
+        `${this.packages.MEMEZ_FUN.original}::memez_fun::MemezFun<${this.packages.MEMEZ_FUN.original}::memez_pump::Pump, ${normalizeStructTag(memeCoinType)},${normalizeStructTag(quoteCoinType)}>`,
       ],
     });
 

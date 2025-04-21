@@ -15,7 +15,7 @@ export class MigratorSDK extends SDK {
     quoteCoinType,
   }: MigratorMigrateArgs) {
     tx.moveCall({
-      package: this.packages.MEMEZ_MIGRATOR.latest,
+      package: this.packages.TEST_MEMEZ_MIGRATOR.latest,
       module: 'dummy',
       function: 'migrate',
       arguments: [migrator],
