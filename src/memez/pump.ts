@@ -652,7 +652,7 @@ export class MemezPumpSDK extends SDK {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
-      function: 'pump_amount',
+      function: 'quote_pump',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
       typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
@@ -700,7 +700,7 @@ export class MemezPumpSDK extends SDK {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.PUMP,
-      function: 'dump_amount',
+      function: 'quote_dump',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
       typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });

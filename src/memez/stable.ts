@@ -115,8 +115,6 @@ export class MemezStableSDK extends SDK {
         this.ownedObject(tx, memeCoinTreasuryCap),
         this.ownedObject(tx, creationSuiFee),
         stableConfig,
-        // TODO: remove once new deployment
-        tx.pure.u64(targetQuoteLiquidity),
         tx.pure.bool(useTokenStandard),
         memezMetadata,
         tx.pure.vector('u64', [developerAllocation, vestingDurationMs]),
@@ -304,7 +302,7 @@ export class MemezStableSDK extends SDK {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.STABLE,
-      function: 'pump_amount',
+      function: 'quote_pump',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
       typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });
@@ -350,7 +348,7 @@ export class MemezStableSDK extends SDK {
     tx.moveCall({
       package: this.packages.MEMEZ_FUN.latest,
       module: this.modules.STABLE,
-      function: 'dump_amount',
+      function: 'quote_dump',
       arguments: [tx.object(pool.objectId), tx.pure.u64(amount)],
       typeArguments: [pool.memeCoinType, pool.quoteCoinType],
     });

@@ -34,18 +34,18 @@ export enum Progress {
 export const PACKAGES = {
   MEMEZ_FUN: {
     original: normalizeSuiAddress(
-      '0x646e2bc436448a03b457dc48f6276586dd70838d0adce8f9515d50f64328dea6'
+      '0x02b03f530b2683f1c3d29a0ef5ea200759c6d5b238b13f69007726aa7f38caef'
     ),
     latest: normalizeSuiAddress(
-      '0x646e2bc436448a03b457dc48f6276586dd70838d0adce8f9515d50f64328dea6'
+      '0x02b03f530b2683f1c3d29a0ef5ea200759c6d5b238b13f69007726aa7f38caef'
     ),
   },
   MEMEZ: {
     original: normalizeSuiAddress(
-      '0x1cdc5a945766eadba28f2fff020d8b16eb5336d5892288590a525df1fcdd307f'
+      '0x17209c541f1a372b811a42eaf95e62cd1eb46127e438f052432bd1c2318bc1c9'
     ),
     latest: normalizeSuiAddress(
-      '0x1cdc5a945766eadba28f2fff020d8b16eb5336d5892288590a525df1fcdd307f'
+      '0x17209c541f1a372b811a42eaf95e62cd1eb46127e438f052432bd1c2318bc1c9'
     ),
   },
   VESTING: {
@@ -58,10 +58,10 @@ export const PACKAGES = {
   },
   TEST_MEMEZ_MIGRATOR: {
     original: normalizeSuiAddress(
-      '0x343ef1c5e36c63903b0a36ee8920476d0151ce22b33ae4f2ebe001535ace48bb'
+      '0x3e9ecca63e287f5216c1575e384fb388426c709cc47b809bd143974522402c4a'
     ),
     latest: normalizeSuiAddress(
-      '0x343ef1c5e36c63903b0a36ee8920476d0151ce22b33ae4f2ebe001535ace48bb'
+      '0x3e9ecca63e287f5216c1575e384fb388426c709cc47b809bd143974522402c4a'
     ),
   },
   MEMEZ_WITNESS: {
@@ -84,48 +84,48 @@ export const PACKAGES = {
 
 export const OWNED_OBJECTS = {
   MEMEZ_SUPER_ADMIN: normalizeSuiObjectId(
-    '0xa31863b769a961e28f6937563483b7476208f7a9f4b10dd661fc4c5978a7eba8'
+    '0x2c1dbc3cd98c3deb1ce5aba8000564211cb8a391bb7707e642baeb08bd52207f'
   ),
   VESTING_UPGRADE_CAP: normalizeSuiObjectId(
     '0x91d2da1c0929db3e040d483fbbf5f169ce9b964b07ce3c084efbfcccf74220ec'
   ),
   MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x749551a71c6dc97e374d77ff872fe6646fe249ab22e55966a4bdb4ab71ea8cc1'
+    '0x7fcfeb495742a263d392701fd120b4eeaa17c9202eaa6c5101ceea6d4000a753'
   ),
   TEST_MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x123088ffb2395a6a2e8a5873eb3fdec622c6485a4e18e323eee52a949cb757ec'
+    '0xeecfd5afa1fdef204febf0358aa6cb824e0bc179e3bbce6e07891d07ed25d306'
   ),
   ADMIN: normalizeSuiObjectId(
-    '0xf3083824beecb93d1ed2ebb1cec5bcea80e962291b14c7e7836472db349d25ef'
+    '0xa47aca8f255e3b88348a768ff0f9031a01bd49eb57592eb72b333327176aaa26'
   ),
   MEMEZ_PUBLISHER: normalizeSuiObjectId(
-    '0xa979ae60cc980f79d21503f59542897ccc7269a2e5fac266e0a6ac43066aab64'
+    '0x97167172ddc539921db1c7443ce30ba2bc5969c3403007e3147fdd3fbe01d54d'
   ),
   MEMEZ_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x82dcbdd113e3609cdd23e305f957832f1b44522e692ced9d72c60413f10b5bcf'
+    '0x43461df272d965d153d50789af15adc03359433e54eb522d0e484630789c16ee'
   ),
 } as const;
 
 export const SHARED_OBJECTS = {
   ACL: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0xdcbc773e0893b6c848d5a6d49cb672b7f7e251312d044d65c2d1675a1debfff8'
+      '0xc8502b2e13ce57165218abaacd36850c7ea70a5ef4c0b80053eb0f6aaf1d338e'
     ),
-    initialSharedVersion: '395367186',
+    initialSharedVersion: '395367236',
     mutable,
   }),
   VERSION: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0x51a8f0e4872ac07208dd4b7c0b33a0b972ddc0d80b0f6c8144f6ac7947516499'
+      '0xc2a2ff11953120cac96dd7cb48fc8e0a02ded5375723f42d32f317c24f7cc358'
     ),
-    initialSharedVersion: '395367188',
+    initialSharedVersion: '395367237',
     mutable,
   }),
   CONFIG: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0x2e8a424acb907e3112701f3987a451d9674fb8340fc5304ad6aa27473222272d'
+      '0x248888f18b69b41d6c41f1e6ee92e1f8d2e1c88b87c9ece6eab708ef5e3e9bde'
     ),
-    initialSharedVersion: '395367188',
+    initialSharedVersion: '395367237',
     mutable,
   }),
 } as const;
@@ -143,6 +143,8 @@ export const CONFIG_KEYS = {
   RECRD: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Recrd`,
   NEXA: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Nexa`,
   MEMEZ: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Memez`,
+  XPUMP:
+    '0x85596cda5cefeba5fb75d7d07f77bbe1166615b1c06b16b895613cadb718b53a::xpump::MemezConfigKey',
 } as const;
 
 export const MAX_BPS = 10_000n;
