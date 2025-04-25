@@ -25,7 +25,6 @@ import {
   ObjectInput,
   PumpState,
   SdkConstructorArgs,
-  SignInArgs,
   StableState,
 } from './types/memez.types';
 import { getSdkDefaultArgs, parsePumpPool, parseStablePool } from './utils';
@@ -139,24 +138,6 @@ export class SDK {
 
     return {
       tx,
-    };
-  }
-
-  signIn({ tx = new Transaction(), admin }: SignInArgs) {
-    const authWitness = tx.moveCall({
-      package: this.packages.INTEREST_ACL.latest,
-      module: this.modules.ACL,
-      function: 'sign_in',
-      arguments: [
-        tx.sharedObjectRef(this.sharedObjects.ACL({ mutable: false })),
-        this.ownedObject(tx, admin),
-      ],
-      typeArguments: [normalizeStructTag(this.memezOTW)],
-    });
-
-    return {
-      tx,
-      authWitness,
     };
   }
 

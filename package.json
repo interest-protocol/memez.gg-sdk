@@ -15,7 +15,7 @@
       "types": "./dist/memez/index.d.ts"
     }
   },
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "",
   "publishConfig": {
     "access": "public"
@@ -91,6 +91,7 @@
   },
   "dependencies": {
     "@cetusprotocol/cetus-sui-clmm-sdk": "^5.3.0",
+    "@interest-protocol/acl-sdk": "2.0.0",
     "@mysten/sui": "^1.26.0",
     "@polymedia/suitcase-core": "^0.0.36",
     "ramda": "^0.30.1",

@@ -1,8 +1,8 @@
 import { CONFIG_KEYS, OWNED_OBJECTS, PACKAGES, TYPES } from '../../memez';
-import { configTestnet, executeTx } from '../utils.script';
+import { aclTestnet, configTestnet, executeTx } from '../utils.script';
 
 (async () => {
-  const { tx, authWitness } = configTestnet.signIn({
+  const { tx, authWitness } = aclTestnet.signIn({
     admin: OWNED_OBJECTS.ADMIN,
   });
 

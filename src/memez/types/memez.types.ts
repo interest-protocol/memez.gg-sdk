@@ -30,10 +30,6 @@ export interface PackageValues {
 
 export type MemezFunSharedObjects = typeof SHARED_OBJECTS;
 
-export interface SignInArgs extends MaybeTx {
-  admin: ObjectInput;
-}
-
 export interface SdkConstructorArgs {
   fullNodeUrl?: string;
   packages?: typeof PACKAGES;
@@ -102,41 +98,6 @@ export interface StableState {
 export type PumpPool = MemezPool<PumpState>;
 
 export type StablePool = MemezPool<StableState>;
-
-export interface NewAdminArgs extends MaybeTx {
-  superAdmin: ObjectInput;
-}
-
-export interface NewAdminAndTransferArgs extends MaybeTx {
-  superAdmin: ObjectInput;
-  recipient: string;
-}
-
-export interface RevokeAdminArgs extends MaybeTx {
-  superAdmin: ObjectInput;
-  admin: string;
-}
-
-export interface DestroyAdminArgs extends MaybeTx {
-  admin: ObjectInput;
-}
-
-export interface DestroySuperAdminArgs extends MaybeTx {
-  superAdmin: ObjectInput;
-}
-
-export interface StartSuperAdminTransferArgs extends MaybeTx {
-  superAdmin: ObjectInput;
-  recipient: string;
-}
-
-export interface FinishSuperAdminTransferArgs extends MaybeTx {
-  superAdmin: ObjectInput;
-}
-
-export interface IsAdminArgs {
-  admin: string;
-}
 
 export interface AddMigrationWitnessArgs extends MaybeTx {
   authWitness: ObjectInput;

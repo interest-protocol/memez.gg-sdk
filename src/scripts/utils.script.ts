@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import invariant from 'tiny-invariant';
 import util from 'util';
 
-import { AclSDK } from '../memez/acl';
+import { makeMemezAclSdk } from '../memez/acl';
 import { ConfigSDK } from '../memez/config';
 import { MemezPumpSDK } from '../memez/pump';
 import { MemezStableSDK } from '../memez/stable';
@@ -28,7 +28,7 @@ export const POW_9 = 10n ** 9n;
 
 export const testnetClient = new SuiClient({ url: getFullnodeUrl('testnet') });
 
-export const aclTestnet = new AclSDK();
+export const aclTestnet = makeMemezAclSdk();
 
 export const configTestnet = new ConfigSDK();
 

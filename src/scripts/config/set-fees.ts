@@ -1,12 +1,12 @@
 import { normalizeSuiAddress } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, OWNED_OBJECTS, Treasuries } from '../../memez';
-import { configTestnet, executeTx } from '../utils.script';
+import { aclTestnet, configTestnet, executeTx } from '../utils.script';
 
 const configurationKey = CONFIG_KEYS.MEMEZ;
 
 (async () => {
-  const { tx, authWitness } = configTestnet.signIn({
+  const { tx, authWitness } = aclTestnet.signIn({
     admin: OWNED_OBJECTS.ADMIN,
   });
 

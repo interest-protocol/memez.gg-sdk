@@ -1,10 +1,10 @@
 import { CONFIG_KEYS, MIGRATOR_WITNESSES, OWNED_OBJECTS } from '../../memez';
-import { configTestnet, executeTx } from '../utils.script';
+import { aclTestnet, configTestnet, executeTx } from '../utils.script';
 
 const migratorWitness = MIGRATOR_WITNESSES.TEST;
 
 (async () => {
-  const { tx, authWitness } = configTestnet.signIn({
+  const { tx, authWitness } = aclTestnet.signIn({
     admin: OWNED_OBJECTS.ADMIN,
   });
 

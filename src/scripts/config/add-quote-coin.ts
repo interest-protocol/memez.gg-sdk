@@ -1,10 +1,10 @@
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { CONFIG_KEYS, OWNED_OBJECTS } from '../../memez';
-import { configTestnet, executeTx } from '../utils.script';
+import { aclTestnet, configTestnet, executeTx } from '../utils.script';
 
 (async () => {
-  const { tx, authWitness } = configTestnet.signIn({
+  const { tx, authWitness } = aclTestnet.signIn({
     admin: OWNED_OBJECTS.ADMIN,
   });
 
