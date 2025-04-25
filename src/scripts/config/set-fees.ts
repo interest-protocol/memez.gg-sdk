@@ -20,6 +20,7 @@ const configurationKey = CONFIG_KEYS.MEMEZ;
       // last index is the creator fee nominal
       [10_000, 0n],
       // last index is the swap fee in bps
+      [10_000n, 0n],
       [10_000n, 25n],
       // last index is the migration fee nominal
       [10_000n, 50n],

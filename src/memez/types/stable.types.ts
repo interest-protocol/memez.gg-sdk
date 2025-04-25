@@ -57,12 +57,14 @@ export interface QuoteArgs {
 export interface QuotePumpReturnValues {
   excessQuoteAmount: bigint;
   memeAmountOut: bigint;
-  swapFeeIn: bigint;
+  quoteFee: bigint;
+  memeFee: bigint;
 }
 
 export interface QuoteDumpReturnValues {
   quoteAmountOut: bigint;
-  swapFeeIn: bigint;
+  quoteFee: bigint;
+  memeFee: bigint;
 }
 
 export interface MigrateArgs extends MaybeTx {

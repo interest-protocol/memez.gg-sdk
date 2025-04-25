@@ -638,7 +638,8 @@ export class MemezPumpSDK extends SDK {
     pool,
     amount,
   }: QuoteArgs): Promise<QuotePumpReturnValues> {
-    if (BigInt(amount) == 0n) return { memeAmountOut: 0n, swapFeeIn: 0n };
+    if (BigInt(amount) == 0n)
+      return { memeAmountOut: 0n, quoteFee: 0n, memeFee: 0n };
     if (typeof pool === 'string') {
       invariant(
         isValidSuiObjectId(pool),
@@ -661,11 +662,11 @@ export class MemezPumpSDK extends SDK {
       [bcs.vector(bcs.u64())],
     ]);
 
-    const [memeAmountOut, swapFeeIn] = result[0][0].map((value: string) =>
-      BigInt(value)
+    const [memeAmountOut, quoteFee, memeFee] = result[0][0].map(
+      (value: string) => BigInt(value)
     );
 
-    return { memeAmountOut, swapFeeIn };
+    return { memeAmountOut, quoteFee, memeFee };
   }
 
   /**
@@ -685,7 +686,7 @@ export class MemezPumpSDK extends SDK {
     amount,
   }: QuoteArgs): Promise<QuoteDumpReturnValues> {
     if (BigInt(amount) == 0n)
-      return { quoteAmountOut: 0n, swapFeeIn: 0n, burnFee: 0n };
+      return { quoteAmountOut: 0n, quoteFee: 0n, memeFee: 0n, burnFee: 0n };
 
     if (typeof pool === 'string') {
       invariant(
@@ -709,11 +710,11 @@ export class MemezPumpSDK extends SDK {
       [bcs.vector(bcs.u64())],
     ]);
 
-    const [quoteAmountOut, swapFeeIn, burnFee] = result[0][0].map(
+    const [quoteAmountOut, memeFee, burnFee, quoteFee] = result[0][0].map(
       (value: string) => BigInt(value)
     );
 
-    return { quoteAmountOut, swapFeeIn, burnFee };
+    return { quoteAmountOut, memeFee, burnFee, quoteFee };
   }
 
   /**

@@ -8,7 +8,8 @@ export const FeePayload = bcs.struct('FeePayload', {
 
 export const MemezFees = bcs.struct('MemezFees', {
   creation: FeePayload,
-  swap: FeePayload,
+  meme_swap: FeePayload,
+  quote_swap: FeePayload,
   migration: FeePayload,
   allocation: FeePayload,
   vesting_periods: bcs.vector(bcs.u64()),

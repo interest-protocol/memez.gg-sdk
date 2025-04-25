@@ -34,10 +34,10 @@ export enum Progress {
 export const PACKAGES = {
   MEMEZ_FUN: {
     original: normalizeSuiAddress(
-      '0x02b03f530b2683f1c3d29a0ef5ea200759c6d5b238b13f69007726aa7f38caef'
+      '0x5c5f30830cf44e4016c8e5e4c71d8f0e5b47a2fb02c56a68c81f9fd8a2151d2b'
     ),
     latest: normalizeSuiAddress(
-      '0x02b03f530b2683f1c3d29a0ef5ea200759c6d5b238b13f69007726aa7f38caef'
+      '0x5c5f30830cf44e4016c8e5e4c71d8f0e5b47a2fb02c56a68c81f9fd8a2151d2b'
     ),
   },
   MEMEZ: {
@@ -58,10 +58,10 @@ export const PACKAGES = {
   },
   TEST_MEMEZ_MIGRATOR: {
     original: normalizeSuiAddress(
-      '0x3e9ecca63e287f5216c1575e384fb388426c709cc47b809bd143974522402c4a'
+      '0xe979915ba93d8cf6a0a4bb5bde74e1d87b06328764c89f54872a4b3319eae038'
     ),
     latest: normalizeSuiAddress(
-      '0x3e9ecca63e287f5216c1575e384fb388426c709cc47b809bd143974522402c4a'
+      '0xe979915ba93d8cf6a0a4bb5bde74e1d87b06328764c89f54872a4b3319eae038'
     ),
   },
   MEMEZ_WITNESS: {
@@ -90,10 +90,10 @@ export const OWNED_OBJECTS = {
     '0x91d2da1c0929db3e040d483fbbf5f169ce9b964b07ce3c084efbfcccf74220ec'
   ),
   MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x7fcfeb495742a263d392701fd120b4eeaa17c9202eaa6c5101ceea6d4000a753'
+    '0x137a3529311ae8f9f3450fff3dee24a6a9f42d03e824fb27d1b399519f481012'
   ),
   TEST_MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
-    '0xeecfd5afa1fdef204febf0358aa6cb824e0bc179e3bbce6e07891d07ed25d306'
+    '0x1ffa8db729e942337ff413546aa120e38954a14c060108a106f2b53c39bcae2b'
   ),
   ADMIN: normalizeSuiObjectId(
     '0xa47aca8f255e3b88348a768ff0f9031a01bd49eb57592eb72b333327176aaa26'
@@ -116,16 +116,16 @@ export const SHARED_OBJECTS = {
   }),
   VERSION: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0xc2a2ff11953120cac96dd7cb48fc8e0a02ded5375723f42d32f317c24f7cc358'
+      '0x6506a91423c4658c3c0f4527ecc5c9d49ac5ee567290db505a3dcdcaf738c657'
     ),
-    initialSharedVersion: '395367237',
+    initialSharedVersion: '395367263',
     mutable,
   }),
   CONFIG: ({ mutable }: { mutable: boolean }) => ({
     objectId: normalizeSuiObjectId(
-      '0x248888f18b69b41d6c41f1e6ee92e1f8d2e1c88b87c9ece6eab708ef5e3e9bde'
+      '0x3ce7d922912bf3427434523a72a99d3f43444e40ab21f46e00f14e8f478886eb'
     ),
-    initialSharedVersion: '395367237',
+    initialSharedVersion: '395367263',
     mutable,
   }),
 } as const;
