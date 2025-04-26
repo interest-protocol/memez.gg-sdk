@@ -144,7 +144,7 @@ export const CONFIG_KEYS = {
   NEXA: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Nexa`,
   MEMEZ: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Memez`,
   XPUMP:
-    '0x85596cda5cefeba5fb75d7d07f77bbe1166615b1c06b16b895613cadb718b53a::xpump::MemezConfigKey',
+    '0x9877fd4cade7740a391e4bb25c81bbe4763a905dd3f26608e9d53e9cd5f14c06::xpump::MemezConfigKey',
 } as const;
 
 export const MAX_BPS = 10_000n;

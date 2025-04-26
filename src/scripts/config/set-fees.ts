@@ -3,7 +3,7 @@ import { normalizeSuiAddress } from '@mysten/sui/utils';
 import { CONFIG_KEYS, OWNED_OBJECTS, Treasuries } from '../../memez';
 import { aclTestnet, configTestnet, executeTx } from '../utils.script';
 
-const configurationKey = CONFIG_KEYS.MEMEZ;
+const configurationKey = CONFIG_KEYS.XPUMP;
 
 (async () => {
   const { tx, authWitness } = aclTestnet.signIn({

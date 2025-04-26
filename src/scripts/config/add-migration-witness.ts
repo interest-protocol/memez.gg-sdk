@@ -10,7 +10,7 @@ const migratorWitness = MIGRATOR_WITNESSES.TEST;
 
   const tx2 = configTestnet.addMigrationWitness({
     authWitness,
-    configKey: CONFIG_KEYS.MEMEZ,
+    configKey: CONFIG_KEYS.XPUMP,
     migratorWitness,
     tx,
   });

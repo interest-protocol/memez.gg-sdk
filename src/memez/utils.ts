@@ -154,7 +154,7 @@ export const parseStablePool = async (
         stateObject
       )
     ),
-    swapFee: +pathOr(
+    memeSwapFee: +pathOr(
       0,
       [
         'data',
@@ -162,7 +162,23 @@ export const parseStablePool = async (
         'fields',
         'fixed_rate',
         'fields',
-        'swap_fee',
+        'meme_swap_fee',
+        'fields',
+        'pos0',
+        'fields',
+        'pos0',
+      ],
+      stateObject
+    ),
+    quoteSwapFee: +pathOr(
+      0,
+      [
+        'data',
+        'content',
+        'fields',
+        'fixed_rate',
+        'fields',
+        'quote_swap_fee',
         'fields',
         'pos0',
         'fields',
@@ -374,7 +390,7 @@ export const parsePumpPool = async (
         stateObject
       )
     ),
-    swapFee: +pathOr(
+    memeSwapFee: +pathOr(
       0,
       [
         'data',
@@ -382,7 +398,23 @@ export const parsePumpPool = async (
         'fields',
         'constant_product',
         'fields',
-        'swap_fee',
+        'meme_swap_fee',
+        'fields',
+        'pos0',
+        'fields',
+        'pos0',
+      ],
+      stateObject
+    ),
+    quoteSwapFee: +pathOr(
+      0,
+      [
+        'data',
+        'content',
+        'fields',
+        'constant_product',
+        'fields',
+        'quote_swap_fee',
         'fields',
         'pos0',
         'fields',

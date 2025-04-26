@@ -77,7 +77,8 @@ export interface PumpState {
   quoteBalance: bigint;
   memeBalance: bigint;
   burnTax: number;
-  swapFee: number;
+  memeSwapFee: number;
+  quoteSwapFee: number;
   allocation: Allocation;
 }
 
@@ -89,7 +90,8 @@ export interface StableState {
   migrationFee: number;
   quoteRaiseAmount: bigint;
   memeSaleAmount: bigint;
-  swapFee: number;
+  memeSwapFee: number;
+  quoteSwapFee: number;
   memeBalance: bigint;
   quoteBalance: bigint;
   allocation: Allocation;

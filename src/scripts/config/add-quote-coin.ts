@@ -10,7 +10,7 @@ import { aclTestnet, configTestnet, executeTx } from '../utils.script';
 
   const tx2 = configTestnet.addQuoteCoin({
     authWitness,
-    configKey: CONFIG_KEYS.MEMEZ,
+    configKey: CONFIG_KEYS.XPUMP,
     quoteCoinType: SUI_TYPE_ARG,
     tx,
   });
