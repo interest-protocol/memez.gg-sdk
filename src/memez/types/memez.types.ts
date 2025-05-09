@@ -5,8 +5,8 @@ import {
   TransactionResult,
 } from '@mysten/sui/transactions';
 
-import type { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../constants';
-import type { PACKAGES, SHARED_OBJECTS } from '../constants';
+import type { CONFIG_KEYS, MIGRATOR_WITNESSES, Network } from '../constants';
+import type { SHARED_OBJECTS } from '../constants';
 
 export type ObjectInput = TransactionObjectArgument | string | ObjectRef;
 
@@ -28,18 +28,18 @@ export interface PackageValues {
   latest: string;
 }
 
-export type MemezFunSharedObjects = typeof SHARED_OBJECTS;
+export type MemezFunSharedObjects = (typeof SHARED_OBJECTS)[Network];
 
 export interface SdkConstructorArgs {
-  fullNodeUrl?: string;
-  packages?: typeof PACKAGES;
-  sharedObjects?: MemezFunSharedObjects;
+  fullNodeUrl: string;
+  network: Network;
 }
 
-export type ConfigKey = (typeof CONFIG_KEYS)[keyof typeof CONFIG_KEYS];
+export type ConfigKey =
+  (typeof CONFIG_KEYS)[Network][keyof (typeof CONFIG_KEYS)[Network]];
 
 export type MigratorWitness =
-  (typeof MIGRATOR_WITNESSES)[keyof typeof MIGRATOR_WITNESSES];
+  (typeof MIGRATOR_WITNESSES)[Network][keyof (typeof MIGRATOR_WITNESSES)[Network]];
 
 export interface MemezPool<T> {
   objectId: string;
@@ -193,4 +193,9 @@ export interface GetPoolMetadataArgs {
   quoteCoinType: string | StructTag;
   memeCoinType: string | StructTag;
   curveType: string | StructTag;
+}
+
+export interface MakeMemezAclSdkArgs {
+  network: Network;
+  fullNodeUrl: string;
 }

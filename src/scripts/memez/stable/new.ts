@@ -1,13 +1,10 @@
 import { Transaction } from '@mysten/sui/transactions';
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
-import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
-import { executeTx, keypair, memezStableTestnet } from '../../utils.script';
-
-const configurationKey = CONFIG_KEYS.MEMEZ;
+import { getEnv, keypair } from '../../utils.script';
 
 const TREASURY_CAP =
-  '0x35174e97103b320b0f259a7e6e81a2384f04135acce52f3483bce52d7a25cb0a';
+  '0xb039c228179ce0d2b0fd51237a1c4cff7b3daeea08a3c739e8f9a579960d2ec2';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
@@ -16,9 +13,12 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
   const tx = new Transaction();
 
-  const { tx: tx2, metadataCap } = await memezStableTestnet.newPool({
+  const { stableSdk, executeTx, configKeys, migratorWitnesses } =
+    await getEnv();
+
+  const { tx: tx2, metadataCap } = await stableSdk.newPool({
     tx,
-    configurationKey,
+    configurationKey: configKeys.MEMEZ,
     metadata: {
       X: 'https://x.com/Meme',
       Website: 'https://meme.xyz/',
@@ -26,7 +26,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
       videoUrl: 'https://memez.gg',
     },
     memeCoinTreasuryCap: TREASURY_CAP,
-    migrationWitness: MIGRATOR_WITNESSES.TEST,
+    migrationWitness: migratorWitnesses.TEST,
     targetQuoteLiquidity: 3n * 1_000_000_000n,
     totalSupply: TOTAL_SUPPLY,
     liquidityProvision: 10_000 / 20,

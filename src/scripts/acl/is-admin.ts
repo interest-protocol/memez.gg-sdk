@@ -1,9 +1,10 @@
-import { OWNED_OBJECTS } from '../../memez';
-import { aclTestnet } from '../utils.script';
+import { getEnv } from '../utils.script';
 
 (async () => {
-  const result = await aclTestnet.isAdmin({
-    admin: OWNED_OBJECTS.ADMIN,
+  const { aclSdk, ownedObjects } = await getEnv();
+
+  const result = await aclSdk.isAdmin({
+    admin: ownedObjects.ADMIN,
   });
 
   console.log(result);

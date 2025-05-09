@@ -1,11 +1,9 @@
-import {
-  executeTx,
-  keypair,
-  memezPumpTestnet,
-  TEST_POOL_ID,
-} from '../../utils.script';
+import { getEnv, keypair, TEST_POOL_ID } from '../../utils.script';
+
 (async () => {
-  const { memeCoin, tx } = await memezPumpTestnet.devClaim({
+  const { pumpSdk, executeTx } = await getEnv();
+
+  const { memeCoin, tx } = await pumpSdk.devClaim({
     pool: TEST_POOL_ID,
   });
 

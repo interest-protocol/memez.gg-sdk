@@ -11,7 +11,7 @@ import {
 import { Decimal } from 'decimal.js';
 import { pathOr } from 'ramda';
 
-import { PACKAGES, SHARED_OBJECTS } from './constants';
+import { Network } from './constants';
 import {
   GetMemeCoinMarketCapArgs,
   MemezPool,
@@ -21,9 +21,8 @@ import {
 } from './types/memez.types';
 
 export const getSdkDefaultArgs = (): SdkConstructorArgs => ({
-  packages: PACKAGES,
-  fullNodeUrl: getFullnodeUrl('testnet'),
-  sharedObjects: SHARED_OBJECTS,
+  network: Network.MAINNET,
+  fullNodeUrl: getFullnodeUrl('mainnet'),
 });
 
 // USD Price

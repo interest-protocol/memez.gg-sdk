@@ -1,21 +1,22 @@
 import { normalizeSuiAddress } from '@mysten/sui/utils';
 
-import { CONFIG_KEYS, OWNED_OBJECTS, Treasuries } from '../../memez';
-import { aclTestnet, configTestnet, executeTx } from '../utils.script';
-
-const configurationKey = CONFIG_KEYS.XPUMP;
+import { Treasuries } from '../../memez';
+import { getEnv } from '../utils.script';
 
 (async () => {
-  const { tx, authWitness } = aclTestnet.signIn({
-    admin: OWNED_OBJECTS.ADMIN,
+  const { aclSdk, configSdk, executeTx, ownedObjects, configKeys } =
+    await getEnv();
+
+  const { tx, authWitness } = aclSdk.signIn({
+    admin: ownedObjects.ADMIN,
   });
 
   const memezTreasury = normalizeSuiAddress(Treasuries.MEMEZ);
 
-  const tx2 = configTestnet.setFees({
+  const tx2 = configSdk.setFees({
     authWitness,
     tx,
-    configurationKey,
+    configurationKey: configKeys.MEMEZ,
     values: [
       // last index is the creator fee nominal
       [10_000, 0n],

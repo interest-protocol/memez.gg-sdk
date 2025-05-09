@@ -1,14 +1,11 @@
-import {
-  executeTx,
-  keypair,
-  memezStableTestnet,
-  TEST_STABLE_POOL_ID,
-} from '../../utils.script';
+import { getEnv, keypair, TEST_STABLE_POOL_ID } from '../../utils.script';
+
 (async () => {
-  const { memezVesting, tx } =
-    await memezStableTestnet.developerAllocationClaim({
-      pool: TEST_STABLE_POOL_ID,
-    });
+  const { stableSdk, executeTx } = await getEnv();
+
+  const { memezVesting, tx } = await stableSdk.developerAllocationClaim({
+    pool: TEST_STABLE_POOL_ID,
+  });
 
   tx.transferObjects([memezVesting], keypair.toSuiAddress());
 

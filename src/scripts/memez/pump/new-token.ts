@@ -1,10 +1,7 @@
 import { Transaction } from '@mysten/sui/transactions';
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
-import { CONFIG_KEYS, MIGRATOR_WITNESSES } from '../../../memez';
-import { executeTx, keypair, memezPumpTestnet } from '../../utils.script';
-
-const configurationKey = CONFIG_KEYS.MEMEZ;
+import { getEnv, keypair } from '../../utils.script';
 
 const TREASURY_CAP =
   '0xe330c077347c3a1fcba412c304ed9fddca5f5da0512edcac8e4705f841c95f6d';
@@ -16,9 +13,11 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
   const tx = new Transaction();
 
-  const { tx: tx2, metadataCap } = await memezPumpTestnet.newPool({
+  const { pumpSdk, executeTx, configKeys, migratorWitnesses } = await getEnv();
+
+  const { tx: tx2, metadataCap } = await pumpSdk.newPool({
     tx,
-    configurationKey,
+    configurationKey: configKeys.MEMEZ,
     metadata: {
       X: 'https://x.com/Meme',
       Website: 'https://meme.xyz/',
@@ -27,7 +26,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     },
 
     memeCoinTreasuryCap: TREASURY_CAP,
-    migrationWitness: MIGRATOR_WITNESSES.TEST,
+    migrationWitness: migratorWitnesses.TEST,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: true,
     quoteCoinType: SUI_TYPE_ARG,

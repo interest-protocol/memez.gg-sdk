@@ -1,7 +1,9 @@
-import { executeTx, memezPumpTestnet, TEST_POOL_ID } from '../../utils.script';
+import { getEnv, TEST_POOL_ID } from '../../utils.script';
 
 (async () => {
-  const { tx } = await memezPumpTestnet.distributeStakeHoldersAllocation({
+  const { pumpSdk, executeTx } = await getEnv();
+
+  const { tx } = await pumpSdk.distributeStakeHoldersAllocation({
     pool: TEST_POOL_ID,
   });
 

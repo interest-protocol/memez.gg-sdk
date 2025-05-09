@@ -1,16 +1,18 @@
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
-import { CONFIG_KEYS, OWNED_OBJECTS } from '../../memez';
-import { aclTestnet, configTestnet, executeTx } from '../utils.script';
+import { getEnv } from '../utils.script';
 
 (async () => {
-  const { tx, authWitness } = aclTestnet.signIn({
-    admin: OWNED_OBJECTS.ADMIN,
+  const { aclSdk, configSdk, executeTx, ownedObjects, configKeys } =
+    await getEnv();
+
+  const { tx, authWitness } = aclSdk.signIn({
+    admin: ownedObjects.ADMIN,
   });
 
-  const tx2 = configTestnet.addQuoteCoin({
+  const tx2 = configSdk.addQuoteCoin({
     authWitness,
-    configKey: CONFIG_KEYS.XPUMP,
+    configKey: configKeys.MEMEZ,
     quoteCoinType: SUI_TYPE_ARG,
     tx,
   });

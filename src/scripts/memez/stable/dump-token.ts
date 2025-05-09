@@ -1,16 +1,13 @@
 import { Transaction } from '@mysten/sui/transactions';
 
-import {
-  executeTx,
-  keypair,
-  memezStableTestnet,
-  TEST_STABLE_POOL_ID,
-} from '../../utils.script';
+import { getEnv, keypair, TEST_STABLE_POOL_ID } from '../../utils.script';
 
 (async () => {
   const tx = new Transaction();
 
-  const { quoteCoin, tx: tx2 } = await memezStableTestnet.dumpToken({
+  const { stableSdk, executeTx } = await getEnv();
+
+  const { quoteCoin, tx: tx2 } = await stableSdk.dumpToken({
     pool: TEST_STABLE_POOL_ID,
     memeToken: '',
     tx,

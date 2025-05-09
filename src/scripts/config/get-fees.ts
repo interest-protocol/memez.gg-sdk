@@ -1,9 +1,10 @@
-import { CONFIG_KEYS } from '../../memez';
-import { log, memezPumpTestnet } from '../utils.script';
+import { getEnv } from '../utils.script';
 
 (async () => {
-  const fees = await memezPumpTestnet.getFees({
-    configurationKey: CONFIG_KEYS.MEMEZ,
+  const { configSdk, configKeys, log } = await getEnv();
+
+  const fees = await configSdk.getFees({
+    configurationKey: configKeys.MEMEZ,
   });
 
   log(fees);

@@ -13,7 +13,7 @@ import { devInspectAndGetReturnValues } from '@polymedia/suitcase-core';
 import { has, pathOr } from 'ramda';
 import invariant from 'tiny-invariant';
 
-import { Modules, PACKAGES } from './constants';
+import { Modules, Network, PACKAGES, SHARED_OBJECTS } from './constants';
 import { VecMap } from './structs';
 import { MemezFees } from './structs';
 import {
@@ -34,7 +34,7 @@ const stablePoolCache = new Map<string, MemezPool<StableState>>();
 const metadataCache = new Map<string, Record<string, string>>();
 
 export class SDK {
-  packages: typeof PACKAGES;
+  packages: (typeof PACKAGES)[Network];
   sharedObjects: MemezFunSharedObjects;
   modules = Modules;
 
@@ -62,20 +62,15 @@ export class SDK {
     );
 
     invariant(
-      data.packages,
-      'You must provide package addresses for this specific network'
-    );
-
-    invariant(
-      data.sharedObjects,
-      'You must provide sharedObjects for this specific network'
+      data.network,
+      'You must provide network for this specific network'
     );
 
     this.#rpcUrl = data.fullNodeUrl;
-    this.packages = data.packages;
-    this.sharedObjects = data.sharedObjects;
+    this.packages = PACKAGES[data.network];
+    this.sharedObjects = SHARED_OBJECTS[data.network];
     this.client = new SuiClient({ url: data.fullNodeUrl });
-    this.memezOTW = `${PACKAGES.MEMEZ.original}::memez::MEMEZ`;
+    this.memezOTW = `${PACKAGES[data.network].MEMEZ.original}::memez::MEMEZ`;
   }
 
   public rpcUrl() {

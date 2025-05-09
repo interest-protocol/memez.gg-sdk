@@ -1,17 +1,23 @@
-import { CONFIG_KEYS, MIGRATOR_WITNESSES, OWNED_OBJECTS } from '../../memez';
-import { aclTestnet, configTestnet, executeTx } from '../utils.script';
-
-const migratorWitness = MIGRATOR_WITNESSES.TEST;
+import { getEnv } from '../utils.script';
 
 (async () => {
-  const { tx, authWitness } = aclTestnet.signIn({
-    admin: OWNED_OBJECTS.ADMIN,
+  const {
+    aclSdk,
+    configSdk,
+    executeTx,
+    migratorWitnesses,
+    ownedObjects,
+    configKeys,
+  } = await getEnv();
+
+  const { tx, authWitness } = aclSdk.signIn({
+    admin: ownedObjects.ADMIN,
   });
 
-  const tx2 = configTestnet.addMigrationWitness({
+  const tx2 = configSdk.addMigrationWitness({
     authWitness,
-    configKey: CONFIG_KEYS.XPUMP,
-    migratorWitness,
+    configKey: configKeys.MEMEZ,
+    migratorWitness: migratorWitnesses.TEST,
     tx,
   });
 

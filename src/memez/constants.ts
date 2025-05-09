@@ -31,126 +31,262 @@ export enum Progress {
   Migrated = 'Migrated',
 }
 
+export enum Network {
+  TESTNET = 'testnet',
+  MAINNET = 'mainnet',
+}
+
 export const PACKAGES = {
-  MEMEZ_FUN: {
-    original: normalizeSuiAddress(
-      '0x5c5f30830cf44e4016c8e5e4c71d8f0e5b47a2fb02c56a68c81f9fd8a2151d2b'
-    ),
-    latest: normalizeSuiAddress(
-      '0x5c5f30830cf44e4016c8e5e4c71d8f0e5b47a2fb02c56a68c81f9fd8a2151d2b'
-    ),
+  [Network.TESTNET]: {
+    MEMEZ_FUN: {
+      original: normalizeSuiAddress(
+        '0xcad2e05e9771c6b1aad35d4f3df42094d5d49effc2a839e34f37ae31dc373fe7'
+      ),
+      latest: normalizeSuiAddress(
+        '0xcad2e05e9771c6b1aad35d4f3df42094d5d49effc2a839e34f37ae31dc373fe7'
+      ),
+    },
+    MEMEZ: {
+      original: normalizeSuiAddress(
+        '0x17209c541f1a372b811a42eaf95e62cd1eb46127e438f052432bd1c2318bc1c9'
+      ),
+      latest: normalizeSuiAddress(
+        '0x17209c541f1a372b811a42eaf95e62cd1eb46127e438f052432bd1c2318bc1c9'
+      ),
+    },
+    VESTING: {
+      original: normalizeSuiAddress(
+        '0xbc838799ce0c571fddb5c650adae05ed141070501558743f2f28d2d3fbede8d6'
+      ),
+      latest: normalizeSuiAddress(
+        '0xbc838799ce0c571fddb5c650adae05ed141070501558743f2f28d2d3fbede8d6'
+      ),
+    },
+    TEST_MEMEZ_MIGRATOR: {
+      original: normalizeSuiAddress(
+        '0x1e15037693e28af09771953ec8179d104fff7a225e5a5d1a65034a3636451026'
+      ),
+      latest: normalizeSuiAddress(
+        '0x1e15037693e28af09771953ec8179d104fff7a225e5a5d1a65034a3636451026'
+      ),
+    },
+    MEMEZ_WITNESS: {
+      original: normalizeSuiAddress(
+        '0x6083aeb2d22514d0e849fdde75b60c7d0f857facefb3b2d7d2e975b78d8a0c75'
+      ),
+      latest: normalizeSuiAddress(
+        '0x6083aeb2d22514d0e849fdde75b60c7d0f857facefb3b2d7d2e975b78d8a0c75'
+      ),
+    },
+    INTEREST_ACL: {
+      original: normalizeSuiAddress(
+        '0x32ffaa298a6d6528864bf2b32acfcb7976a95e26dcc24e40e2535c0551b9d68a'
+      ),
+      latest: normalizeSuiAddress(
+        '0x32ffaa298a6d6528864bf2b32acfcb7976a95e26dcc24e40e2535c0551b9d68a'
+      ),
+    },
   },
-  MEMEZ: {
-    original: normalizeSuiAddress(
-      '0x17209c541f1a372b811a42eaf95e62cd1eb46127e438f052432bd1c2318bc1c9'
-    ),
-    latest: normalizeSuiAddress(
-      '0x17209c541f1a372b811a42eaf95e62cd1eb46127e438f052432bd1c2318bc1c9'
-    ),
-  },
-  VESTING: {
-    original: normalizeSuiAddress(
-      '0xbc838799ce0c571fddb5c650adae05ed141070501558743f2f28d2d3fbede8d6'
-    ),
-    latest: normalizeSuiAddress(
-      '0xbc838799ce0c571fddb5c650adae05ed141070501558743f2f28d2d3fbede8d6'
-    ),
-  },
-  TEST_MEMEZ_MIGRATOR: {
-    original: normalizeSuiAddress(
-      '0xe979915ba93d8cf6a0a4bb5bde74e1d87b06328764c89f54872a4b3319eae038'
-    ),
-    latest: normalizeSuiAddress(
-      '0xe979915ba93d8cf6a0a4bb5bde74e1d87b06328764c89f54872a4b3319eae038'
-    ),
-  },
-  MEMEZ_WITNESS: {
-    original: normalizeSuiAddress(
-      '0x6083aeb2d22514d0e849fdde75b60c7d0f857facefb3b2d7d2e975b78d8a0c75'
-    ),
-    latest: normalizeSuiAddress(
-      '0x6083aeb2d22514d0e849fdde75b60c7d0f857facefb3b2d7d2e975b78d8a0c75'
-    ),
-  },
-  INTEREST_ACL: {
-    original: normalizeSuiAddress(
-      '0x32ffaa298a6d6528864bf2b32acfcb7976a95e26dcc24e40e2535c0551b9d68a'
-    ),
-    latest: normalizeSuiAddress(
-      '0x32ffaa298a6d6528864bf2b32acfcb7976a95e26dcc24e40e2535c0551b9d68a'
-    ),
+  [Network.MAINNET]: {
+    MEMEZ_FUN: {
+      original: normalizeSuiAddress(
+        '0x22804e0f2d5fd6aa41847469c05dec3abfc3a3482483a02db795e951e2396872'
+      ),
+      latest: normalizeSuiAddress(
+        '0x22804e0f2d5fd6aa41847469c05dec3abfc3a3482483a02db795e951e2396872'
+      ),
+    },
+    MEMEZ: {
+      original: normalizeSuiAddress(
+        '0x6101835e1df12852440c3ad3f079130e31702fe201eb1e3b77d141a0c6a58539'
+      ),
+      latest: normalizeSuiAddress(
+        '0x6101835e1df12852440c3ad3f079130e31702fe201eb1e3b77d141a0c6a58539'
+      ),
+    },
+    VESTING: {
+      original: normalizeSuiAddress(
+        '0x1a184ecf7d0652f8f1285a3b0b2e644bf86ae1742317fcdaa9b11a7f3a30bd70'
+      ),
+      latest: normalizeSuiAddress(
+        '0x1a184ecf7d0652f8f1285a3b0b2e644bf86ae1742317fcdaa9b11a7f3a30bd70'
+      ),
+    },
+    TEST_MEMEZ_MIGRATOR: {
+      original: normalizeSuiAddress(
+        '0x4078fe9f8e60191b1ec85d4092b4ec070736dd7c4a3b0c69b1f121c4c6aee910'
+      ),
+      latest: normalizeSuiAddress(
+        '0x4078fe9f8e60191b1ec85d4092b4ec070736dd7c4a3b0c69b1f121c4c6aee910'
+      ),
+    },
+    MEMEZ_WITNESS: {
+      original: normalizeSuiAddress(
+        '0x6e38cc853e404376b1dc969178aee2c81799cf23af7171e74e492f6786db1cbe'
+      ),
+      latest: normalizeSuiAddress(
+        '0x6e38cc853e404376b1dc969178aee2c81799cf23af7171e74e492f6786db1cbe'
+      ),
+    },
+    INTEREST_ACL: {
+      original: normalizeSuiAddress(
+        '0xb877fe150db8e9af55c399b4e49ba8afe658bd05317cb378c940344851125e9a'
+      ),
+      latest: normalizeSuiAddress(
+        '0xb877fe150db8e9af55c399b4e49ba8afe658bd05317cb378c940344851125e9a'
+      ),
+    },
   },
 } as const;
 
 export const OWNED_OBJECTS = {
-  MEMEZ_SUPER_ADMIN: normalizeSuiObjectId(
-    '0x2c1dbc3cd98c3deb1ce5aba8000564211cb8a391bb7707e642baeb08bd52207f'
-  ),
-  VESTING_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x91d2da1c0929db3e040d483fbbf5f169ce9b964b07ce3c084efbfcccf74220ec'
-  ),
-  MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x137a3529311ae8f9f3450fff3dee24a6a9f42d03e824fb27d1b399519f481012'
-  ),
-  TEST_MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x1ffa8db729e942337ff413546aa120e38954a14c060108a106f2b53c39bcae2b'
-  ),
-  ADMIN: normalizeSuiObjectId(
-    '0xa47aca8f255e3b88348a768ff0f9031a01bd49eb57592eb72b333327176aaa26'
-  ),
-  MEMEZ_PUBLISHER: normalizeSuiObjectId(
-    '0x97167172ddc539921db1c7443ce30ba2bc5969c3403007e3147fdd3fbe01d54d'
-  ),
-  MEMEZ_UPGRADE_CAP: normalizeSuiObjectId(
-    '0x43461df272d965d153d50789af15adc03359433e54eb522d0e484630789c16ee'
-  ),
+  [Network.TESTNET]: {
+    MEMEZ_SUPER_ADMIN: normalizeSuiObjectId(
+      '0x2c1dbc3cd98c3deb1ce5aba8000564211cb8a391bb7707e642baeb08bd52207f'
+    ),
+    VESTING_UPGRADE_CAP: normalizeSuiObjectId(
+      '0x91d2da1c0929db3e040d483fbbf5f169ce9b964b07ce3c084efbfcccf74220ec'
+    ),
+    MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
+      '0xe4e9fe91072969688cc1408acd4551ac2f1ad3fbe2f3df84f648c051e1caf70d'
+    ),
+    TEST_MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
+      '0xdd88875fb9a59dc8a82787cdbbe1371ae01275c4f5364990384eb2ff6c7e552f'
+    ),
+    ADMIN: normalizeSuiObjectId(
+      '0xa47aca8f255e3b88348a768ff0f9031a01bd49eb57592eb72b333327176aaa26'
+    ),
+    MEMEZ_PUBLISHER: normalizeSuiObjectId(
+      '0x97167172ddc539921db1c7443ce30ba2bc5969c3403007e3147fdd3fbe01d54d'
+    ),
+    MEMEZ_UPGRADE_CAP: normalizeSuiObjectId(
+      '0x43461df272d965d153d50789af15adc03359433e54eb522d0e484630789c16ee'
+    ),
+  },
+  [Network.MAINNET]: {
+    MEMEZ_SUPER_ADMIN: normalizeSuiObjectId(
+      '0xa1c033361bca6aa5d2c0f24d468d7c165f4cefabe7e25ba9749b5481b095aeb0'
+    ),
+    VESTING_UPGRADE_CAP: normalizeSuiObjectId(
+      '0x0c1c3cf5dea0a302153192fac4d0767c0fa8f21b7724f85290c148c8f1187896'
+    ),
+    MEMEZ_FUN_UPGRADE_CAP: normalizeSuiObjectId(
+      '0x137a3529311ae8f9f3450fff3dee24a6a9f42d03e824fb27d1b399519f481012'
+    ),
+    TEST_MEMEZ_MIGRATOR_UPGRADE_CAP: normalizeSuiObjectId(
+      '0x291d1a741c839a34ed1da1b9b84205388f847076147fa869c8a5cfd5c6949df5'
+    ),
+    ADMIN: normalizeSuiObjectId(
+      '0x3506cac2a7992d04af2521692213b3982e17111d6b2ae00bd9454e335e50c0af'
+    ),
+    MEMEZ_PUBLISHER: normalizeSuiObjectId(
+      '0x68fe5e2a135799de5c53ce3cb82902b187217e81b0e24e9f0f030371f555f872'
+    ),
+    MEMEZ_UPGRADE_CAP: normalizeSuiObjectId(
+      '0xc9f835866b57147f8b7e1f847e2a2a25f29315c200c89cdc4e34f51f5c1f85d6'
+    ),
+  },
 } as const;
 
 export const SHARED_OBJECTS = {
-  ACL: ({ mutable }: { mutable: boolean }) => ({
-    objectId: normalizeSuiObjectId(
-      '0xc8502b2e13ce57165218abaacd36850c7ea70a5ef4c0b80053eb0f6aaf1d338e'
-    ),
-    initialSharedVersion: '395367236',
-    mutable,
-  }),
-  VERSION: ({ mutable }: { mutable: boolean }) => ({
-    objectId: normalizeSuiObjectId(
-      '0x6506a91423c4658c3c0f4527ecc5c9d49ac5ee567290db505a3dcdcaf738c657'
-    ),
-    initialSharedVersion: '395367263',
-    mutable,
-  }),
-  CONFIG: ({ mutable }: { mutable: boolean }) => ({
-    objectId: normalizeSuiObjectId(
-      '0x3ce7d922912bf3427434523a72a99d3f43444e40ab21f46e00f14e8f478886eb'
-    ),
-    initialSharedVersion: '395367263',
-    mutable,
-  }),
+  [Network.TESTNET]: {
+    ACL: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0xc8502b2e13ce57165218abaacd36850c7ea70a5ef4c0b80053eb0f6aaf1d338e'
+      ),
+      initialSharedVersion: '395367236',
+      mutable,
+    }),
+    VERSION: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0x4662e671861a4cb72ee0fe03193e3dd62645465f7cc61ce13422c8384bc8af46'
+      ),
+      initialSharedVersion: '395367301',
+      mutable,
+    }),
+    CONFIG: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0x0c8812c7ab6ae0a900a015c7db0048b20dad072c10faaef4759610a7ada97a73'
+      ),
+      initialSharedVersion: '395367301',
+      mutable,
+    }),
+  },
+  [Network.MAINNET]: {
+    ACL: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0x091bd217c6030076a8a97673e3b9f74e0f48bc3035dcb5d5daaf50a8a2d40b7f'
+      ),
+      initialSharedVersion: '549909164',
+      mutable,
+    }),
+    VERSION: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0x2d44769a013d090adf50842f76030ee68b1672ec6ed7c279e61145b96311d2c6'
+      ),
+      initialSharedVersion: '549909167',
+      mutable,
+    }),
+    CONFIG: ({ mutable }: { mutable: boolean }) => ({
+      objectId: normalizeSuiObjectId(
+        '0xc5c1393287ff3612c2055d2ed9b1e28377835d656d77a959c0097068cabe8bcb'
+      ),
+      initialSharedVersion: '549909167',
+      mutable,
+    }),
+  },
 } as const;
 
 export const MIGRATOR_WITNESSES = {
-  TEST: `${PACKAGES.TEST_MEMEZ_MIGRATOR.original}::dummy::Witness`,
+  [Network.TESTNET]: {
+    TEST: `${PACKAGES[Network.TESTNET].TEST_MEMEZ_MIGRATOR.original}::dummy::Witness`,
+  },
+  [Network.MAINNET]: {
+    TEST: `${PACKAGES[Network.MAINNET].TEST_MEMEZ_MIGRATOR.original}::dummy::Witness`,
+  },
 } as const;
 
 export const TYPES = {
-  MEMEZ_OTW: `${PACKAGES.MEMEZ.original}::memez::MEMEZ`,
-  MEMEZ_FEE: `${PACKAGES.MEMEZ_FUN.original}::memez_fees::MemezFees`,
+  [Network.TESTNET]: {
+    MEMEZ_OTW: `${PACKAGES[Network.TESTNET].MEMEZ.original}::memez::MEMEZ`,
+    MEMEZ_FEE: `${PACKAGES[Network.TESTNET].MEMEZ_FUN.original}::memez_fees::MemezFees`,
+  },
+  [Network.MAINNET]: {
+    MEMEZ_OTW: `${PACKAGES[Network.MAINNET].MEMEZ.original}::memez::MEMEZ`,
+    MEMEZ_FEE: `${PACKAGES[Network.MAINNET].MEMEZ_FUN.original}::memez_fees::MemezFees`,
+  },
 } as const;
 
 export const CONFIG_KEYS = {
-  RECRD: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Recrd`,
-  NEXA: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Nexa`,
-  MEMEZ: `${PACKAGES.MEMEZ_WITNESS.original}::memez_witness::Memez`,
-  XPUMP:
-    '0x9877fd4cade7740a391e4bb25c81bbe4763a905dd3f26608e9d53e9cd5f14c06::xpump::MemezConfigKey',
+  [Network.TESTNET]: {
+    RECRD: `${PACKAGES[Network.TESTNET].MEMEZ_WITNESS.original}::memez_witness::Recrd`,
+    NEXA: `${PACKAGES[Network.TESTNET].MEMEZ_WITNESS.original}::memez_witness::Nexa`,
+    MEMEZ: `${PACKAGES[Network.TESTNET].MEMEZ_WITNESS.original}::memez_witness::Memez`,
+    XPUMP:
+      '0x9877fd4cade7740a391e4bb25c81bbe4763a905dd3f26608e9d53e9cd5f14c06::xpump::MemezConfigKey',
+  },
+  [Network.MAINNET]: {
+    RECRD: `${PACKAGES[Network.MAINNET].MEMEZ_WITNESS.original}::memez_witness::Recrd`,
+    NEXA: `${PACKAGES[Network.MAINNET].MEMEZ_WITNESS.original}::memez_witness::Nexa`,
+    MEMEZ: `${PACKAGES[Network.MAINNET].MEMEZ_WITNESS.original}::memez_witness::Memez`,
+    XPUMP:
+      '0x9877fd4cade7740a391e4bb25c81bbe4763a905dd3f26608e9d53e9cd5f14c06::xpump::MemezConfigKey',
+  },
 } as const;
 
 export const MAX_BPS = 10_000n;
 
 export const CONFIG_QUOTE_COIN_TYPES = {
-  [CONFIG_KEYS.RECRD]: normalizeStructTag(SUI_TYPE_ARG),
-  [CONFIG_KEYS.NEXA]: normalizeStructTag(SUI_TYPE_ARG),
-  [CONFIG_KEYS.MEMEZ]: normalizeStructTag(SUI_TYPE_ARG),
+  [Network.TESTNET]: {
+    [CONFIG_KEYS[Network.TESTNET].RECRD]: normalizeStructTag(SUI_TYPE_ARG),
+    [CONFIG_KEYS[Network.TESTNET].NEXA]: normalizeStructTag(SUI_TYPE_ARG),
+    [CONFIG_KEYS[Network.TESTNET].MEMEZ]: normalizeStructTag(SUI_TYPE_ARG),
+    [CONFIG_KEYS[Network.TESTNET].XPUMP]: normalizeStructTag(SUI_TYPE_ARG),
+  },
+  [Network.MAINNET]: {
+    [CONFIG_KEYS[Network.MAINNET].RECRD]: normalizeStructTag(SUI_TYPE_ARG),
+    [CONFIG_KEYS[Network.MAINNET].NEXA]: normalizeStructTag(SUI_TYPE_ARG),
+    [CONFIG_KEYS[Network.MAINNET].MEMEZ]: normalizeStructTag(SUI_TYPE_ARG),
+    [CONFIG_KEYS[Network.MAINNET].XPUMP]: normalizeStructTag(SUI_TYPE_ARG),
+  },
 } as const;

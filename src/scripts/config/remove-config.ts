@@ -1,15 +1,24 @@
-import { CONFIG_KEYS, OWNED_OBJECTS, PACKAGES, TYPES } from '../../memez';
-import { aclTestnet, configTestnet, executeTx } from '../utils.script';
+import { getEnv } from '../utils.script';
 
 (async () => {
-  const { tx, authWitness } = aclTestnet.signIn({
-    admin: OWNED_OBJECTS.ADMIN,
+  const {
+    aclSdk,
+    configSdk,
+    executeTx,
+    ownedObjects,
+    configKeys,
+    types,
+    packages,
+  } = await getEnv();
+
+  const { tx, authWitness } = aclSdk.signIn({
+    admin: ownedObjects.ADMIN,
   });
 
-  const tx2 = configTestnet.removeConfiguration({
+  const tx2 = configSdk.removeConfiguration({
     authWitness,
-    key: `${PACKAGES.MEMEZ_FUN.original}::memez_config::FeesKey<${CONFIG_KEYS.MEMEZ}>`,
-    model: TYPES.MEMEZ_FEE,
+    key: `${packages.MEMEZ_FUN.original}::memez_config::FeesKey<${configKeys.MEMEZ}>`,
+    model: types.MEMEZ_FEE,
     tx,
   });
 

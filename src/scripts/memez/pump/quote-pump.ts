@@ -1,7 +1,9 @@
-import { memezPumpTestnet, POW_9, TEST_POOL_ID } from '../../utils.script';
+import { getEnv, POW_9, TEST_POOL_ID } from '../../utils.script';
 
 (async () => {
-  const x = await memezPumpTestnet.quotePump({
+  const { pumpSdk } = await getEnv();
+
+  const x = await pumpSdk.quotePump({
     pool: TEST_POOL_ID,
     amount: 15n * POW_9,
   });

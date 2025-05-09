@@ -1,11 +1,9 @@
-import {
-  memezStableTestnet,
-  POW_9,
-  TEST_STABLE_POOL_ID,
-} from '../../utils.script';
+import { getEnv, POW_9, TEST_STABLE_POOL_ID } from '../../utils.script';
 
 (async () => {
-  const x = await memezStableTestnet.quotePump({
+  const { stableSdk } = await getEnv();
+
+  const x = await stableSdk.quotePump({
     pool: TEST_STABLE_POOL_ID,
     amount: 20n * POW_9,
   });

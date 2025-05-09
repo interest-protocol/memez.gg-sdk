@@ -1,20 +1,15 @@
-import { MigratorSDK } from '../../../memez/migrator';
-import {
-  executeTx,
-  memezStableTestnet,
-  TEST_STABLE_POOL_ID,
-} from '../../utils.script';
+import { getEnv, TEST_STABLE_POOL_ID } from '../../utils.script';
 
 (async () => {
-  const { tx, migrator } = await memezStableTestnet.migrate({
+  const { stableSdk, executeTx, migratorSdk } = await getEnv();
+
+  const { tx, migrator } = await stableSdk.migrate({
     pool: TEST_STABLE_POOL_ID,
   });
 
-  const pool = await memezStableTestnet.getStablePool(TEST_STABLE_POOL_ID);
+  const pool = await stableSdk.getStablePool(TEST_STABLE_POOL_ID);
 
-  const migratorSDK = new MigratorSDK();
-
-  const { tx: tx2 } = migratorSDK.migrate({
+  const { tx: tx2 } = migratorSdk.migrate({
     tx,
     migrator,
     memeCoinType: pool.memeCoinType,

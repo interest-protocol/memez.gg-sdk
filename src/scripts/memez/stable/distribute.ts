@@ -1,11 +1,9 @@
-import {
-  executeTx,
-  memezStableTestnet,
-  TEST_STABLE_POOL_ID,
-} from '../../utils.script';
+import { getEnv, TEST_STABLE_POOL_ID } from '../../utils.script';
 
 (async () => {
-  const { tx } = await memezStableTestnet.distributeStakeHoldersAllocation({
+  const { stableSdk, executeTx } = await getEnv();
+
+  const { tx } = await stableSdk.distributeStakeHoldersAllocation({
     pool: TEST_STABLE_POOL_ID,
   });
 
