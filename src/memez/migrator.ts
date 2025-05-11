@@ -1,13 +1,21 @@
 import { Transaction } from '@mysten/sui/transactions';
+import { isValidSuiAddress } from '@mysten/sui/utils';
 import invariant from 'tiny-invariant';
 
+import { CETUS_GLOBAL_CONFIG, CETUS_POOLS } from './constants';
 import { SDK } from './sdk';
-import { MigratorMigrateArgs, SdkConstructorArgs } from './types/memez.types';
 import {
+  SdkConstructorArgs,
+  TestMigratorMigrateArgs,
+} from './types/memez.types';
+import {
+  RecrdMigrateArgs,
+  RecrdRegisterPoolArgs,
   RecrdSetInitializePriceArgs,
   RecrdSetRewardValueArgs,
   RecrdSetTreasuryArgs,
 } from './types/migrators.types';
+
 export class TestMigratorSDK extends SDK {
   constructor(args: SdkConstructorArgs | undefined | null = null) {
     super(args);
@@ -18,7 +26,7 @@ export class TestMigratorSDK extends SDK {
     migrator,
     memeCoinType,
     quoteCoinType,
-  }: MigratorMigrateArgs) {
+  }: TestMigratorMigrateArgs) {
     tx.moveCall({
       package: this.packages.TEST_MEMEZ_MIGRATOR.latest,
       module: 'dummy',
@@ -56,25 +64,6 @@ export class RecrdMigratorSDK extends SDK {
 
   constructor(args: SdkConstructorArgs | undefined | null = null) {
     super(args);
-  }
-
-  public migrate({
-    tx = new Transaction(),
-    migrator,
-    memeCoinType,
-    quoteCoinType,
-  }: MigratorMigrateArgs) {
-    tx.moveCall({
-      package: this.packages.TEST_MEMEZ_MIGRATOR.latest,
-      module: 'dummy',
-      function: 'migrate',
-      arguments: [migrator],
-      typeArguments: [memeCoinType, quoteCoinType],
-    });
-
-    return {
-      tx,
-    };
   }
 
   public setRewardValue({
@@ -148,6 +137,102 @@ export class RecrdMigratorSDK extends SDK {
 
     return {
       tx,
+    };
+  }
+
+  public async registerPool({
+    tx = new Transaction(),
+    memeCoinTreasuryCap,
+  }: RecrdRegisterPoolArgs) {
+    invariant(
+      isValidSuiAddress(memeCoinTreasuryCap),
+      'Invalid meme coin treasury cap'
+    );
+
+    const { memeCoinType } =
+      await this.getCoinMetadataAndType(memeCoinTreasuryCap);
+
+    tx.moveCall({
+      package: this.packageId,
+      module: this.module,
+      function: 'register_pool',
+      arguments: [
+        tx.sharedObjectRef({
+          objectId: this.recrdConfig.objectId,
+          mutable: true,
+          initialSharedVersion: this.recrdConfig.initialSharedVersion,
+        }),
+        tx.sharedObjectRef({
+          objectId: CETUS_GLOBAL_CONFIG.objectId,
+          mutable: false,
+          initialSharedVersion: CETUS_GLOBAL_CONFIG.initialSharedVersion,
+        }),
+        tx.sharedObjectRef({
+          objectId: CETUS_POOLS.objectId,
+          mutable: true,
+          initialSharedVersion: CETUS_POOLS.initialSharedVersion,
+        }),
+        this.ownedObject(tx, memeCoinTreasuryCap),
+      ],
+      typeArguments: [memeCoinType],
+    });
+
+    return {
+      tx,
+    };
+  }
+
+  public async migrate({
+    tx = new Transaction(),
+    migrator,
+    memeCoinType,
+    quoteCoinType,
+    ipxMemeCoinTreasury,
+  }: RecrdMigrateArgs) {
+    const quoteCoinMetadata = await this.client.getCoinMetadata({
+      coinType: quoteCoinType,
+    });
+
+    invariant(quoteCoinMetadata?.id, 'Invalid quote coin metadata');
+
+    const memeCoinMetadata = await this.client.getCoinMetadata({
+      coinType: memeCoinType,
+    });
+
+    invariant(memeCoinMetadata?.id, 'Invalid meme coin metadata');
+
+    const suiCoin = tx.moveCall({
+      package: this.packageId,
+      module: this.module,
+      function: 'migrate',
+      arguments: [
+        tx.sharedObjectRef({
+          objectId: this.recrdConfig.objectId,
+          mutable: true,
+          initialSharedVersion: this.recrdConfig.initialSharedVersion,
+        }),
+        tx.object.clock(),
+        tx.object(ipxMemeCoinTreasury),
+        tx.sharedObjectRef({
+          objectId: CETUS_GLOBAL_CONFIG.objectId,
+          mutable: false,
+          initialSharedVersion: CETUS_GLOBAL_CONFIG.initialSharedVersion,
+        }),
+        tx.sharedObjectRef({
+          objectId: CETUS_POOLS.objectId,
+          mutable: true,
+          initialSharedVersion: CETUS_POOLS.initialSharedVersion,
+        }),
+        tx.object(quoteCoinMetadata.id),
+        tx.object(memeCoinMetadata.id),
+        migrator,
+      ],
+      typeArguments: [memeCoinType],
+    });
+
+    return {
+      tx,
+      suiCoin,
     };
   }
 }

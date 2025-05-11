@@ -101,5 +101,6 @@ export const getEnv = async () => {
     types: TYPES[network],
     configKeys: CONFIG_KEYS[network],
     packages: PACKAGES[network],
+    keypair,
   };
 };

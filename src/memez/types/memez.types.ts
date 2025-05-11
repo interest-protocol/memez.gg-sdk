@@ -146,7 +146,7 @@ export interface MigrateArgs extends MaybeTx {
   pool: string | MemezPool<PumpState>;
 }
 
-export interface MigratorMigrateArgs extends MaybeTx {
+export interface TestMigratorMigrateArgs extends MaybeTx {
   migrator: TransactionResult;
   memeCoinType: string;
   quoteCoinType: string;
