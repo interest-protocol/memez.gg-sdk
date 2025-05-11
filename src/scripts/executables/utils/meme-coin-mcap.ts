@@ -1,5 +1,5 @@
-import { getMemeCoinMarketCap } from '../../memez/utils';
-import { getEnv, TEST_POOL_ID } from '../utils.script';
+import { getMemeCoinMarketCap } from '../../../memez/utils';
+import { getEnv, TEST_POOL_ID } from '../../utils.script';
 
 (async () => {
   const { pumpSdk, log } = await getEnv();

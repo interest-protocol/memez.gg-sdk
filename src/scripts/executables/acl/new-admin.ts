@@ -1,4 +1,4 @@
-import { getEnv, keypair } from '../utils.script';
+import { getEnv, keypair } from '../../utils.script';
 
 (async () => {
   const recipient = keypair.toSuiAddress();

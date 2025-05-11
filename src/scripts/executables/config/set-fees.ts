@@ -1,7 +1,7 @@
 import { normalizeSuiAddress } from '@mysten/sui/utils';
 
-import { Treasuries } from '../../memez';
-import { getEnv } from '../utils.script';
+import { Treasuries } from '../../../memez';
+import { getEnv } from '../../utils.script';
 
 (async () => {
   const { aclSdk, configSdk, executeTx, ownedObjects, configKeys } =
@@ -12,6 +12,7 @@ import { getEnv } from '../utils.script';
   });
 
   const memezTreasury = normalizeSuiAddress(Treasuries.MEMEZ);
+  const recrdTreasury = normalizeSuiAddress(Treasuries.RECRD);
 
   const tx2 = configSdk.setFees({
     authWitness,
@@ -21,20 +22,20 @@ import { getEnv } from '../utils.script';
       // last index is the creator fee nominal
       [10_000, 0n],
       // last index is the swap fee in bps
-      [10_000n, 0n],
-      [10_000n, 25n],
-      // last index is the migration fee nominal
-      [10_000n, 50n],
+      [5_000n, 2_500n, 2_500n, 100n],
+      [5_000n, 2_500n, 2_500n, 100n],
+      // last index is the migration fee bps
+      [4_000n, 1_000n, 2_500n, 2_500n, 500n],
       // Allow values
-      [10_000n, 0n],
+      [3_334n, 3_333n, 3_333n, 300n],
       // Vesting period
       [0n],
     ],
     recipients: [
       [memezTreasury],
-      [memezTreasury],
-      [memezTreasury],
-      [memezTreasury],
+      [recrdTreasury],
+      [recrdTreasury, memezTreasury],
+      [recrdTreasury],
     ],
   });
 

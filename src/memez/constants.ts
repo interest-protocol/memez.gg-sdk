@@ -19,8 +19,8 @@ export enum Modules {
 
 // TODO: Need to be updated
 export enum Treasuries {
-  RECRD = '0x2',
-  MEMEZ = '0x3',
+  RECRD = '0xe551156357c05fb323f188087ceb34b723aa82aa464541ac791b8a72594fbd4c',
+  MEMEZ = '0xdd224f2287f0b38693555c6077abe85fcb4aa13e355ad54bc167611896b007e6',
   NEXA = '0x4',
   XPUMP = '0x5',
 }

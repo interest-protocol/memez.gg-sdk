@@ -1,6 +1,6 @@
 import { SUI_TYPE_ARG } from '@mysten/sui/utils';
 
-import { getEnv } from '../utils.script';
+import { getEnv } from '../../utils.script';
 
 (async () => {
   const { aclSdk, configSdk, executeTx, ownedObjects, configKeys } =

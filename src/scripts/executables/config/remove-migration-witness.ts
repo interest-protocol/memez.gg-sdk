@@ -1,20 +1,20 @@
-import { getEnv } from '../utils.script';
+import { getEnv } from '../../utils.script';
 
 (async () => {
   const {
     aclSdk,
     configSdk,
     executeTx,
-    migratorWitnesses,
     ownedObjects,
     configKeys,
+    migratorWitnesses,
   } = await getEnv();
 
   const { tx, authWitness } = aclSdk.signIn({
     admin: ownedObjects.ADMIN,
   });
 
-  const tx2 = configSdk.addMigrationWitness({
+  const tx2 = configSdk.removeMigrationWitness({
     authWitness,
     configKey: configKeys.MEMEZ,
     migratorWitness: migratorWitnesses.TEST,

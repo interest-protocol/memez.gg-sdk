@@ -1,4 +1,4 @@
-import { getEnv, TEST_POOL_ID } from '../utils.script';
+import { getEnv, TEST_POOL_ID } from '../../utils.script';
 
 (async () => {
   const { pumpSdk, log } = await getEnv();

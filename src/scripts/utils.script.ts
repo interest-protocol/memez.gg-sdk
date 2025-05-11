@@ -18,7 +18,7 @@ import {
 import { makeMemezAclSdk } from '../memez/acl';
 import { ConfigSDK } from '../memez/config';
 import { Network } from '../memez/constants';
-import { MigratorSDK } from '../memez/migrator';
+import { RecrdMigratorSDK, TestMigratorSDK } from '../memez/migrator';
 import { MemezPumpSDK } from '../memez/pump';
 import { MemezStableSDK } from '../memez/stable';
 
@@ -42,6 +42,8 @@ const log = (x: unknown) => console.log(util.inspect(x, false, null, true));
 
 const sleep = async (ms = 0) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const recrdMigratorSdk = new RecrdMigratorSDK();
 
 export const getEnv = async () => {
   const argv = await yargs(hideBin(process.argv))
@@ -87,7 +89,7 @@ export const getEnv = async () => {
     configSdk: new ConfigSDK(payload),
     pumpSdk: new MemezPumpSDK(payload),
     stableSdk: new MemezStableSDK(payload),
-    migratorSdk: new MigratorSDK(payload),
+    testMigratorSdk: new TestMigratorSDK(payload),
     suiClient,
     executeTx,
     network,

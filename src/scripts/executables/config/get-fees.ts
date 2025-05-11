@@ -1,4 +1,4 @@
-import { getEnv } from '../utils.script';
+import { getEnv } from '../../utils.script';
 
 (async () => {
   const { configSdk, configKeys, log } = await getEnv();
