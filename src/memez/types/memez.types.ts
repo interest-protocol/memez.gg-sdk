@@ -104,13 +104,13 @@ export type StablePool = MemezPool<StableState>;
 export interface AddMigrationWitnessArgs extends MaybeTx {
   authWitness: ObjectInput;
   configKey: ConfigKey;
-  migratorWitness: MigratorWitness;
+  migratorWitness: MigratorWitness | string;
 }
 
 export interface RemoveMigrationWitnessArgs extends MaybeTx {
   authWitness: ObjectInput;
   configKey: ConfigKey;
-  migratorWitness: MigratorWitness;
+  migratorWitness: MigratorWitness | string;
 }
 
 export interface AddQuoteCoinArgs extends MaybeTx {

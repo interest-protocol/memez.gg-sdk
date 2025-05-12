@@ -24,7 +24,7 @@ export interface NewPumpPoolArgs extends MaybeTx {
   devPurchaseData?: DevPurchaseData;
   metadata?: Record<string, string>;
   configurationKey: ConfigKey;
-  migrationWitness: MigratorWitness;
+  migrationWitness: MigratorWitness | string;
   stakeHolders?: string[];
   quoteCoinType: string | StructTag;
   burnTax?: number;

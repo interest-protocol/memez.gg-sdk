@@ -2,7 +2,7 @@ import * as PumpTypes from './types/pump.types';
 import * as StableTypes from './types/stable.types';
 
 export * from './constants';
-export * from './migrator';
+export * from './migrators';
 export * from './pump';
 export * from './stable';
 export * from './structs';

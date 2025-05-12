@@ -1,14 +1,18 @@
-import { SUI_TYPE_ARG } from '@mysten/sui/utils';
+import { normalizeSuiAddress, SUI_TYPE_ARG } from '@mysten/sui/utils';
 
 import { getEnv, keypair, recrdMigratorSdk } from '../../utils.script';
 
 const TREASURY_CAP =
-  '0xf3bd613b87222f1c87668bf7242e30850578c57fc322681f3d97aca164bda78a';
+  '0x82bd47bbfc0f242a5aa953aec74f248283635b6c987161172b8e32c773f81f85';
 
 const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
 
+const TOKEN_CREATOR = '0x1';
+
+const VIDEO_CREATOR = '0x2';
+
 (async () => {
-  const { configKeys, migratorWitnesses } = await getEnv();
+  const { configKeys } = await getEnv();
 
   const recipient = keypair.toSuiAddress();
 
@@ -17,6 +21,8 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
   const { tx } = await recrdMigratorSdk.registerPool({
     memeCoinTreasuryCap: TREASURY_CAP,
   });
+
+  const STAKE_HOLDERS = [TOKEN_CREATOR, VIDEO_CREATOR];
 
   const { tx: tx2, metadataCap } = await pumpSdk.newPool({
     tx,
@@ -29,7 +35,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     },
 
     memeCoinTreasuryCap: TREASURY_CAP,
-    migrationWitness: migratorWitnesses.TEST,
+    migrationWitness: recrdMigratorSdk.witness,
     totalSupply: TOTAL_SUPPLY,
     useTokenStandard: false,
     quoteCoinType: SUI_TYPE_ARG,
@@ -37,6 +43,7 @@ const TOTAL_SUPPLY = 1_000_000_000_000_000_000n;
     virtualLiquidity: 5_000_000_000,
     targetQuoteLiquidity: 100_000_000,
     liquidityProvision: 0,
+    stakeHolders: STAKE_HOLDERS.map((x) => normalizeSuiAddress(x)),
   });
 
   tx.transferObjects([metadataCap], tx.pure.address(recipient));

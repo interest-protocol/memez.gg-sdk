@@ -18,7 +18,7 @@ import {
 import { makeMemezAclSdk } from '../memez/acl';
 import { ConfigSDK } from '../memez/config';
 import { Network } from '../memez/constants';
-import { RecrdMigratorSDK, TestMigratorSDK } from '../memez/migrator';
+import { RecrdMigratorSDK, TestMigratorSDK } from '../memez/migrators';
 import { MemezPumpSDK } from '../memez/pump';
 import { MemezStableSDK } from '../memez/stable';
 
@@ -31,7 +31,7 @@ export const keypair = Ed25519Keypair.fromSecretKey(
 );
 
 export const TEST_POOL_ID =
-  '0xdd6ac0f33b55739ff982c802859a58d771d7cee7ad50a3a9514938bf02909427';
+  '0xbc0fb2558938521434dd528427e9585c420af83b44277b325fe8a2987c897b15';
 
 export const TEST_STABLE_POOL_ID =
   '0xf53fd73af2d033c1c8d82a385ce983b6d24d0c722cf564317d85fbecdeb833b0';

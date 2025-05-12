@@ -14,6 +14,7 @@ import { getEnv, recrdMigratorSdk, TEST_POOL_ID } from '../../utils.script';
   });
 
   const { tx: tx2, suiCoin } = await recrdMigratorSdk.migrate({
+    tx,
     migrator,
     memeCoinType: pool.memeCoinType,
     quoteCoinType: pool.quoteCoinType,
@@ -22,5 +23,5 @@ import { getEnv, recrdMigratorSdk, TEST_POOL_ID } from '../../utils.script';
 
   tx2.transferObjects([suiCoin], keypair.toSuiAddress());
 
-  await executeTx(tx);
+  await executeTx(tx2);
 })();
