@@ -12,7 +12,6 @@ import { getEnv } from '../../utils.script';
   });
 
   const memezTreasury = normalizeSuiAddress(Treasuries.MEMEZ);
-  const recrdTreasury = normalizeSuiAddress(Treasuries.RECRD);
 
   const tx2 = configSdk.setFees({
     authWitness,
@@ -22,20 +21,20 @@ import { getEnv } from '../../utils.script';
       // last index is the creator fee nominal
       [10_000, 0n],
       // last index is the swap fee in bps
-      [5_000n, 2_500n, 2_500n, 100n],
-      [5_000n, 2_500n, 2_500n, 100n],
+      [10_000n, 0n],
+      [10_000n, 0n],
       // last index is the migration fee bps
-      [4_000n, 1_000n, 2_500n, 2_500n, 500n],
+      [10_000n, 500n],
       // Allow values
-      [3_334n, 3_333n, 3_333n, 300n],
+      [10_000n, 0n],
       // Vesting period
       [0n],
     ],
     recipients: [
       [memezTreasury],
-      [recrdTreasury],
-      [recrdTreasury, memezTreasury],
-      [recrdTreasury],
+      [memezTreasury],
+      [memezTreasury],
+      [memezTreasury],
     ],
   });
 

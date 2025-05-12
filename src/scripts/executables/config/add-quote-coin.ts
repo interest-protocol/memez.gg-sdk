@@ -12,7 +12,7 @@ import { getEnv } from '../../utils.script';
 
   const tx2 = configSdk.addQuoteCoin({
     authWitness,
-    configKey: configKeys.RECRD,
+    configKey: configKeys.MEMEZ,
     quoteCoinType: SUI_TYPE_ARG,
     tx,
   });

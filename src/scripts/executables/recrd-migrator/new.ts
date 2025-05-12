@@ -26,7 +26,7 @@ const VIDEO_CREATOR = '0x2';
 
   const { tx: tx2, metadataCap } = await pumpSdk.newPool({
     tx,
-    configurationKey: configKeys.MEMEZ,
+    configurationKey: configKeys.RECRD,
     metadata: {
       X: 'https://x.com/Meme',
       Website: 'https://meme.xyz/',
